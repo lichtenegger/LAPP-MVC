@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace UI_BricoMarche.Models.BenutzerModelle
+{
+    public class BenutzerModell
+    {
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        public string Vorname { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        public string Nachname { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime Geburtsdatum { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.MultilineText)]
+        public string Adresse { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Ort")]
+        public int OrtID { get; set; }
+
+        public List<OrtModell> Orte { get; set; }
+
+        [MustBeTrue(ErrorMessage = "Bitte AGB akzeptieren")]
+        public bool AGB { get; set; }
+
+        [MustBeTrue(ErrorMessage = "Bitte Datenschutz-Erklärung akzeptieren")]
+        public bool Datenschutz { get; set; }
+    }
+}
