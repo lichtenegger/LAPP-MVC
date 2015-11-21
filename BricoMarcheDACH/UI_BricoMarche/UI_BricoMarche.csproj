@@ -128,12 +128,12 @@
     <Compile Include="Models\BenutzerModelle\AnmeldungModell.cs" />
     <Compile Include="Models\BenutzerModelle\BenutzerModell.cs" />
     <Compile Include="Models\BenutzerModelle\Merkzettel.cs" />
+    <Compile Include="Models\BenutzerModelle\RegistrierungModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelModell.cs" />
     <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
     <Compile Include="Models\BenutzerModelle\HilfsModelle\OrtModell.cs" />
     <Compile Include="Models\BenutzerModelle\ProfilModell.cs" />
-    <Compile Include="Models\BenutzerModelle\RegistrierungModell.cs" />
     <Compile Include="Models\InhaltModelle\InhaltDarstellungModell.cs" />
     <Compile Include="Models\InhaltModelle\InhaltModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoDetailModell.cs" />
