@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL_BricoMarche
 {
-    public class OrtVerwaltung
+    public class BenutzerVerwaltung
     {
     }
 }

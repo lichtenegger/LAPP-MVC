@@ -121,16 +121,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BenutzerController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InhaltController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AnmeldenModell.cs" />
-    <Compile Include="Models\ArtikelModell.cs" />
-    <Compile Include="Models\MustBeTrueAttribute.cs" />
-    <Compile Include="Models\OrtModell.cs" />
-    <Compile Include="Models\ProfilModell.cs" />
-    <Compile Include="Models\RegistrierenModell.cs" />
+    <Compile Include="Models\BenutzerModelle\AnmeldungModell.cs" />
+    <Compile Include="Models\BenutzerModelle\BenutzerModell.cs" />
+    <Compile Include="Models\BenutzerModelle\Merkzettel.cs" />
+    <Compile Include="Models\InhaltModelle\ArtikelDetailModell.cs" />
+    <Compile Include="Models\InhaltModelle\ArtikelModell.cs" />
+    <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
+    <Compile Include="Models\BenutzerModelle\HilfsModelle\OrtModell.cs" />
+    <Compile Include="Models\BenutzerModelle\ProfilModell.cs" />
+    <Compile Include="Models\BenutzerModelle\RegistrierungModell.cs" />
+    <Compile Include="Models\InhaltModelle\InhaltDarstellungModell.cs" />
+    <Compile Include="Models\InhaltModelle\InhaltModell.cs" />
+    <Compile Include="Models\InhaltModelle\VideoDetailModell.cs" />
+    <Compile Include="Models\InhaltModelle\VideoModell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +161,11 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Inhalt\Willkommen.txt" />
+    <Content Include="Views\Inhalt\Details.txt" />
+    <Content Include="Views\Inhalt\InhaltDarstellung.txt" />
+    <Content Include="Views\Inhalt\Videos.txt" />
+    <Content Include="Views\Inhalt\Artikel.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -165,12 +177,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Benutzer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
