@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL_BricoMarche.DatenVerwaltung
 {
-    public class Benutzer
+    public static class Benutzer
     {
         public static bool sindAnmeldeDatenRichtig(string benutzerName, string passwort)
         {
@@ -47,7 +47,7 @@ namespace BL_BricoMarche.DatenVerwaltung
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("FEHLER! \n", ex.Message);
+                        Debug.WriteLine("FEHLER! \n" + ex.Message);
                     }
                 }
                 Debug.Unindent();
@@ -89,7 +89,7 @@ namespace BL_BricoMarche.DatenVerwaltung
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("FEHLER! \n", ex.Message);
+                        Debug.WriteLine("FEHLER! \n" + ex.Message);
                     }
                 }
                 Debug.Unindent();
