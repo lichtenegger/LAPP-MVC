@@ -54,7 +54,7 @@
     <Compile Include="Benutzer.cs">
       <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
     </Compile>
-    <Compile Include="BenutzerVerwaltung.cs" />
+    <Compile Include="DatenVerwaltung\Benutzer.cs" />
     <Compile Include="BricoMarcheDBModell.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -65,15 +65,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
     </Compile>
-    <Compile Include="BricoMarcheDBModell.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BricoMarcheDBModell.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Gruppe.cs">
       <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
     </Compile>
-    <Compile Include="Inhaltsverwaltung.cs" />
+    <Compile Include="DatenVerwaltung\Inhalt.cs" />
     <Compile Include="Kategorie.cs">
       <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
     </Compile>

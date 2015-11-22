@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL_BricoMarche
+namespace BL_BricoMarche.DatenVerwaltung
 {
-    public class BenutzerVerwaltung
+    class Inhalt
     {
+       
     }
 }

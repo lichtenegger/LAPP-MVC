@@ -13,10 +13,10 @@ namespace BL_BricoMarche
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BricoMarcheDBEntities : DbContext
+    public partial class BricoMarcheDBObjekte : DbContext
     {
-        public BricoMarcheDBEntities()
-            : base("name=BricoMarcheDBEntities")
+        public BricoMarcheDBObjekte()
+            : base("name=BricoMarcheDBObjekte")
         {
         }
     

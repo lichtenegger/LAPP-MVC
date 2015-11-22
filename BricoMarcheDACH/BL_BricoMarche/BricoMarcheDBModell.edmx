@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbBricoMarcheModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbBricoMarcheModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Artikel">
           <Key>
             <PropertyRef Name="ID" />
@@ -335,8 +335,7 @@
             <End Role="Video_Schlagwort" EntitySet="Video_Schlagwort" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BricoMarcheDBModell" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -363,7 +362,7 @@
           <Property Name="Benutzername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Vorname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nachname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Geburtsdatum" Type="DateTime" Nullable="false" />
+          <Property Name="Geburtsdatum" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Passwort" Type="Binary" MaxLength="256" FixedLength="false" Nullable="false" />
           <Property Name="Aktiv" Type="Boolean" Nullable="false" />
           <Property Name="Adresse" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -510,7 +509,7 @@
           <End Role="Schlagwort" Type="Self.Schlagwort" Multiplicity="*" />
           <End Role="Video" Type="Self.Video" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="BricoMarcheDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="BricoMarcheDBObjekte" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AlleArtikel" EntityType="Self.Artikel" />
           <EntitySet Name="AlleBenutzer" EntityType="Self.Benutzer" />
           <EntitySet Name="AlleGruppen" EntityType="Self.Gruppe" />
@@ -561,7 +560,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="dbBricoMarcheModelStoreContainer" CdmEntityContainer="BricoMarcheDBEntities">
+        <EntityContainerMapping StorageEntityContainer="dbBricoMarcheModelStoreContainer" CdmEntityContainer="BricoMarcheDBObjekte">
           <EntitySetMapping Name="AlleArtikel">
             <EntityTypeMapping TypeName="BricoMarcheDBModell.Artikel">
               <MappingFragment StoreEntitySet="Artikel">
