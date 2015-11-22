@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL_BricoMarche", "BL_BricoM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI_BricoMarche", "UI_BricoMarche\UI_BricoMarche.csproj", "{1F48FF16-7A71-4182-B22B-CFF538A2EC62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_BricoMarche", "DAL_BricoMarche\DAL_BricoMarche.csproj", "{0CFD3D44-DB62-4430-BA5F-8CBF3A1D563A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{1F48FF16-7A71-4182-B22B-CFF538A2EC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F48FF16-7A71-4182-B22B-CFF538A2EC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F48FF16-7A71-4182-B22B-CFF538A2EC62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CFD3D44-DB62-4430-BA5F-8CBF3A1D563A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CFD3D44-DB62-4430-BA5F-8CBF3A1D563A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CFD3D44-DB62-4430-BA5F-8CBF3A1D563A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CFD3D44-DB62-4430-BA5F-8CBF3A1D563A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
