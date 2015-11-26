@@ -161,7 +161,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Inhalt\Willkommen.txt" />
     <Content Include="Views\Inhalt\Details.txt" />
     <Content Include="Views\Inhalt\InhaltDarstellung.txt" />
     <Content Include="Views\Inhalt\Videos.txt" />
@@ -177,6 +176,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Inhalt\Willkommen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
