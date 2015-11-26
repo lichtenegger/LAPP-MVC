@@ -48,11 +48,11 @@ namespace BL_BricoMarche.DatenVerwaltung
                     catch (Exception ex)
                     {
                         Debug.WriteLine("FEHLER! \n" + ex.Message);
+                        Debugger.Break();
                     }
                 }
                 Debug.Unindent();
                 Debug.WriteLine("-- ENDE: IST PASSWORT RICHTIG ----------------------------------------------------");
-                Debugger.Break();
                 return richtig;
             }
 
@@ -90,11 +90,11 @@ namespace BL_BricoMarche.DatenVerwaltung
                     catch (Exception ex)
                     {
                         Debug.WriteLine("FEHLER! \n" + ex.Message);
+                        Debugger.Break();
                     }
                 }
                 Debug.Unindent();
                 Debug.WriteLine("-- ENDE: HOLE BENUTZER ID ----------------------------------------------------");
-                Debugger.Break();
                 return id;
             }
             #endregion HoleBentzerID
