@@ -30,8 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,9 +48,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BenutzerVerwaltung.cs" />
-    <Compile Include="Inhaltsverwaltung.cs" />
+    <Compile Include="Artikel.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Benutzer.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenVerwaltung\Benutzer.cs" />
+    <Compile Include="BricoMarcheDBModell.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BricoMarcheDBModell.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BricoMarcheDBModell.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gruppe.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenVerwaltung\Inhalt.cs" />
+    <Compile Include="Kategorie.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Land.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ort.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schlagwort.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Video.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="BricoMarcheDBModell.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BricoMarcheDBModell.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="BricoMarcheDBModell.edmx.diagram">
+      <DependentUpon>BricoMarcheDBModell.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BricoMarcheDBModell.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BricoMarcheDBModell.edmx</DependentUpon>
+      <LastGenOutput>BricoMarcheDBModell.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BricoMarcheDBModell.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BricoMarcheDBModell.edmx</DependentUpon>
+      <LastGenOutput>BricoMarcheDBModell.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

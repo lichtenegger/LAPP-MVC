@@ -1,0 +1,11 @@
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\UT_BricoMarche.dll
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\UT_BricoMarche.pdb
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\BL_BricoMarche.dll
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\EntityFramework.dll
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\BL_BricoMarche.pdb
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\EntityFramework.xml
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\obj\Debug\UT_BricoMarche.csprojResolveAssemblyReference.cache
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\obj\Debug\UT_BricoMarche.dll
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\obj\Debug\UT_BricoMarche.pdb
+D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\UT_BricoMarche\bin\Debug\UT_BricoMarche.dll.config
