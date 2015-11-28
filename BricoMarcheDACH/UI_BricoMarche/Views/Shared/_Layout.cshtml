@@ -18,11 +18,14 @@
                 </button>
                 <a href=""><img src="~/Content/images/site-logo.png" alt="Bricomarché" class="logo" /></a>
             </div>
+            <div>
+                @{Html.RenderPartial("~/Views/Benutzer/Anmelden.cshtml", new UI_BricoMarche.Models.BenutzerModelle.AnmeldenModell());}
+            </div>
             <div class="navbar-collapse collapse navbar-default navbar-right">
                 <ul class="nav navbar-nav">
-                    <li class="navbar-logo">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="navbar-logo">@Html.ActionLink("About", "About", "Home")</li>
-                    <li class="navbar-logo">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="logo-navi">@Html.ActionLink("Produkte", "Produkte", "Inhalt")</li>
+                    <li class="logo-navi">@Html.ActionLink("Videos", "Videos", "Inhalt")</li>
+                    <li class="logo-navi">@Html.ActionLink("Kontakt", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>

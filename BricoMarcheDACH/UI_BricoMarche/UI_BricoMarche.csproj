@@ -178,10 +178,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inhalt\Willkommen.cshtml" />
     <Content Include="Views\Shared\_InhaltLayout.cshtml" />
+    <Content Include="Views\Benutzer\Anmelden.cshtml" />
+    <Content Include="Views\Benutzer\Willkommen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Benutzer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

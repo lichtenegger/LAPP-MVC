@@ -42,8 +42,52 @@ textarea {
     padding-right: 20px;
 }
 
-.navbar-logo {
+.logo-navi {
     font-size: large;
     margin-left: 50px;
 
 }
+
+div.login {
+    margin: unset;
+    margin-top: 3px;
+    padding: unset;
+    float: left;
+    max-height: 50px;
+    display: block;
+}
+
+div.login .pos {
+    margin-left: 5px;
+
+}
+
+.login .form-group {
+    height: 20px;
+    max-width: 300px;
+    padding: unset;
+    margin: unset;
+}
+
+.login input {
+    font-size: small;
+    height: 20px;
+    text-align: left;
+    max-width: 150px;
+    vertical-align: central;
+    padding: unset;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 1px;
+}
+
+.login .btn {
+    font-size: smaller;
+    float: left;
+    }
+.login .form-control {
+    font-size: smaller;
+    height: 20px;
+    text-align: left;
+}
+
