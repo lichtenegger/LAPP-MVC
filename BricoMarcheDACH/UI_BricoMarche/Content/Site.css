@@ -51,7 +51,7 @@ textarea {
 div.login {
     margin: unset;
     margin-top: 3px;
-    padding: unset;
+    padding-left: unset;
     float: left;
     max-height: 50px;
     display: block;
@@ -59,18 +59,19 @@ div.login {
 
 div.login .pos {
     margin-left: 5px;
+    padding-left: 10px;
 
 }
 
 .login .form-group {
     height: 20px;
     max-width: 300px;
-    padding: unset;
-    margin: unset;
+    padding: 1px;
+    margin: 1px;
 }
 
 .login input {
-    font-size: small;
+    font-size: smaller;
     height: 20px;
     text-align: left;
     max-width: 150px;
@@ -78,15 +79,19 @@ div.login .pos {
     padding: unset;
     padding-left: 2px;
     padding-right: 2px;
-    margin: 1px;
 }
 
 .login .btn {
-    font-size: smaller;
-    float: left;
+    margin: unset;
+    vertical-align: top;
+    padding: unset;
+    text-align: center;
+    font-size: x-small;
+    min-width: 70px;
+    max-height: 19px;
     }
 .login .form-control {
-    font-size: smaller;
+    font-size: x-small;
     height: 20px;
     text-align: left;
 }
