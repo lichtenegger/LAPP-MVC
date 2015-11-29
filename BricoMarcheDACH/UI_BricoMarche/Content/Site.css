@@ -95,4 +95,10 @@ div.login {
     height: 20px;
     text-align: left;
 }
+div.header {
+    position: page fixed;
+    min-height: unset;
+    height: 5px;
+    max-height: 5px;
+}
 

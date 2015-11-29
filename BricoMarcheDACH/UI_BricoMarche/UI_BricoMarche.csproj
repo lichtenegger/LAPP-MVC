@@ -162,9 +162,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Inhalt\Details.txt" />
-    <Content Include="Views\Inhalt\Videos.txt" />
-    <Content Include="Views\Inhalt\Artikel.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -183,6 +180,8 @@
     <Content Include="Views\Benutzer\Abmelden.cshtml" />
     <Content Include="Views\Benutzer\Registrieren.cshtml" />
     <Content Include="Views\Shared\_BenutzerLayout.cshtml" />
+    <Content Include="Views\Inhalt\Produkte.cshtml" />
+    <Content Include="Views\Inhalt\Videos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
