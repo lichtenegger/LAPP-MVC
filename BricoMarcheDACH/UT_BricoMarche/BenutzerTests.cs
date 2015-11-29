@@ -19,5 +19,13 @@ namespace UT_BricoMarche
             Assert.IsFalse(sindAnmeldeDatenRichtig("phalsh", "phalsh"));
             Debug.WriteLine("\nTEST-ERGEBNIS: Anmeldung ist false. \n");
         }
+
+        [TestMethod]
+        public void BenutzerKannSichRegistrieren()
+        {
+            Debug.WriteLine("TEST-EINGABE : richtige Benutzerdaten \n");
+            Assert.IsTrue(registriereBenutzer("tester@regis.ter", "test", new DateTime(1917, 7, 1), "Testoro", "Testilli", "Am Testplatz 1", 1));
+            Debug.WriteLine("\nTEST-ERGEBNIS: Anmeldung ist true. \n\n");
+        }
     }
 }
