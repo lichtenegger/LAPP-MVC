@@ -32,5 +32,26 @@ namespace UI_BricoMarche.Controllers
             }
             return RedirectToRoute("/Error");
         }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Abmelden()
+        {
+            Debug.WriteLine("Benutzer - Abmelden - POST");
+
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Willkommen", "Inhalt");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Registrieren()
+        {
+            Debug.WriteLine("Benutzer - Registrieren - GET");
+            RegistrierungModell modell = new RegistrierungModell();
+
+            return View(modell);
+        }
     }
 }

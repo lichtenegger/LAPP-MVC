@@ -1,8 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@if (ViewBag.Title != "Willkommen")
+@if (User.Identity.IsAuthenticated)
 {
     <div class="navbar navbar-inverse navbar-static-top">
         <div class="container">
@@ -23,7 +22,6 @@
             </div>
         </div>
     </div>
-
 }
 
 <div class="container">

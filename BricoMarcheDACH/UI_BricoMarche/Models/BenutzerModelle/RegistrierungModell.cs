@@ -6,7 +6,7 @@ using System.Web;
 
 namespace UI_BricoMarche.Models.BenutzerModelle
 {
-    public class RegistrierungModell
+    public class RegistrierungModell : BenutzerModell
     {
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]

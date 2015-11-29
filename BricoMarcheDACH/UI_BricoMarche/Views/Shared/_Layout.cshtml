@@ -18,8 +18,18 @@
                 </button>
                 <a href=""><img src="~/Content/images/site-logo.png" alt="Bricomarché" class="logo" /></a>
             </div>
-            <div class="navbar-right" >
-                @{Html.RenderPartial("~/Views/Benutzer/Anmelden.cshtml", new UI_BricoMarche.Models.BenutzerModelle.AnmeldenModell());}
+            <div class="navbar-right navbar-collapse collapse">
+                <div class=" = partial-login">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        Html.RenderPartial("~/Views/Benutzer/Abmelden.cshtml");
+                    }
+                    else
+                    {
+                        Html.RenderPartial("~/Views/Benutzer/Anmelden.cshtml", new UI_BricoMarche.Models.BenutzerModelle.AnmeldenModell());
+                    }
+
+                </div>
             </div>
             <div class="navbar-collapse collapse navbar-default navbar-right">
                 <ul class="nav navbar-nav">

@@ -1,0 +1,16 @@
+﻿@using ((Html.BeginForm("Abmelden", "Benutzer")))
+{
+    @Html.AntiForgeryToken()
+    <div class="partial-navbar">
+        <div class="login pos">
+            <div class="form-group">
+    Willkommen, @User.Identity.Name!
+                </div>
+            <div class="form-group">
+                <input type="submit" value="Abmelden" class="btn btn-default" />
+            </div>
+        </div>
+
+
+    </div>
+}

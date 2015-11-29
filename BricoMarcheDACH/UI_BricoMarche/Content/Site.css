@@ -38,29 +38,29 @@ textarea {
 .logo {
     height: 50px;
     width:auto;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
 }
 
 .logo-navi {
     font-size: large;
-    margin-left: 50px;
+    margin-right: 20px;
+}
+
+div.partial-login {
+    width: 200px;
+    height: 50px;
+    float: right;
+    margin: unset;
+    padding: unset;
+    vertical-align: central;
+    display: block;
+    font-size: smaller;
 
 }
 
 div.login {
-    margin: unset;
+    float: right;
     margin-top: 3px;
-    padding-left: unset;
-    float: left;
-    max-height: 50px;
-    display: block;
-}
-
-div.login .pos {
-    margin-left: 5px;
-    padding-left: 10px;
-
 }
 
 .login .form-group {

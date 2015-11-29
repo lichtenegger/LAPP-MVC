@@ -180,6 +180,9 @@
     <Content Include="Views\Shared\_InhaltLayout.cshtml" />
     <Content Include="Views\Benutzer\Anmelden.cshtml" />
     <Content Include="Views\Benutzer\Willkommen.cshtml" />
+    <Content Include="Views\Benutzer\Abmelden.cshtml" />
+    <Content Include="Views\Benutzer\Registrieren.cshtml" />
+    <Content Include="Views\Shared\_BenutzerLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

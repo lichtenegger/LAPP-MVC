@@ -3,11 +3,11 @@
     ViewBag.Title = "Willkommen";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
-<div class="jumbotron">
+
 <h2>Willkommen</h2>
 @*<a data-toggle="modal" href="~/Benutzer/Anmelden" data-target="~/Benutzer/Anmelden/#AnmeldenModal" class="btn btn-lg btn-success"><i class="glyphicon glyphicon-hand-up"></i> Anmelden </a>*@
 <a data-toggle="modal" data-target="#AnmeldenModal" class="btn btn-lg btn-default"><i class="glyphicon glyphicon-hand-up"></i> Anmelden </a>
-</div>
+
 
 <div id="AnmeldenModal" class="modal fade" role="dialog">
     @using (Html.BeginForm("Anmelden", "Benutzer"))
