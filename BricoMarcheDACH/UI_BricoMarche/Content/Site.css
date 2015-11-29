@@ -1,12 +1,24 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+        background-color: rgb(55, 24, 9);
+}
+
+.body-layout {
+    background-position-x:left;
+    background-position-y: top;
+    background-image: url(images/site-bg-tools.jpg), linear-gradient(to bottom, rgba(55, 24, 9, 0), rgba(55, 24, 9, 0.75),rgba(8, 5, 6, 1), rgba(8, 5, 6, 1));
+    background-color: rgb(55, 24, 9);
+    background-repeat: repeat-x;
+    background-size: 500px;
+    background-attachment: fixed;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+        padding-top: 50px;
+}
+
+.container {
+    max-width: 1000px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,3 +34,65 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.logo {
+    height: 50px;
+    width:auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.logo-navi {
+    font-size: large;
+    margin-left: 50px;
+
+}
+
+div.login {
+    margin: unset;
+    margin-top: 3px;
+    padding-left: unset;
+    float: left;
+    max-height: 50px;
+    display: block;
+}
+
+div.login .pos {
+    margin-left: 5px;
+    padding-left: 10px;
+
+}
+
+.login .form-group {
+    height: 20px;
+    max-width: 300px;
+    padding: 1px;
+    margin: 1px;
+}
+
+.login input {
+    font-size: smaller;
+    height: 20px;
+    text-align: left;
+    max-width: 150px;
+    vertical-align: central;
+    padding: unset;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.login .btn {
+    margin: unset;
+    vertical-align: top;
+    padding: unset;
+    text-align: center;
+    font-size: x-small;
+    min-width: 70px;
+    max-height: 19px;
+    }
+.login .form-control {
+    font-size: x-small;
+    height: 20px;
+    text-align: left;
+}
+
