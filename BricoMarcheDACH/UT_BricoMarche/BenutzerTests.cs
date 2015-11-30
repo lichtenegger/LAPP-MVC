@@ -43,5 +43,13 @@ namespace UT_BricoMarche
             Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "123test", "test", new DateTime(1917, 7, 1), "Testoro", "Testilli", "Am Testplatz 1", 1));
             Debug.WriteLine("\nTEST-ERGEBNIS: Editieren ist true. \n\n");
         }
+
+        [TestMethod]
+        public void BenutzerProfilWirdGeladen()
+        {
+            Debug.WriteLine("TEST-EINGABE : richtiger BenutzerName \n");
+            Assert.IsNotNull(LadeBenutzerProfil("test@mail.me"));
+            Debug.WriteLine("\nTEST-ERGEBNIS: Benutzer geladen. \n\n");
+        }
     }
 }

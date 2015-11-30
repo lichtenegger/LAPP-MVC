@@ -13,14 +13,16 @@ namespace UI_BricoMarche.Controllers
 {
     public class BenutzerController : Controller
     {
+        #region Willkommen
         [HttpGet]
         [Authorize]
         public ActionResult Willkommen()
         {
-            ViewBag.Benutzer = "benutzer";
             return View();
         }
+        #endregion
 
+        #region Anmelden
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Anmelden(AnmeldenModell daten)
@@ -33,7 +35,9 @@ namespace UI_BricoMarche.Controllers
             }
             return RedirectToRoute("/Error");
         }
+        #endregion
 
+        #region Abmelden
         [HttpPost]
         [Authorize]
         public ActionResult Abmelden()
@@ -44,7 +48,9 @@ namespace UI_BricoMarche.Controllers
 
             return RedirectToAction("Willkommen", "Inhalt");
         }
-
+        #endregion
+        
+        #region Registrieren GET
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Registrieren()
@@ -78,7 +84,9 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("-- START : Benutzer - Registrieren - GET -----------------------------");
             return View(modell);
         }
+        #endregion
 
+        #region Registrieren POST
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Registrieren(RegistrierungModell modell)
@@ -110,5 +118,85 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("-- ENDE : Benutzer - Registrieren - POST -------------------");
             return View("Registrieren", modell);
         }
+        #endregion
+
+        #region Editieren GET
+        [HttpGet]
+        [Authorize]
+        public ActionResult Editieren()
+        {
+            ProfilModell modell = null;
+            Debug.WriteLine("-- START : Benutzer - Editieren - GET -----------------------");
+            Debug.Indent();
+            BL_BricoMarche.Benutzer benutzer = LadeBenutzerProfil(User.Identity.Name);
+            if (benutzer != null)
+            {
+                modell = new ProfilModell()
+                {
+                    Email = benutzer.Benutzername,
+                    Vorname = benutzer.Vorname,
+                    Nachname = benutzer.Nachname,
+                    Adresse = benutzer.Adresse,
+                    OrtID = benutzer.Ort_ID,
+                    Geburtsdatum = benutzer.Geburtsdatum
+                };
+
+                modell.Orte = new List<OrtModell>();
+                List<BL_BricoMarche.Ort> orte = Orte.LadeAlleOrte();
+                foreach (var ort in orte)
+                {
+                    modell.Orte.Add(new OrtModell()
+                    {
+                        ID = ort.ID,
+                        Ortsname = ort.Bezeichnung,
+                        Land = ort.EinLand.Bezeichnung,
+                        PLZ = ort.PLZ
+                    });
+                }
+            }
+            else
+            {
+                TempData["Fehler"] = "Fehler beim Laden der Profil-Daten";
+                return RedirectToAction("Willkommen", "Inhalt");
+            }
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : Benutzer - Editieren - GET -----------------------");
+            return View(modell);
+        }
+        #endregion
+
+        #region Editieren POST
+        [HttpPost]
+        [Authorize]
+        public ActionResult Editieren(ProfilModell modell)
+        {
+            Debug.WriteLine("-- START: Benutzer - Editieren - POST -----------------------");
+            Debug.Indent();
+            if (ModelState.IsValid)
+            {
+                if (!EditiereBenutzer(
+                        User.Identity.Name,
+                        modell.AltesPasswort,
+                        modell.Passwort,
+                        modell.Geburtsdatum,
+                        modell.Vorname,
+                        modell.Nachname,
+                        modell.Adresse,
+                        modell.OrtID))
+                {
+                    TempData["Fehler"] = "Fehler beim Speichern des Profils";
+                }
+                else
+                {
+                    TempData["Erfolg"] = "Profil erfolgreich aktualisiert!";
+                }
+            }
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: Benutzer - Editieren - POST -----------------------");
+            return View(modell);
+        }
+        #endregion
     }
 }

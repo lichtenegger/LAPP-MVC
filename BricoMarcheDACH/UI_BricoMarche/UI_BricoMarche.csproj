@@ -182,6 +182,7 @@
     <Content Include="Views\Shared\_BenutzerLayout.cshtml" />
     <Content Include="Views\Inhalt\Produkte.cshtml" />
     <Content Include="Views\Inhalt\Videos.cshtml" />
+    <Content Include="Views\Benutzer\Editieren.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

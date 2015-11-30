@@ -58,6 +58,11 @@ namespace BL_BricoMarche.DatenVerwaltung
             return Sicherheit.Editieren(editierterBenutzer, altesPasswort, neuesPasswort);
         }
 
+        public static BL_BricoMarche.Benutzer LadeBenutzerProfil(string benutzerName)
+        {
+            return Sicherheit.HoleBenutzerDaten(benutzerName);
+        }
+
         #region Sicherheit
         #region summary
         /// <summary>
@@ -199,6 +204,38 @@ namespace BL_BricoMarche.DatenVerwaltung
                 return IstPasswortRichtig(HoleBenutzerID(benutzerName), passwort);
             }
             #endregion IstPasswortRichtig
+
+            #region HoleBenutzerDaten
+            public static BL_BricoMarche.Benutzer HoleBenutzerDaten(string benutzerName)
+            {
+                BL_BricoMarche.Benutzer benutzer = null;
+                Debug.WriteLine("-- START : HOLE BENUTZERDATEN ---------------------------");
+                Debug.Indent();
+                try
+                {
+                    using (var kontext = new BricoMarcheDBObjekte())
+                    {
+                        benutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).Single();
+                        if (benutzer != null)
+                        {
+                            Debug.WriteLine("Erfolg!");
+                        }
+                        else
+                        {
+                            throw new Exception("Fehler! 0 Benutzer geladen.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER!\n" + ex.Message);
+                }
+
+                Debug.Unindent();
+                Debug.WriteLine("-- ENDE : HOLE BENUTZERDATEN ---------------------------");
+                return benutzer;
+            }
+            #endregion
 
             #region HoleBenutzerID
             /// <summary>
