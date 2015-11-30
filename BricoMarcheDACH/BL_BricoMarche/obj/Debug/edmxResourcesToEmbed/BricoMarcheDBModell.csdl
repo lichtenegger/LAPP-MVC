@@ -176,7 +176,7 @@
     <EntitySet Name="AlleGruppen" EntityType="Self.Gruppe" />
     <EntitySet Name="AlleKategorien" EntityType="Self.Kategorie" />
     <EntitySet Name="AlleLaender" EntityType="Self.Land" />
-    <EntitySet Name="AlleOrt" EntityType="Self.Ort" />
+    <EntitySet Name="AlleOrte" EntityType="Self.Ort" />
     <EntitySet Name="AlleSchlagwoerter" EntityType="Self.Schlagwort" />
     <EntitySet Name="AlleVideos" EntityType="Self.Video" />
     <AssociationSet Name="FK_Artikel_Kategorie" Association="Self.FK_Artikel_Kategorie">
@@ -188,7 +188,7 @@
       <End Role="Benutzer" EntitySet="AlleBenutzer" />
     </AssociationSet>
     <AssociationSet Name="FK_Benutzer_Ort" Association="Self.FK_Benutzer_Ort">
-      <End Role="Ort" EntitySet="AlleOrt" />
+      <End Role="Ort" EntitySet="AlleOrte" />
       <End Role="Benutzer" EntitySet="AlleBenutzer" />
     </AssociationSet>
     <AssociationSet Name="FK_Video_Kategorie" Association="Self.FK_Video_Kategorie">
@@ -197,7 +197,7 @@
     </AssociationSet>
     <AssociationSet Name="FK_Ort_Land" Association="Self.FK_Ort_Land">
       <End Role="Land" EntitySet="AlleLaender" />
-      <End Role="Ort" EntitySet="AlleOrt" />
+      <End Role="Ort" EntitySet="AlleOrte" />
     </AssociationSet>
     <AssociationSet Name="Artikel_Video" Association="Self.Artikel_Video">
       <End Role="Artikel" EntitySet="AlleArtikel" />

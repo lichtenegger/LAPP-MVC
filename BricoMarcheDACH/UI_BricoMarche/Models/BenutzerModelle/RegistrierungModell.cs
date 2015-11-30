@@ -10,12 +10,14 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     {
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"[\w+\S+\d+]}{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
-        public string Passwort { get; set; }
-
-        [Required(ErrorMessage = "Pflichtfeld")]
-        [DataType(DataType.Password)]
+        [Display(Name = "Passwort")]
         [Compare("Passwort", ErrorMessage = "Passwörter stimmen nicht überein")]
         public string PasswortWiederholung { get; set; }
+
+        [MustBeTrue(ErrorMessage = "Bitte AGB akzeptieren")]
+        public bool AGB { get; set; }
+
+        [MustBeTrue(ErrorMessage = "Bitte Datenschutz-Erklärung akzeptieren")]
+        public bool Datenschutz { get; set; }
     }
 }

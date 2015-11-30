@@ -54,7 +54,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AlleOrt">
+    <EntitySetMapping Name="AlleOrte">
       <EntityTypeMapping TypeName="BricoMarcheDBModell.Ort">
         <MappingFragment StoreEntitySet="Ort">
           <ScalarProperty Name="ID" ColumnName="ID" />

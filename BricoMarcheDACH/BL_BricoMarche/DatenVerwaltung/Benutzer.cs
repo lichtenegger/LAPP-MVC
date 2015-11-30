@@ -246,5 +246,32 @@ namespace BL_BricoMarche.DatenVerwaltung
             #endregion ErmittleHashWert
         }
         #endregion Sicherheit
+
+        public static class Orte
+        {
+            public static List<Ort> LadeAlleOrte()
+            {
+                List<Ort> orte = null;
+                Debug.WriteLine("-- START: LADE ALLE ORTE ----------------------------------");
+                Debug.Indent();
+
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    try
+                    {
+                        orte = kontext.AlleOrte.Include("EinLand").OrderBy(x => x.PLZ).OrderBy(x => x.EinLand.Bezeichnung).ToList();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("FEHLER! \n" + ex.Message);
+                        Debugger.Break();
+                    }
+                }
+
+                Debug.Unindent();
+                Debug.WriteLine("-- ENDE: LADE ALLE ORTE ----------------------------------");
+                return orte;
+            }
+        }
     }
 }

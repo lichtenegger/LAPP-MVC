@@ -30,7 +30,7 @@ namespace BL_BricoMarche
         public DbSet<Gruppe> AlleGruppen { get; set; }
         public DbSet<Kategorie> AlleKategorien { get; set; }
         public DbSet<Land> AlleLaender { get; set; }
-        public DbSet<Ort> AlleOrt { get; set; }
+        public DbSet<Ort> AlleOrte { get; set; }
         public DbSet<Schlagwort> AlleSchlagwoerter { get; set; }
         public DbSet<Video> AlleVideos { get; set; }
     }
