@@ -13,6 +13,7 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
+        [Display(Name = "altes Passwort")]
         public string AltesPasswort { get; set; }
     }
 }

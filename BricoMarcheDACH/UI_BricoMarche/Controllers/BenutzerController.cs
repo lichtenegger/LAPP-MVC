@@ -114,6 +114,20 @@ namespace UI_BricoMarche.Controllers
                     TempData["Fehler"] = "Fehler beim Registrieren - Daten ungültig";
                 }
             }
+
+            // NEUE ORTSLISTE FÜR MODELL FÜR VIEW
+            List<BL_BricoMarche.Ort> orte = Orte.LadeAlleOrte();
+            modell.Orte = new List<OrtModell>();
+            foreach (var ort in orte)
+            {
+                modell.Orte.Add(new OrtModell()
+                {
+                    ID = ort.ID,
+                    Ortsname = ort.Bezeichnung,
+                    Land = ort.EinLand.Bezeichnung,
+                    PLZ = ort.PLZ,
+                });
+            }
             Debug.Unindent();
             Debug.WriteLine("-- ENDE : Benutzer - Registrieren - POST -------------------");
             return View("Registrieren", modell);
@@ -193,8 +207,24 @@ namespace UI_BricoMarche.Controllers
                 }
             }
 
+            // NEUE ORTSLISTE FÜR MODELL FÜR VIEW
+            List<BL_BricoMarche.Ort> orte = Orte.LadeAlleOrte();
+            modell.Orte = new List<OrtModell>();
+            foreach (var ort in orte)
+            {
+                modell.Orte.Add(new OrtModell()
+                {
+                    ID = ort.ID,
+                    Ortsname = ort.Bezeichnung,
+                    Land = ort.EinLand.Bezeichnung,
+                    PLZ = ort.PLZ,
+                });
+            }
+
             Debug.Unindent();
             Debug.WriteLine("-- ENDE: Benutzer - Editieren - POST -----------------------");
+
+
             return View(modell);
         }
         #endregion

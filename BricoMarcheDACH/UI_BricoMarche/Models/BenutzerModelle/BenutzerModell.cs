@@ -9,7 +9,7 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     public class BenutzerModell
     {
         [Required(ErrorMessage = "Pflichtfeld")]
-        [Display(Name = "Email")]
+        [Display(Name = "Email-Adresse")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
         public string Email { get; set; }
 
@@ -36,7 +36,8 @@ namespace UI_BricoMarche.Models.BenutzerModelle
 
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"[\w+\S+\d+]}{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
+        [Display(Name = "neues Passwort")]
+        [RegularExpression(@"[\w+\S+\d+]{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
         public string Passwort { get; set; }
     }
 }

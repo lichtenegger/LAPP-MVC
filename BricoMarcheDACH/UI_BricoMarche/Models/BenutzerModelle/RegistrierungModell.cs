@@ -10,7 +10,7 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     {
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
-        [Display(Name = "Passwort")]
+        [Display(Name = "Passwort wiederholen")]
         [Compare("Passwort", ErrorMessage = "Passwörter stimmen nicht überein")]
         public string PasswortWiederholung { get; set; }
 
