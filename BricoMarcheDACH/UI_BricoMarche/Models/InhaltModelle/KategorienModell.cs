@@ -5,10 +5,8 @@ using System.Web;
 
 namespace UI_BricoMarche.Models.InhaltModelle
 {
-    public class ArtikelDetailModell : ArtikelModell
+    public class KategorienModell
     {
-        public string Langbeschreibung { get; set; }
-
-       public bool WirdGemerkt { get; set; }
+        public List<KategorieModell> AlleKategorien { get; set; }
     }
 }

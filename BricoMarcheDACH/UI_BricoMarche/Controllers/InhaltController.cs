@@ -5,8 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using UI_BricoMarche.Models;
-using BL_BricoMarche;
+using UI_BricoMarche.Models.InhaltModelle;
+using static BL_BricoMarche.DatenVerwaltung.Inhalt;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -21,7 +21,42 @@ namespace UI_BricoMarche.Controllers
         /// <returns>Willkommen View (Die Startseite der Webanwendung)</returns>
         public ActionResult Willkommen()
         {
-            return View();
+            KategorienModell modell = new KategorienModell();
+            modell.AlleKategorien = new List<KategorieModell>();
+
+            List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
+            if (alleKategorien != null)
+            {
+                foreach (var kategorie in alleKategorien)
+                {
+                    modell.AlleKategorien.Add(new KategorieModell
+                    {
+                        ID = kategorie.ID,
+                        Bezeichnung = kategorie.Bezeichnung
+                    });
+                }
+            }
+            return PartialView(modell);
+        }
+
+        public ActionResult Kategorien()
+        {
+            KategorienModell modell = new KategorienModell();
+            modell.AlleKategorien = new List<KategorieModell>();
+
+            List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
+            if (alleKategorien != null)
+            {
+                foreach (var kategorie in alleKategorien)
+                {
+                    modell.AlleKategorien.Add(new KategorieModell
+                    {
+                        ID = kategorie.ID,
+                        Bezeichnung = kategorie.Bezeichnung
+                    });
+                }
+            }
+            return PartialView(modell);
         }
 
         #region -- Produkte Action -------------------------------------------------------

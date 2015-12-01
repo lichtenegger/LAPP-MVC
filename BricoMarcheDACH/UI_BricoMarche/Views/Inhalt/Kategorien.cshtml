@@ -1,0 +1,18 @@
+﻿@model UI_BricoMarche.Models.InhaltModelle.KategorienModell
+
+@if (ViewBag.Title == "Produkte")
+{
+    foreach (var kategorie in Model.AlleKategorien)
+    {
+        <li>Html.ActionLink(kategorie.Bezeichnung, "Produkte", "Inhalt", kategorie.Bezeichnung, "")</li>
+    }
+}
+
+@if (ViewBag.Title == "Videos")
+{
+    foreach (var kategorie in Model.AlleKategorien)
+    {
+        <li>Html.ActionLink(kategorie.Bezeichnung, "Videos", "Inhalt", kategorie.Bezeichnung, "")</li>
+    }
+}
+
