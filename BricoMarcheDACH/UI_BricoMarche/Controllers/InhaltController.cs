@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,7 @@ namespace UI_BricoMarche.Controllers
     /// </summary>
     public class InhaltController : Controller
     {
+        #region Willkommen
         /// <summary>
         /// Willkommen Action
         /// </summary>
@@ -23,11 +25,20 @@ namespace UI_BricoMarche.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region Kategorien
+        /// <summary>
+        /// Liefert alle Kategorien an die Kategorien-Teilansicht in der InhaltsNavigation.
+        /// </summary>
+        /// <param name="inhalt"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Kategorien(string inhalt)
         {
             List<KategorieModell> modell = new List<KategorieModell>();
-            List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
+            List<BL_BricoMarche.Kategorie> alleKategorien = LadeAlleKategorien();
             if (alleKategorien != null)
             {
                 foreach (var kategorie in alleKategorien)
@@ -42,16 +53,56 @@ namespace UI_BricoMarche.Controllers
             ViewData["Inhalt"] = inhalt; 
             return PartialView(modell);
         }
+        #endregion
 
         #region -- Produkte Action -------------------------------------------------------
 
         /// <summary>
-        /// Aritkel Action
+        /// 
         /// </summary>
-        /// <returns>Alle Produkte</returns>
-        public ActionResult Produkte()
+        /// <param name="kategorieID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Produkte(int kategorieID = -1)
         {
-            return View();
+            Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
+            Debug.Indent();
+            List<ArtikelModell> modell = new List<ArtikelModell>();
+            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel() : LadeAlleArtikel(kategorieID);
+            if (geladeneProdukte == null || geladeneProdukte.Count == 0)
+            {
+                Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
+                TempData["Fehler"] = "Fehler beim laden der Produkte aus der Datenbank.";
+                return RedirectToAction("Willkommen");
+            }
+            Debug.WriteLine("Erfolg! " + geladeneProdukte.Count + " Produkte in Controller geladen.");
+            foreach (var produkt in geladeneProdukte)
+            {
+                modell.Add(new ArtikelModell {
+                    ID = produkt.ID,
+                    Bezeichnung = produkt.Bezeichnung,
+                    Preis = produkt.Preis,
+                    Kategorie = produkt.EineKategorie.Bezeichnung
+                });
+            }
+            Debug.WriteLine("\t -->" + modell.Count + " Produkte in Modell geladen.");
+            Debug.Unindent();
+            Debug.WriteLine("-- Ende: Produkte - GET --------------------------------------------------------------- ");
+            return View(modell);
+        }
+
+        public ActionResult ProduktBild(int ProduktID = -1)
+        {
+            ActionResult geladenesBild = null;
+            ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
+            if (ProduktID != -1)
+            {
+                MemoryStream stream = new MemoryStream(LadeArtikelBild(ProduktID));
+                geladenesBild = new FileStreamResult(stream, "image/png");
+
+            }
+            return geladenesBild != null ? geladenesBild : bild;
         }
          
         /*
@@ -66,15 +117,6 @@ namespace UI_BricoMarche.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Produkte Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <returns>Alle Produkte einer Kategorie</returns>
-        public ActionResult Produkte(string kategorie)
-        {
-            return View();
-        }
 
         /// <summary>
         /// Produkte Action
