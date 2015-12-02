@@ -21,41 +21,25 @@ namespace UI_BricoMarche.Controllers
         /// <returns>Willkommen View (Die Startseite der Webanwendung)</returns>
         public ActionResult Willkommen()
         {
-            KategorienModell modell = new KategorienModell();
-            modell.AlleKategorien = new List<KategorieModell>();
-
-            List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
-            if (alleKategorien != null)
-            {
-                foreach (var kategorie in alleKategorien)
-                {
-                    modell.AlleKategorien.Add(new KategorieModell
-                    {
-                        ID = kategorie.ID,
-                        Bezeichnung = kategorie.Bezeichnung
-                    });
-                }
-            }
-            return PartialView(modell);
+            return View();
         }
 
-        public ActionResult Kategorien()
+        public ActionResult Kategorien(string inhalt)
         {
-            KategorienModell modell = new KategorienModell();
-            modell.AlleKategorien = new List<KategorieModell>();
-
+            List<KategorieModell> modell = new List<KategorieModell>();
             List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
             if (alleKategorien != null)
             {
                 foreach (var kategorie in alleKategorien)
                 {
-                    modell.AlleKategorien.Add(new KategorieModell
+                    modell.Add(new KategorieModell
                     {
                         ID = kategorie.ID,
                         Bezeichnung = kategorie.Bezeichnung
                     });
                 }
             }
+            ViewData["Inhalt"] = inhalt; 
             return PartialView(modell);
         }
 

@@ -1,5 +1,4 @@
-﻿@model UI_BricoMarche.Models.InhaltModelle.KategorienModell
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +16,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @{Html.RenderPartial("~/Views/Inhalt/Kategorien.cshtml", Model);}
+                    @Html.Action("Kategorien", "Inhalt", new { inhalt = ViewBag.Title })
                 </ul>
             </div>
         </div>

@@ -1,18 +1,22 @@
-﻿@model UI_BricoMarche.Models.InhaltModelle.KategorienModell
+﻿@model IEnumerable<UI_BricoMarche.Models.InhaltModelle.KategorieModell>
 
-@if (ViewBag.Title == "Produkte")
+@if (ViewData["Inhalt"] != null && ViewData["Inhalt"].Equals("Produkte"))
 {
-    foreach (var kategorie in Model.AlleKategorien)
+    foreach (var kategorie in Model)
     {
-        <li>Html.ActionLink(kategorie.Bezeichnung, "Produkte", "Inhalt", kategorie.Bezeichnung, "")</li>
+        <li>
+            <a href="@Url.Action("Artikel", "Inhalt", new { kategorieID = kategorie.ID })">@kategorie.Bezeichnung</a>
+        </li>
     }
 }
 
-@if (ViewBag.Title == "Videos")
+@if (ViewData["Inhalt"] != null && ViewData["Inhalt"].Equals("Videos"))
 {
-    foreach (var kategorie in Model.AlleKategorien)
+    foreach (var kategorie in Model)
     {
-        <li>Html.ActionLink(kategorie.Bezeichnung, "Videos", "Inhalt", kategorie.Bezeichnung, "")</li>
+        <li>
+            <a href="@Url.Action("Videos", "Inhalt", new { kategorieID = kategorie.ID })">@kategorie.Bezeichnung</a>
+        </li>
     }
 }
 
