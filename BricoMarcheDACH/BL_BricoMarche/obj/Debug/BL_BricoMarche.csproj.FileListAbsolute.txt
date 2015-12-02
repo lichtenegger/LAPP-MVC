@@ -6,3 +6,11 @@ D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoM
 D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.csprojResolveAssemblyReference.cache
 D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.dll
 D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.pdb
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.dll.config
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.dll
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.pdb
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\EntityFramework.dll
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\EntityFramework.xml
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.csprojResolveAssemblyReference.cache
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.dll
+C:\Users\johanna.lichtenegger\Documents\Visual Studio 2015\Projects\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.pdb
