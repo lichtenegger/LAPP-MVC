@@ -1,7 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Willkommen";
+    Layout = "~/Views/Shared/_BenutzerLayout.cshtml";
 }
 
-<h2>Willkommen @ViewBag.Benutzer!</h2>
+<h2>Willkommen @User.Identity.Name!</h2>
 

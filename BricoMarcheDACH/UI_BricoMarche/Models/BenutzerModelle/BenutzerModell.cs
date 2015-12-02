@@ -9,7 +9,7 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     public class BenutzerModell
     {
         [Required(ErrorMessage = "Pflichtfeld")]
-        [Display(Name = "Email")]
+        [Display(Name = "Email-Adresse")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
         public string Email { get; set; }
 
@@ -32,12 +32,12 @@ namespace UI_BricoMarche.Models.BenutzerModelle
         [Display(Name = "Ort")]
         public int OrtID { get; set; }
 
-        public List<OrtModell> Orte { get; set; }
+        public List<HilfsModelle.OrtModell> Orte { get; set; }
 
-        [MustBeTrue(ErrorMessage = "Bitte AGB akzeptieren")]
-        public bool AGB { get; set; }
-
-        [MustBeTrue(ErrorMessage = "Bitte Datenschutz-Erklärung akzeptieren")]
-        public bool Datenschutz { get; set; }
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.Password)]
+        [Display(Name = "neues Passwort")]
+        [RegularExpression(@"[\w+\S+\d+]{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
+        public string Passwort { get; set; }
     }
 }

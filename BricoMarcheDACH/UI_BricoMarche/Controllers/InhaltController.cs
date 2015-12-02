@@ -5,8 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using UI_BricoMarche.Models;
-using BL_BricoMarche;
+using UI_BricoMarche.Models.InhaltModelle;
+using static BL_BricoMarche.DatenVerwaltung.Inhalt;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -24,133 +24,158 @@ namespace UI_BricoMarche.Controllers
             return View();
         }
 
-        #region -- Artikel Action -------------------------------------------------------
+        public ActionResult Kategorien(string inhalt)
+        {
+            List<KategorieModell> modell = new List<KategorieModell>();
+            List<BL_BricoMarche.Kategorie> alleKategorien = InhaltKategorien.LadeAlleKategorien();
+            if (alleKategorien != null)
+            {
+                foreach (var kategorie in alleKategorien)
+                {
+                    modell.Add(new KategorieModell
+                    {
+                        ID = kategorie.ID,
+                        Bezeichnung = kategorie.Bezeichnung
+                    });
+                }
+            }
+            ViewData["Inhalt"] = inhalt; 
+            return PartialView(modell);
+        }
+
+        #region -- Produkte Action -------------------------------------------------------
 
         /// <summary>
         /// Aritkel Action
         /// </summary>
-        /// <returns>Alle Artikel</returns>
-        public ActionResult Artikel()
+        /// <returns>Alle Produkte</returns>
+        public ActionResult Produkte()
         {
             return View();
         }
-
+         
+        /*
         /// <summary>
-        /// Artikel Action
+        /// Produkte Action
         /// </summary>
         /// <param name="anzahl"></param>
         /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Artikel auf einer bestimmten Seite</returns>
-        public ActionResult Artikel(int anzahl, int seite)
+        /// <returns>Eine Anzahl an Produkte auf einer bestimmten Seite</returns>
+        public ActionResult Produkte(int anzahl, int seite)
         {
             return View();
         }
 
         /// <summary>
-        /// Artikel Action
+        /// Produkte Action
         /// </summary>
         /// <param name="kategorie"></param>
-        /// <returns>Alle Artikel einer Kategorie</returns>
-        public ActionResult Artikel(string kategorie)
+        /// <returns>Alle Produkte einer Kategorie</returns>
+        public ActionResult Produkte(string kategorie)
         {
             return View();
         }
 
         /// <summary>
-        /// Artikel Action
+        /// Produkte Action
         /// </summary>
         /// <param name="kategorie"></param>
         /// <param name="anzahl"></param>
         /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Artikel einer Kategorie auf einer bestimmten Seite</returns>
-        public ActionResult Artikel(string kategorie, int anzahl, int seite)
+        /// <returns>Eine Anzahl an Produkte einer Kategorie auf einer bestimmten Seite</returns>
+        public ActionResult Produkte(string kategorie, int anzahl, int seite)
         {
             return View();
         }
+        */
 
         #endregion
 
 
-        #region -- Video Action ---------------------------------------------------------
+        #region -- Videos Action ---------------------------------------------------------
 
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
-        /// <returns>Alle Videos</returns>
-        public ActionResult Video()
+        /// <returns>Alle Videoss</returns>
+        public ActionResult Videos()
         {
             return View();
         }
 
+        /*
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
         /// <param name="kategorie"></param>
-        /// <returns>Alle Videos einer Kategorie</returns>
-        public ActionResult Video(string kategorie)
+        /// <returns>Alle Videoss einer Kategorie</returns>
+        public ActionResult Videos(string kategorie)
         {
             return View();
         }
 
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
         /// <param name="anzahl"></param>
         /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Videos einer bestimmten Seite</returns>
-        public ActionResult Video(int anzahl, int seite)
+        /// <returns>Eine Anzahl an Videoss einer bestimmten Seite</returns>
+        public ActionResult Videos(int anzahl, int seite)
         {
             return View();
         }
 
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
         /// <param name="kategorie"></param>
         /// <param name="anzahl"></param>
         /// <param name="seite"></param>
-        /// <returns>Eine Anzahl Videos einer Kategorie einer bestimmten Seite</returns>
-        public ActionResult Video(string kategorie, int anzahl, int seite)
+        /// <returns>Eine Anzahl Videoss einer Kategorie einer bestimmten Seite</returns>
+        public ActionResult Videos(string kategorie, int anzahl, int seite)
         {
             return View();
         }
 
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
         /// <param name="kategorie"></param>
         /// <param name="schlagwort"></param>
-        /// <returns>Alle Videos einer Kategorie die einem bestimmten Schlagwort entsprechen</returns>
-        public ActionResult Video(string kategorie, string schlagwort)
+        /// <returns>Alle Videoss einer Kategorie die einem bestimmten Schlagwort entsprechen</returns>
+        public ActionResult Videos(string kategorie, string schlagwort)
         {
             return View();
         }
 
         /// <summary>
-        /// Video Action
+        /// Videos Action
         /// </summary>
         /// <param name="kategorie"></param>
         /// <param name="schlagwort"></param>
         /// <param name="anzahl"></param>
         /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Video einer Kategorie, die einem Schlagwort entsprechen, einer bestimmten Seite</returns>
-        public ActionResult Video(string kategorie, string schlagwort, int anzahl, int seite)
+        /// <returns>Eine Anzahl an Videos einer Kategorie, die einem Schlagwort entsprechen, einer bestimmten Seite</returns>
+        public ActionResult Videos(string kategorie, string schlagwort, int anzahl, int seite)
         {
             return View();
         }
+        */
 
         #endregion
+
+        #region -- Detail -----------------------------------------------------------------
 
         /// <summary>
         /// Detail Action
         /// </summary>
         /// <param name="artID"></param>
-        /// <returns>Die Detail-Ansicht eines Artikel oder Videos</returns>
+        /// <returns>Die Detail-Ansicht eines Produkte oder Videoss</returns>
         public ActionResult Details(string artID)
         {
             return View();
         }
 
-
+        #endregion
     }
 }
