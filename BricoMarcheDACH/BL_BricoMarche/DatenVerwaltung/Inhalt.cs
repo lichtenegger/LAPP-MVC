@@ -178,6 +178,80 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
+        #region LadeArtikel : Suchbegriff
+        /// <summary>
+        /// Holt alle Artikel, dessen Bezeichnung oder Beschreibung den Suchbegriff enthält aus der Datenbank.
+        /// </summary>
+        /// <param name="suchbegriff"></param>
+        /// <returns></returns>
+        public static List<Artikel> LadeAlleArtikel(string suchbegriff)
+        {
+            List<Artikel> geladenerArtikel = null;
+            Debug.WriteLine("-- START : LADE ARTIKEL -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    geladenerArtikel = kontext.AlleArtikel.Include("EineKategorie").Where(x => x.Aktiv)
+                                                          .Where(x => x.Bezeichnung.ToLower().Contains(suchbegriff.ToLower()) || 
+                                                                 x.Beschreibung.ToLower().Contains(suchbegriff.ToLower())).ToList();
+                    if (geladenerArtikel == null)
+                    {
+                        throw new Exception("Fehler! keine Artikel aus der Datenbank geladen");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE ARTIKEL -------------------------------------------------------------");
+
+            return geladenerArtikel;
+        }
+        #endregion
+
+        #region LadeArtikel : Suchbegriff
+        /// <summary>
+        /// Holt eine Anzahl an Artikel einer Seite, die einen bestimmten Suchbegriff enthalten, aus der Datenbank.
+        /// </summary>
+        /// <param name="suchbegriff"></param>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
+        public static List<Artikel> LadeAlleArtikel(string suchbegriff, int seite, int anzahl)
+        {
+            List<Artikel> geladenerArtikel = null;
+            Debug.WriteLine("-- START : LADE ARTIKEL -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    geladenerArtikel = kontext.AlleArtikel.Include("EineKategorie").Where(x => x.Aktiv)
+                                                          .Where(x => x.Bezeichnung.ToLower().Contains(suchbegriff.ToLower()) ||
+                                                                 x.Beschreibung.ToLower().Contains(suchbegriff.ToLower()))
+                                                          .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList();
+                    if (geladenerArtikel == null)
+                    {
+                        throw new Exception("Fehler! keine Artikel aus der Datenbank geladen");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE ARTIKEL -------------------------------------------------------------");
+
+            return geladenerArtikel;
+        }
+        #endregion
+
+
         #region LadeArtikelBild: ID
         /// <summary>
         /// Holt das Bild eines bestimmten Artikels aus der Datenbank.
@@ -272,7 +346,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-        #region ZaehleAlleArtikel
+        #region ZaehleAlleArtikel : ID
         /// <summary>
         /// Gibt die Anzahl aller aktiven Artikel einer bestimmten Kategorie in der Datenbank zurück.
         /// </summary>
@@ -301,6 +375,39 @@ namespace BL_BricoMarche.DatenVerwaltung
             return anzahl;
         }
         #endregion
+
+        #region ZaehleAlleArtikel : Suchbegriff
+        /// <summary>
+        /// Gibt die Anzahl der Artikel zu einem Suchbegriff aus der Datenbank zurück.
+        /// </summary>
+        /// <param name="suchbegriff"></param>
+        /// <returns></returns>
+        public static int ZaehleAlleArtikel(string suchbegriff)
+        {
+            int anzahl = -1;
+            Debug.WriteLine("-- START : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    anzahl = kontext.AlleArtikel.Include("EineKategorie").Where(x => x.Aktiv)
+                                                          .Where(x => x.Bezeichnung.ToLower().Contains(suchbegriff.ToLower()) ||
+                                                                 x.Beschreibung.ToLower().Contains(suchbegriff.ToLower())).Count();
+                    Debug.WriteLine("ERFOLG! ArtikelAnzahl ist" + anzahl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FEHLER!\n" + ex.Message);
+            }
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            return anzahl;
+        }
+        #endregion
+
 
     }
 }

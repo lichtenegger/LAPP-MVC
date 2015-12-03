@@ -55,44 +55,46 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Suche(string inhalt)
+        {
+            ViewBag.Inhalt = inhalt;
+            return View();
+        }
+
+        public ActionResult ProdukteSuche(string suchbegriff = "", int seite = 1, int anzahl = 20)
+        {
+            if (suchbegriff == "")
+            {
+                return RedirectToAction("Produkte");
+            }
+            List<BL_BricoMarche.Artikel> geladeneProdukte = LadeAlleArtikel(suchbegriff, seite, anzahl);
+            if (geladeneProdukte == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden gesucher Produkte aus der Datenbank.";
+            }
+            View("Produkte").ViewBag.Suchbegriff = suchbegriff;
+            View("Produkte").ViewBag.AnzahlProdukte = ZaehleAlleArtikel(suchbegriff);
+            View("Produkte").ViewBag.Seite = 1;
+            View("Produkte").ViewBag.AnzahlProSeite = 20;
+            List<ArtikelModell> modell = new List<ArtikelModell>();
+            foreach (var produkt in geladeneProdukte)
+            {
+                modell.Add(new ArtikelModell
+                {
+                    ID = produkt.ID,
+                    Bezeichnung = produkt.Bezeichnung,
+                    Kategorie = produkt.EineKategorie.Bezeichnung,
+                    Preis = produkt.Preis
+                });
+            }
+            return View("Produkte", modell);
+        }
+
         #region -- Produkte Action -------------------------------------------------------
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="kategorieID"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public ActionResult Produkte(int kategorieID = -1)
-        //{
-        //    Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
-        //    Debug.Indent();
-        //    List<ArtikelModell> modell = new List<ArtikelModell>();
-        //    List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel() : LadeAlleArtikel(kategorieID);
-        //    if (geladeneProdukte == null || geladeneProdukte.Count == 0)
-        //    {
-        //        Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
-        //        TempData["Fehler"] = "Fehler beim laden der Produkte aus der Datenbank.";
-        //        return RedirectToAction("Willkommen");
-        //    }
-        //    Debug.WriteLine("Erfolg! " + geladeneProdukte.Count + " Produkte in Controller geladen.");
-        //    foreach (var produkt in geladeneProdukte)
-        //    {
-        //        modell.Add(new ArtikelModell {
-        //            ID = produkt.ID,
-        //            Bezeichnung = produkt.Bezeichnung,
-        //            Preis = produkt.Preis,
-        //            Kategorie = produkt.EineKategorie.Bezeichnung
-        //        });
-        //    }
-        //    Debug.WriteLine("\t -->" + modell.Count + " Produkte in Modell geladen.");
-        //    Debug.Unindent();
-        //    Debug.WriteLine("-- Ende: Produkte - GET --------------------------------------------------------------- ");
-        //    return View(modell);
-        //}
-
-
+        #region Produkte : Kategorie : Seite : Anzahl
         /// <summary>
         /// Gibt eine Anzahl an Produkte einer bestimmten Seite aus einer eventuellen Kategorie an die Sicht weiter.
         /// </summary>
@@ -109,6 +111,7 @@ namespace UI_BricoMarche.Controllers
             ViewBag.KategorieID = kategorieID;
             ViewBag.AnzahlProSeite = anzahl;
             ViewBag.Seite = seite;
+            ViewBag.Suchbegriff = "";
             Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
             Debug.Indent();
             List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel(seite, anzahl) : LadeAlleArtikel(kategorieID, seite, anzahl);
@@ -134,6 +137,7 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("-- Ende: Produkte - GET --------------------------------------------------------------- ");
             return View(modell);
         }
+        #endregion
 
         #region ProduktBild
         /// <summary>

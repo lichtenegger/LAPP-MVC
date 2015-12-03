@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string inhalt = ViewBag.Title;
+    string controller = inhalt + "Suche";
 }
 @if (ViewBag.Title != "Willkommen")
 {
@@ -17,6 +18,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @Html.Action("Kategorien", "Inhalt", new { inhalt = ViewBag.Title })
+                    <li>
+                         @using (Html.BeginForm(controller, "Inhalt", FormMethod.Get))
+                        {
+                        <div class="login partial-login">
+                            @Html.TextBox("suchbegriff")
+                            <input type="submit" value="Suche" class="btn btn-primary" />
+                        </div>
+                        }
+                    </li>
                 </ul>
             </div>
         </div>
