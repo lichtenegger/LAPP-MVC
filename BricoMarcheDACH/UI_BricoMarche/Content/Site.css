@@ -3,18 +3,23 @@
 }
 
 .body-layout {
-    background-position-x:left;
-    background-position-y: top;
-    background-image: url(images/site-bg-tools.jpg), linear-gradient(to bottom, rgba(55, 24, 9, 0), rgba(55, 24, 9, 0.75),rgba(8, 5, 6, 1), rgba(8, 5, 6, 1));
+    background-position: 100% 7px;
+    background-image: url(images/site-bg-tools-resized.jpg), linear-gradient(to bottom, rgba(55, 24, 9, 0), rgba(55, 24, 9, 0.50),rgba(8, 5, 6, 0.75), rgba(8, 5, 6, 1));
     background-color: rgb(55, 24, 9);
     background-repeat: repeat-x;
-    background-size: 500px;
+    background-size: auto;
     background-attachment: fixed;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-        padding-top: 50px;
+}
+
+.inhalt {
+    position: relative;
+    padding: unset;
+    margin: auto;
+    margin-top: 75px;
 }
 
 .container {
@@ -32,7 +37,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 300px;
 }
 
 .logo {
@@ -95,10 +100,31 @@ div.login {
     height: 20px;
     text-align: left;
 }
-div.header {
-    position: page fixed;
+.no-nav {
+    z-index: 1;
+    position: sticky;
+    top: 50px;
+    padding: unset;
+    margin: unset;
     min-height: unset;
+    max-height: unset;
+    height: unset;
     height: 5px;
     max-height: 5px;
+    line-height: unset;
 }
 
+.inhalt-nav {
+    z-index: 1;
+    position: sticky;
+    top: 50px;
+    padding: unset;
+    margin: unset;
+}
+
+.layout-nav {
+    z-index: 2;
+    position: sticky;
+    padding: unset;
+    margin: unset;
+}
