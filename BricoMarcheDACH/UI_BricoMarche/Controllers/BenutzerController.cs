@@ -24,7 +24,7 @@ namespace UI_BricoMarche.Controllers
         [AllowAnonymous]
         public ActionResult Anmelden(AnmeldenModell daten)
         {
-            if (ModelState.IsValid && sindAnmeldeDatenRichtig(daten.Benuztername, daten.Passwort))
+            if (ModelState.IsValid && SindAnmeldeDatenRichtig(daten.Benuztername, daten.Passwort))
             {
                 FormsAuthentication.SetAuthCookie(daten.Benuztername, true);
                 Debug.WriteLine("AnmeldeDaten sind richtig; AuthCookie gesetzt.");
