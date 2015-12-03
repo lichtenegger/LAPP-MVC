@@ -17,7 +17,8 @@
         </dt>
 
         <dd>
-            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" />
+
+            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail"/>
         </dd>
 
         <dt>
@@ -37,4 +38,11 @@
         </dd>
     </dl>
 }
+    <div class="pagination">
+        @for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+        {
+        @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+        <text>&nbsp;</text>
+        }
+    </div>
 </div>

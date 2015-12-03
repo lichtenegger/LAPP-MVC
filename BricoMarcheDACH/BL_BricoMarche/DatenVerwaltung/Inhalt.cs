@@ -41,6 +41,40 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
+        #region LadeAlleArtikel : Seite : Anzahl
+        /// <summary>
+        /// Holt eine Anzahl Artikel auf einer bestimmten Seite aus der Datenbank.
+        /// </summary>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
+        public static List<Artikel> LadeAlleArtikel(int seite, int anzahl)
+        {
+            List<Artikel> geladeneArtikel = null;
+            Debug.WriteLine("-- START : LADE ARTIKEL -------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    geladeneArtikel = kontext.AlleArtikel.Include("EineKategorie").Where(x => x.Aktiv).OrderByDescending(x => x.ID).Skip((seite -1) * anzahl).Take(anzahl).ToList();
+                }
+                if (geladeneArtikel == null)
+                {
+                    throw new Exception("Fehler! 0 Artikel geladen!");
+                }
+                Debug.WriteLine("ERFOLG!");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FEHLER! " + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE ARTIKEL -------------------------------------------------------");
+            return geladeneArtikel;
+        }
+        #endregion
+
         #region LadeAlleArtikel : Kategorie
         /// <summary>
         /// Holt alle Artikel aus einer bestimmten Kategoire aus der Datenbank.
@@ -77,6 +111,50 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
+        #region LadeAlleArtikel : Kategorie : Seite : Anzahl
+        /// <summary>
+        /// Holt eine Anzahl an Artikel einer bestimmten Kategorie auf einer bestimmten Seite aus der Datenbank.
+        /// </summary>
+        /// <param name="kategorieID"></param>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
+        public static List<Artikel> LadeAlleArtikel(int kategorieID, int seite, int anzahl)
+        {
+            List<Artikel> geladeneArtikel = null;
+            Debug.WriteLine("-- START : LADE ARTIKEL -------------------------------------------------------");
+            Debug.Indent();
+            Debug.WriteLine("-- KATEGORIE : " + kategorieID);
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    geladeneArtikel = kontext.AlleArtikel.Include("EineKategorie").Where(x => x.Aktiv).Where(x => x.Kategorie_ID == kategorieID).OrderByDescending(x => x.ID).Skip((seite -1) * anzahl).Take(anzahl).ToList();
+                }
+                if (geladeneArtikel == null)
+                {
+                    throw new Exception("Fehler! 0 Artikel geladen!");
+                }
+                Debug.WriteLine("ERFOLG!");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FEHLER! " + ex.Message);
+            }
+
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE ARTIKEL -------------------------------------------------------");
+            return geladeneArtikel;
+        }
+        #endregion
+
+        #region LadeArtikel : ID
+        /// <summary>
+        /// Holt einen bestimmten Artikel aus der Datenbank
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public static Artikel LadeArtikel(int ID)
         {
             Artikel geladenerArtikel = null;
@@ -98,7 +176,14 @@ namespace BL_BricoMarche.DatenVerwaltung
 
             return geladenerArtikel;
         }
+        #endregion
 
+        #region LadeArtikelBild: ID
+        /// <summary>
+        /// Holt das Bild eines bestimmten Artikels aus der Datenbank.
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public static byte[] LadeArtikelBild(int ID)
         {
             byte[] geladenesBild = null;
@@ -121,6 +206,7 @@ namespace BL_BricoMarche.DatenVerwaltung
 
             return geladenesBild;
         }
+        #endregion
 
         #region LadeAlleKategorien
         /// <summary>
@@ -156,5 +242,65 @@ namespace BL_BricoMarche.DatenVerwaltung
             return alleKategorien;
         }
         #endregion
+
+        #region ZaehleAlleArtikel
+        /// <summary>
+        /// Gibt die Anzahl aller aktiven Artikel in der Datenbank zurück.
+        /// </summary>
+        /// <returns></returns>
+        public static int ZaehleAlleArtikel()
+        {
+            int anzahl = -1;
+            Debug.WriteLine("-- START : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    anzahl = kontext.AlleArtikel.Where(x => x.Aktiv).Count();
+                    Debug.WriteLine("ERFOLG! ArtikelAnzahl ist" + anzahl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FEHLER!\n" + ex.Message);
+            }
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            return anzahl;
+        }
+        #endregion
+
+        #region ZaehleAlleArtikel
+        /// <summary>
+        /// Gibt die Anzahl aller aktiven Artikel einer bestimmten Kategorie in der Datenbank zurück.
+        /// </summary>
+        /// <param name="kategorieID"></param>
+        /// <returns></returns>
+        public static int ZaehleAlleArtikel(int kategorieID)
+        {
+            int anzahl = -1;
+            Debug.WriteLine("-- START : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    anzahl = kontext.AlleArtikel.Where(x => x.Aktiv).Where(x => x.Kategorie_ID == kategorieID).Count();
+                    Debug.WriteLine("ERFOLG! ArtikelAnzahl ist" + anzahl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("FEHLER!\n" + ex.Message);
+            }
+
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : ZAEHLE ALLE ARTIKEL ----------------------------------------");
+            return anzahl;
+        }
+        #endregion
+
     }
 }

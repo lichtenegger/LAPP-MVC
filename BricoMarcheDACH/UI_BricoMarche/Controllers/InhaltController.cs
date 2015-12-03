@@ -57,19 +57,61 @@ namespace UI_BricoMarche.Controllers
 
         #region -- Produkte Action -------------------------------------------------------
 
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="kategorieID"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public ActionResult Produkte(int kategorieID = -1)
+        //{
+        //    Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
+        //    Debug.Indent();
+        //    List<ArtikelModell> modell = new List<ArtikelModell>();
+        //    List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel() : LadeAlleArtikel(kategorieID);
+        //    if (geladeneProdukte == null || geladeneProdukte.Count == 0)
+        //    {
+        //        Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
+        //        TempData["Fehler"] = "Fehler beim laden der Produkte aus der Datenbank.";
+        //        return RedirectToAction("Willkommen");
+        //    }
+        //    Debug.WriteLine("Erfolg! " + geladeneProdukte.Count + " Produkte in Controller geladen.");
+        //    foreach (var produkt in geladeneProdukte)
+        //    {
+        //        modell.Add(new ArtikelModell {
+        //            ID = produkt.ID,
+        //            Bezeichnung = produkt.Bezeichnung,
+        //            Preis = produkt.Preis,
+        //            Kategorie = produkt.EineKategorie.Bezeichnung
+        //        });
+        //    }
+        //    Debug.WriteLine("\t -->" + modell.Count + " Produkte in Modell geladen.");
+        //    Debug.Unindent();
+        //    Debug.WriteLine("-- Ende: Produkte - GET --------------------------------------------------------------- ");
+        //    return View(modell);
+        //}
+
+
         /// <summary>
-        /// 
+        /// Gibt eine Anzahl an Produkte einer bestimmten Seite aus einer eventuellen Kategorie an die Sicht weiter.
         /// </summary>
         /// <param name="kategorieID"></param>
+        /// <param name="seite" default="1"></param>
+        /// <param name="anzahl" default=20></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Produkte(int kategorieID = -1)
+        public ActionResult Produkte(int kategorieID = -1, int seite = 1, int anzahl = 20) 
         {
+            List<ArtikelModell> modell = new List<ArtikelModell>();
+            ViewBag.AnzahlProdukte = kategorieID == -1 ? ZaehleAlleArtikel() : ZaehleAlleArtikel(kategorieID);
+            ViewBag.KategorieID = kategorieID;
+            ViewBag.AnzahlProSeite = anzahl;
+            ViewBag.Seite = seite;
             Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
             Debug.Indent();
-            List<ArtikelModell> modell = new List<ArtikelModell>();
-            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel() : LadeAlleArtikel(kategorieID);
+            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel(seite, anzahl) : LadeAlleArtikel(kategorieID, seite, anzahl);
             if (geladeneProdukte == null || geladeneProdukte.Count == 0)
             {
                 Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
@@ -79,7 +121,8 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("Erfolg! " + geladeneProdukte.Count + " Produkte in Controller geladen.");
             foreach (var produkt in geladeneProdukte)
             {
-                modell.Add(new ArtikelModell {
+                modell.Add(new ArtikelModell
+                {
                     ID = produkt.ID,
                     Bezeichnung = produkt.Bezeichnung,
                     Preis = produkt.Preis,
@@ -92,6 +135,15 @@ namespace UI_BricoMarche.Controllers
             return View(modell);
         }
 
+        #region ProduktBild
+        /// <summary>
+        /// Holt zu einem bestimmten Produkt das ProduktBild aus der Datenbank.
+        /// </summary>
+        /// <param name="ProduktID"></param>
+        /// <returns>Bild</returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [OutputCache(VaryByParam = "id", Duration = 300)]
         public ActionResult ProduktBild(int ProduktID = -1)
         {
             ActionResult geladenesBild = null;
@@ -104,32 +156,7 @@ namespace UI_BricoMarche.Controllers
             }
             return geladenesBild != null ? geladenesBild : bild;
         }
-         
-        /*
-        /// <summary>
-        /// Produkte Action
-        /// </summary>
-        /// <param name="anzahl"></param>
-        /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Produkte auf einer bestimmten Seite</returns>
-        public ActionResult Produkte(int anzahl, int seite)
-        {
-            return View();
-        }
-
-
-        /// <summary>
-        /// Produkte Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <param name="anzahl"></param>
-        /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Produkte einer Kategorie auf einer bestimmten Seite</returns>
-        public ActionResult Produkte(string kategorie, int anzahl, int seite)
-        {
-            return View();
-        }
-        */
+        #endregion
 
         #endregion
 
@@ -144,65 +171,6 @@ namespace UI_BricoMarche.Controllers
         {
             return View();
         }
-
-        /*
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <returns>Alle Videoss einer Kategorie</returns>
-        public ActionResult Videos(string kategorie)
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <param name="anzahl"></param>
-        /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Videoss einer bestimmten Seite</returns>
-        public ActionResult Videos(int anzahl, int seite)
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <param name="anzahl"></param>
-        /// <param name="seite"></param>
-        /// <returns>Eine Anzahl Videoss einer Kategorie einer bestimmten Seite</returns>
-        public ActionResult Videos(string kategorie, int anzahl, int seite)
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <param name="schlagwort"></param>
-        /// <returns>Alle Videoss einer Kategorie die einem bestimmten Schlagwort entsprechen</returns>
-        public ActionResult Videos(string kategorie, string schlagwort)
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <param name="kategorie"></param>
-        /// <param name="schlagwort"></param>
-        /// <param name="anzahl"></param>
-        /// <param name="seite"></param>
-        /// <returns>Eine Anzahl an Videos einer Kategorie, die einem Schlagwort entsprechen, einer bestimmten Seite</returns>
-        public ActionResult Videos(string kategorie, string schlagwort, int anzahl, int seite)
-        {
-            return View();
-        }
-        */
 
         #endregion
 
