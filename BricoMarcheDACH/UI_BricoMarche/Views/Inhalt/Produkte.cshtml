@@ -1,4 +1,5 @@
-﻿
+﻿@model  IEnumerable<UI_BricoMarche.Models.InhaltModelle.ArtikelModell>
+
 @{
     ViewBag.Title = "Produkte";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
@@ -6,3 +7,54 @@
 
 <h2>Produkte</h2>
 
+<div class="container-fluid">
+    <hr />
+@foreach (var produkt in Model)
+{
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => produkt.Bezeichnung)
+        </dt>
+
+        <dd>
+
+            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail"/>
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => produkt.Preis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => produkt.Preis)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => produkt.Kategorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => produkt.Kategorie)
+        </dd>
+    </dl>
+}
+    <div class="pagination">
+        @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")
+        {
+            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+            {
+                @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                <text>&nbsp;</text>
+            }
+        }
+        else
+        {
+            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+            {
+            @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+            <text>&nbsp;</text>
+            }
+
+        }
+    </div>
+</div>
