@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BenutzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZusatzTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BL_BricoMarche\BL_BricoMarche.csproj">

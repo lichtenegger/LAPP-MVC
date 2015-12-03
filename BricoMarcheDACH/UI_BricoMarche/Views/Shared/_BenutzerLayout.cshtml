@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Willkommen "+User.Identity.Name, "Willkommen", "Benutzer", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Profil", "Editieren", "Benutzer")</li>
+                    <li>@Html.ActionLink("Merkliste", "Willkommen", "Benutzer")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="navbar navbar-inverse navbar-static-top header">
+    </div>
+}
+
+        <div class="container">
+            <div class=" jumbotron">
+                @RenderBody()
+            </div>
+        </div>
