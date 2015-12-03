@@ -5,7 +5,7 @@
     foreach (var kategorie in Model)
     {
         <li>
-            <a href="@Url.Action("Artikel", "Inhalt", new { kategorieID = kategorie.ID })">@kategorie.Bezeichnung</a>
+            <a href="@Url.Action("Produkte", "Inhalt", new { kategorieID = kategorie.ID, seite = 1, anzahl = 20 })">@kategorie.Bezeichnung</a>
         </li>
     }
 }
@@ -15,7 +15,7 @@
     foreach (var kategorie in Model)
     {
         <li>
-            <a href="@Url.Action("Videos", "Inhalt", new { kategorieID = kategorie.ID })">@kategorie.Bezeichnung</a>
+            <a href="@Url.Action("Videos", "Inhalt", new { kategorieID = kategorie.ID, seite = 1, anzahl = 20 })">@kategorie.Bezeichnung</a>
         </li>
     }
 }
