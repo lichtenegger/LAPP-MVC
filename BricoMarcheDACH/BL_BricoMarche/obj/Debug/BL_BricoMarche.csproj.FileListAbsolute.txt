@@ -1,8 +1,0 @@
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.dll.config
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.dll
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\BL_BricoMarche.pdb
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\EntityFramework.dll
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\bin\Debug\EntityFramework.xml
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.csprojResolveAssemblyReference.cache
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.dll
-D:\Visual Studio 2015\Projects\LAPP\PR_BricoMarcheDACH\BricoMarcheDACH\BL_BricoMarche\obj\Debug\BL_BricoMarche.pdb
