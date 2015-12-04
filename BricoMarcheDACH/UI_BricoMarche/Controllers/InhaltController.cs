@@ -35,6 +35,7 @@ namespace UI_BricoMarche.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [OutputCache(VaryByParam = "id", Duration = 300)]
         public ActionResult Kategorien(string inhalt)
         {
             List<KategorieModell> modell = new List<KategorieModell>();
@@ -55,14 +56,17 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Suche(string inhalt)
-        {
-            ViewBag.Inhalt = inhalt;
-            return View();
-        }
 
+        #region -- Produkte Action -------------------------------------------------------
+
+        #region Produkte : Suchbegriff : Seite : Anzahl
+        /// <summary>
+        /// Gibt eine Anzahl an Artikel einer Seite die einem Suchbegriff entpsrechen an die Sicht weiter.
+        /// </summary>
+        /// <param name="suchbegriff"></param>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
         public ActionResult ProdukteSuche(string suchbegriff = "", int seite = 1, int anzahl = 20)
         {
             if (suchbegriff == "")
@@ -91,8 +95,7 @@ namespace UI_BricoMarche.Controllers
             }
             return View("Produkte", modell);
         }
-
-        #region -- Produkte Action -------------------------------------------------------
+        #endregion
 
         #region Produkte : Kategorie : Seite : Anzahl
         /// <summary>
@@ -138,6 +141,42 @@ namespace UI_BricoMarche.Controllers
             return View(modell);
         }
         #endregion
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ProduktDetails(int produktID = -1)
+        {
+            if (produktID == -1)
+            {
+                return RedirectToAction("Willkommen", "Inhalt", null);
+            }
+            ArtikelDetailModell modell = null;
+            BL_BricoMarche.Artikel geladenerArtikel = LadeArtikel(produktID);
+            if (geladenerArtikel == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
+                return RedirectToRoute("~/Error");
+            }
+            modell = new ArtikelDetailModell
+            {
+                ID = geladenerArtikel.ID,
+                Bezeichnung = geladenerArtikel.Bezeichnung,
+                Langbeschreibung = geladenerArtikel.Beschreibung,
+                Kategorie = geladenerArtikel.EineKategorie.Bezeichnung,
+                Preis = geladenerArtikel.Preis,
+                verlinkteVideos = new List<VideoModell>()
+            };
+            foreach (var video in geladenerArtikel.VerlinkteVideos)
+            {
+                modell.verlinkteVideos.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung
+                });
+            }
+            return View(modell);
+        }
 
         #region ProduktBild
         /// <summary>

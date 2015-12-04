@@ -1,0 +1,62 @@
+﻿@model UI_BricoMarche.Models.InhaltModelle.ArtikelDetailModell
+
+@{
+    ViewBag.Title = "Produkte";
+    Layout = "~/Views/Shared/_InhaltLayout.cshtml";
+}
+
+<h2>ProduktDetails</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => model.Bezeichnung)
+        </dt>
+
+        <dd>
+            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = Model.ID })" alt="Produkt-Bild" class="thumbnail" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Preis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Preis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategorie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Langbeschreibung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langbeschreibung)
+        </dd>
+    </dl>
+        <hr/>
+    <h4>Videos</h4>
+    <dl class="dl-horizontal">
+        @foreach (var video in Model.verlinkteVideos)
+        {
+            <dt>
+                @Html.DisplayFor(model => video.Bezeichnung)
+            </dt>
+            <dt>
+                @Html.DisplayNameFor(model => video.Kategorie)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => video.Kategorie)
+            </dd>
+        }
+    </dl>
+</div>

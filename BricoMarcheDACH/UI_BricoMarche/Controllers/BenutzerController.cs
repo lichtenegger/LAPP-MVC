@@ -25,13 +25,13 @@ namespace UI_BricoMarche.Controllers
         #region Anmelden
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Anmelden(AnmeldenModell daten)
+        public ActionResult Anmelden(AnmeldenModell daten, string returnUrl)
         {
             if (ModelState.IsValid && SindAnmeldeDatenRichtig(daten.Benuztername, daten.Passwort))
             {
                 FormsAuthentication.SetAuthCookie(daten.Benuztername, true);
                 Debug.WriteLine("AnmeldeDaten sind richtig; AuthCookie gesetzt.");
-                return RedirectToAction("Willkommen");
+                return Redirect(returnUrl);
             }
             return RedirectToRoute("/Error");
         }

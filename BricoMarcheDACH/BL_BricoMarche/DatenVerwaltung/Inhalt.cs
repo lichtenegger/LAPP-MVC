@@ -164,7 +164,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladenerArtikel = kontext.AlleArtikel.Where(x => x.ID == ID).Single();
+                    geladenerArtikel = kontext.AlleArtikel.Include("VerlinkteVideos").Include("EineKategorie").Where(x => x.Aktiv).Where(x => x.ID == ID).Single();
                 }
             }
             catch (Exception ex)
@@ -178,7 +178,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-        #region LadeArtikel : Suchbegriff
+        #region LadeAlleArtikel : Suchbegriff
         /// <summary>
         /// Holt alle Artikel, dessen Bezeichnung oder Beschreibung den Suchbegriff enthält aus der Datenbank.
         /// </summary>
@@ -213,7 +213,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-        #region LadeArtikel : Suchbegriff
+        #region LadeAlleArtikel : Suchbegriff
         /// <summary>
         /// Holt eine Anzahl an Artikel einer Seite, die einen bestimmten Suchbegriff enthalten, aus der Datenbank.
         /// </summary>
@@ -251,7 +251,6 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-
         #region LadeArtikelBild: ID
         /// <summary>
         /// Holt das Bild eines bestimmten Artikels aus der Datenbank.
@@ -267,7 +266,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladenesBild = kontext.AlleArtikel.Where(x => x.ID == ID).Single().Bild;
+                    geladenesBild = kontext.AlleArtikel.Where(x => x.Aktiv).Where(x => x.ID == ID).Single().Bild;
                 }
             }
             catch (Exception ex)
@@ -346,7 +345,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-        #region ZaehleAlleArtikel : ID
+        #region ZaehleAlleArtikel : Kategorie
         /// <summary>
         /// Gibt die Anzahl aller aktiven Artikel einer bestimmten Kategorie in der Datenbank zurück.
         /// </summary>
