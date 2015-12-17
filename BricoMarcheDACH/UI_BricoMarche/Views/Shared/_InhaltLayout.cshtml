@@ -6,37 +6,40 @@
 @if (ViewBag.Title != "Willkommen")
 {
     <div class="navbar navbar-inverse navbar-fixed-top inhalt-nav">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink(inhalt, inhalt, "Inhalt", null, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @Html.Action("Kategorien", "Inhalt", new { inhalt = ViewBag.Title })
-                    <li>
-                         @using (Html.BeginForm(controller, "Inhalt", FormMethod.Get))
-                        {
-                        <div class="login partial-login">
-                            @Html.TextBox("suchbegriff")
+        <div class="navbar-header left inhalt-nav">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#inhalt-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink(inhalt, inhalt, "Inhalt", null, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse" id="inhalt-collapse">
+            <ul class="nav navbar-nav">
+                @Html.Action("Kategorien", "Inhalt", new { inhalt = ViewBag.Title })
+            </ul>
+            @using (Html.BeginForm(controller, "Inhalt", FormMethod.Get))
+            {
+                <div class="partial-login form-inline">
+                    <div class="form-group login">
+                        <label class="sr-only" for="suche"></label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                            @Html.TextBox("suchbegriff", null, new { id = "suche", @class = "form-control", placeholder = "Suchbegriff" })
                             <input type="submit" value="Suche" class="btn btn-primary" />
                         </div>
-                        }
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 }
 else
 {
-    <div class="navbar navbar-inverse navbar-static-top no-nav">
+    <div class="navbar navbar-inverse navbar-fixed-top no-nav">
     </div>
 }
+
 <div class="container inhalt">
     <div class=" jumbotron">
         @RenderBody()

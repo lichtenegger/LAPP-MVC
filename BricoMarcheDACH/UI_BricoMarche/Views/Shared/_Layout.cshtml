@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li class="logo-navi">@Html.ActionLink("Produkte", "Produkte", "Inhalt", new { kategorieID = -1, seite = 1, anzahl = 20 }, null)</li>
                     <li class="logo-navi">@Html.ActionLink("Videos", "Videos", "Inhalt")</li>
-                    <li class="logo-navi">@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li class="logo-navi">@Html.ActionLink("Kontakt", "Willkommen", "Inhalt")</li>
                 </ul>
             </div>
         </div>
@@ -45,7 +45,6 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 

@@ -19,7 +19,7 @@
     position: relative;
     padding: unset;
     margin: auto;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .container {
@@ -60,6 +60,7 @@ div.partial-login {
     vertical-align: middle;
     display: block;
     font-size: smaller;
+
 }
 
 div.login {
@@ -106,8 +107,11 @@ div.login {
     padding: unset;
     margin: unset;
     min-height: unset;
+    max-height: unset;
+    height: unset;
     height: 5px;
     max-height: 5px;
+    line-height: unset;
 }
 
 .inhalt-nav {
