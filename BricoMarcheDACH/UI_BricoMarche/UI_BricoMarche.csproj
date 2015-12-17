@@ -144,7 +144,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\default-produkt.png" />
-    <Content Include="Content\images\site-bg-tools-resized.jpg" />
     <Content Include="Content\images\site-logo.png" />
     <Content Include="Content\images\site-bg-tools.jpg" />
     <Content Include="favicon.ico" />
