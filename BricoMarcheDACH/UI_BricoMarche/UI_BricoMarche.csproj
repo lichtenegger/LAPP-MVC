@@ -144,6 +144,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\default-produkt.png" />
+    <Content Include="Content\images\site-bg-tools-resized.jpg" />
     <Content Include="Content\images\site-logo.png" />
     <Content Include="Content\images\site-bg-tools.jpg" />
     <Content Include="favicon.ico" />
@@ -186,7 +187,7 @@
     <Content Include="Views\Inhalt\Videos.cshtml" />
     <Content Include="Views\Benutzer\Editieren.cshtml" />
     <Content Include="Views\Inhalt\Kategorien.cshtml" />
-    <Content Include="Views\Inhalt\Suche.cshtml" />
+    <Content Include="Views\Inhalt\ProduktDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

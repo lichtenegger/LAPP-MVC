@@ -8,7 +8,7 @@
             @Html.ActionLink("Registrieren", "Registrieren", "Benutzer", null, new { @class = "btn btn-default" })
         </div>
         <div class="form-group">
-            <input type="submit" value="Anmelden" class="btn btn-primary" />
+            <input type="submit" value="Anmelden" class="btn btn-primary"/>
         </div>
     </div>
 
@@ -23,4 +23,5 @@
             @Html.ValidationMessageFor(model => model.Passwort, "", new { @class = "text-danger" })
         </div>
     </div>
+    <input type="hidden" value="@Request.Url" name="returnUrl"/>
 }

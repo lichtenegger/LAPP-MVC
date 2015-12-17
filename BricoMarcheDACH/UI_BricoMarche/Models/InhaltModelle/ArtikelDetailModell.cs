@@ -9,6 +9,8 @@ namespace UI_BricoMarche.Models.InhaltModelle
     {
         public string Langbeschreibung { get; set; }
 
-       public bool WirdGemerkt { get; set; }
+        public bool WirdGemerkt { get; set; }
+
+        public List<VideoModell> verlinkteVideos { get; set; }
     }
 }

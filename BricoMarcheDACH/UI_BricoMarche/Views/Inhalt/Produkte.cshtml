@@ -18,7 +18,7 @@
 
         <dd>
 
-            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail"/>
+            <a href="@Url.Action("ProduktDetails", "Inhalt", new { ProduktID = produkt.ID })"><img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail" /></a>
         </dd>
 
         <dt>
