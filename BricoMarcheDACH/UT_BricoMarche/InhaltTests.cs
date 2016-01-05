@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static BL_BricoMarche.DatenVerwaltung.Inhalt;
+using static BL_BricoMarche.DatenVerwaltung.Artikel;
 
 namespace UT_BricoMarche
 {

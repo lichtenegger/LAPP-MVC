@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UI_BricoMarche.Models.InhaltModelle;
-using static BL_BricoMarche.DatenVerwaltung.Inhalt;
+using static BL_BricoMarche.DatenVerwaltung.Artikel;
 
 namespace UI_BricoMarche.Controllers
 {

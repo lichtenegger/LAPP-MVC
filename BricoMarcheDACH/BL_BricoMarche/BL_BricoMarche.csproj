@@ -85,6 +85,18 @@
     <Compile Include="Video.cs">
       <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
     </Compile>
+    <Compile Include="view_Artikel_Video.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_Benutzer_Artikel.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_Benutzer_Video.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_Video_Schlagwort.cs">
+      <DependentUpon>BricoMarcheDBModell.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="BricoMarcheDBModell.edmx">

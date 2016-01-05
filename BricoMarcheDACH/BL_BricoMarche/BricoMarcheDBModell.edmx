@@ -14,7 +14,7 @@
           <Property Name="Preis" Type="decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="Aktiv" Type="bit" Nullable="false" />
           <Property Name="Beschreibung" Type="varchar" MaxLength="255" />
-          <Property Name="Bild" Type="varbinary" MaxLength="1" Nullable="false" />
+          <Property Name="Bild" Type="varbinary(max)" Nullable="false" />
           <Property Name="Kategorie_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Artikel_Video">
@@ -82,7 +82,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bezeichnung" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Bezeichnung" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PLZ" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Land_ID" Type="int" Nullable="false" />
         </EntityType>
@@ -101,11 +101,51 @@
           <Property Name="Bezeichnung" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Aktiv" Type="bit" Nullable="false" />
           <Property Name="Beschreibung" Type="varchar" MaxLength="255" />
-          <Property Name="Bild" Type="varbinary" MaxLength="1" Nullable="false" />
+          <Property Name="Bild" Type="varbinary(max)" Nullable="false" />
           <Property Name="Pfad" Type="varchar" MaxLength="8000" Nullable="false" />
           <Property Name="Kategorie_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Video_Schlagwort">
+          <Key>
+            <PropertyRef Name="Video_ID" />
+            <PropertyRef Name="Schlagwort_ID" />
+          </Key>
+          <Property Name="Video_ID" Type="int" Nullable="false" />
+          <Property Name="Schlagwort_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbBricoMarche.dbo.view_Artikel_Video' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_Artikel_Video">
+          <Key>
+            <PropertyRef Name="Artikel_ID" />
+            <PropertyRef Name="Video_ID" />
+          </Key>
+          <Property Name="Artikel_ID" Type="int" Nullable="false" />
+          <Property Name="Video_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbBricoMarche.dbo.view_Benutzer_Artikel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_Benutzer_Artikel">
+          <Key>
+            <PropertyRef Name="Benutzer_ID" />
+            <PropertyRef Name="Artikel_ID" />
+          </Key>
+          <Property Name="Benutzer_ID" Type="int" Nullable="false" />
+          <Property Name="Artikel_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbBricoMarche.dbo.view_Benutzer_Video' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_Benutzer_Video">
+          <Key>
+            <PropertyRef Name="Benutzer_ID" />
+            <PropertyRef Name="Video_ID" />
+          </Key>
+          <Property Name="Benutzer_ID" Type="int" Nullable="false" />
+          <Property Name="Video_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbBricoMarche.dbo.view_Video_Schlagwort' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_Video_Schlagwort">
           <Key>
             <PropertyRef Name="Video_ID" />
             <PropertyRef Name="Schlagwort_ID" />
@@ -282,6 +322,30 @@
           <EntitySet Name="Schlagwort" EntityType="Self.Schlagwort" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Video_Schlagwort" EntityType="Self.Video_Schlagwort" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="view_Artikel_Video" EntityType="Self.view_Artikel_Video" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[view_Artikel_Video].[Artikel_ID] AS [Artikel_ID], 
+[view_Artikel_Video].[Video_ID] AS [Video_ID]
+FROM [dbo].[view_Artikel_Video] AS [view_Artikel_Video]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="view_Benutzer_Artikel" EntityType="Self.view_Benutzer_Artikel" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[view_Benutzer_Artikel].[Benutzer_ID] AS [Benutzer_ID], 
+[view_Benutzer_Artikel].[Artikel_ID] AS [Artikel_ID]
+FROM [dbo].[view_Benutzer_Artikel] AS [view_Benutzer_Artikel]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="view_Benutzer_Video" EntityType="Self.view_Benutzer_Video" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[view_Benutzer_Video].[Benutzer_ID] AS [Benutzer_ID], 
+[view_Benutzer_Video].[Video_ID] AS [Video_ID]
+FROM [dbo].[view_Benutzer_Video] AS [view_Benutzer_Video]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="view_Video_Schlagwort" EntityType="Self.view_Video_Schlagwort" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[view_Video_Schlagwort].[Video_ID] AS [Video_ID], 
+[view_Video_Schlagwort].[Schlagwort_ID] AS [Schlagwort_ID]
+FROM [dbo].[view_Video_Schlagwort] AS [view_Video_Schlagwort]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Artikel_Kategorie" Association="Self.FK_Artikel_Kategorie">
             <End Role="Kategorie" EntitySet="Kategorie" />
             <End Role="Artikel" EntitySet="Artikel" />
@@ -348,7 +412,7 @@
           <Property Name="Preis" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="Aktiv" Type="Boolean" Nullable="false" />
           <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Bild" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
+          <Property Name="Bild" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="Kategorie_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EineKategorie" Relationship="Self.FK_Artikel_Kategorie" FromRole="Artikel" ToRole="Kategorie" />
           <NavigationProperty Name="VerlinkteVideos" Relationship="Self.Artikel_Video" FromRole="Artikel" ToRole="Video" />
@@ -403,7 +467,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PLZ" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Land_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VieleBenutzer" Relationship="Self.FK_Benutzer_Ort" FromRole="Ort" ToRole="Benutzer" />
@@ -425,7 +489,7 @@
           <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Aktiv" Type="Boolean" Nullable="false" />
           <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Bild" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
+          <Property Name="Bild" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="Pfad" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Kategorie_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EineKategorie" Relationship="Self.FK_Video_Kategorie" FromRole="Video" ToRole="Kategorie" />
@@ -554,7 +618,43 @@
             <End Role="Schlagwort" EntitySet="AlleSchlagwoerter" />
             <End Role="Video" EntitySet="AlleVideos" />
           </AssociationSet>
+          <EntitySet Name="AlleArtikel_Videos" EntityType="BricoMarcheDBModell.view_Artikel_Video" />
+          <EntitySet Name="AlleBenutzer_Artikel" EntityType="BricoMarcheDBModell.view_Benutzer_Artikel" />
+          <EntitySet Name="AlleBenutzer_Videos" EntityType="BricoMarcheDBModell.view_Benutzer_Video" />
+          <EntitySet Name="AlleVideo_Schlagwoerter" EntityType="BricoMarcheDBModell.view_Video_Schlagwort" />
         </EntityContainer>
+        <EntityType Name="view_Artikel_Video">
+          <Key>
+            <PropertyRef Name="Artikel_ID" />
+            <PropertyRef Name="Video_ID" />
+          </Key>
+          <Property Name="Artikel_ID" Type="Int32" Nullable="false" />
+          <Property Name="Video_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="view_Benutzer_Artikel">
+          <Key>
+            <PropertyRef Name="Benutzer_ID" />
+            <PropertyRef Name="Artikel_ID" />
+          </Key>
+          <Property Name="Benutzer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Artikel_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="view_Benutzer_Video">
+          <Key>
+            <PropertyRef Name="Benutzer_ID" />
+            <PropertyRef Name="Video_ID" />
+          </Key>
+          <Property Name="Benutzer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Video_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="view_Video_Schlagwort">
+          <Key>
+            <PropertyRef Name="Video_ID" />
+            <PropertyRef Name="Schlagwort_ID" />
+          </Key>
+          <Property Name="Video_ID" Type="Int32" Nullable="false" />
+          <Property Name="Schlagwort_ID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -677,6 +777,38 @@
               <ScalarProperty Name="ID" ColumnName="Video_ID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="AlleArtikel_Videos">
+            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Artikel_Video">
+              <MappingFragment StoreEntitySet="view_Artikel_Video">
+                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
+                <ScalarProperty Name="Artikel_ID" ColumnName="Artikel_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleBenutzer_Artikel">
+            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Benutzer_Artikel">
+              <MappingFragment StoreEntitySet="view_Benutzer_Artikel">
+                <ScalarProperty Name="Artikel_ID" ColumnName="Artikel_ID" />
+                <ScalarProperty Name="Benutzer_ID" ColumnName="Benutzer_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleBenutzer_Videos">
+            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Benutzer_Video">
+              <MappingFragment StoreEntitySet="view_Benutzer_Video">
+                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
+                <ScalarProperty Name="Benutzer_ID" ColumnName="Benutzer_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleVideo_Schlagwoerter">
+            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Video_Schlagwort">
+              <MappingFragment StoreEntitySet="view_Video_Schlagwort">
+                <ScalarProperty Name="Schlagwort_ID" ColumnName="Schlagwort_ID" />
+                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
