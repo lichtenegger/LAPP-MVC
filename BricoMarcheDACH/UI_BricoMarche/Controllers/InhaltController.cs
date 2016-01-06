@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UI_BricoMarche.Models.InhaltModelle;
-using static BL_BricoMarche.DatenVerwaltung.Artikel;
+using BL_BricoMarche.DatenVerwaltung;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -39,7 +39,7 @@ namespace UI_BricoMarche.Controllers
         public ActionResult Kategorien(string inhalt)
         {
             List<KategorieModell> modell = new List<KategorieModell>();
-            List<BL_BricoMarche.Kategorie> alleKategorien = LadeAlleKategorien();
+            List<BL_BricoMarche.Kategorie> alleKategorien = Kategorie.LadeAlleKategorien();
             if (alleKategorien != null)
             {
                 foreach (var kategorie in alleKategorien)
@@ -73,13 +73,13 @@ namespace UI_BricoMarche.Controllers
             {
                 return RedirectToAction("Produkte");
             }
-            List<BL_BricoMarche.Artikel> geladeneProdukte = LadeAlleArtikel(suchbegriff, seite, anzahl);
+            List<BL_BricoMarche.Artikel> geladeneProdukte = Artikel.LadeAlleArtikel(suchbegriff, seite, anzahl);
             if (geladeneProdukte == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden gesucher Produkte aus der Datenbank.";
             }
             View("Produkte").ViewBag.Suchbegriff = suchbegriff;
-            View("Produkte").ViewBag.AnzahlProdukte = ZaehleAlleArtikel(suchbegriff);
+            View("Produkte").ViewBag.AnzahlProdukte = Artikel.ZaehleAlleArtikel(suchbegriff);
             View("Produkte").ViewBag.Seite = 1;
             View("Produkte").ViewBag.AnzahlProSeite = 20;
             List<ArtikelModell> modell = new List<ArtikelModell>();
@@ -110,14 +110,14 @@ namespace UI_BricoMarche.Controllers
         public ActionResult Produkte(int kategorieID = -1, int seite = 1, int anzahl = 20) 
         {
             List<ArtikelModell> modell = new List<ArtikelModell>();
-            ViewBag.AnzahlProdukte = kategorieID == -1 ? ZaehleAlleArtikel() : ZaehleAlleArtikel(kategorieID);
+            ViewBag.AnzahlProdukte = kategorieID == -1 ? Artikel.ZaehleAlleArtikel() : Artikel.ZaehleAlleArtikel(kategorieID);
             ViewBag.KategorieID = kategorieID;
             ViewBag.AnzahlProSeite = anzahl;
             ViewBag.Seite = seite;
             ViewBag.Suchbegriff = "";
             Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
             Debug.Indent();
-            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel(seite, anzahl) : LadeAlleArtikel(kategorieID, seite, anzahl);
+            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? Artikel.LadeAlleArtikel(seite, anzahl) : Artikel.LadeAlleArtikel(kategorieID, seite, anzahl);
             if (geladeneProdukte == null || geladeneProdukte.Count == 0)
             {
                 Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
@@ -142,6 +142,7 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
+        #region ProduktDetails
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ProduktDetails(int produktID = -1)
@@ -151,7 +152,7 @@ namespace UI_BricoMarche.Controllers
                 return RedirectToAction("Willkommen", "Inhalt", null);
             }
             ArtikelDetailModell modell = null;
-            BL_BricoMarche.Artikel geladenerArtikel = LadeArtikel(produktID);
+            BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
             if (geladenerArtikel == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
@@ -177,6 +178,7 @@ namespace UI_BricoMarche.Controllers
             }
             return View(modell);
         }
+        #endregion
 
         #region ProduktBild
         /// <summary>
@@ -193,7 +195,7 @@ namespace UI_BricoMarche.Controllers
             ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
             if (ProduktID != -1)
             {
-                MemoryStream stream = new MemoryStream(LadeArtikelBild(ProduktID));
+                MemoryStream stream = new MemoryStream(Artikel.LadeArtikelBild(ProduktID));
                 geladenesBild = new FileStreamResult(stream, "image/png");
 
             }
@@ -210,10 +212,50 @@ namespace UI_BricoMarche.Controllers
         /// Videos Action
         /// </summary>
         /// <returns>Alle Videoss</returns>
-        public ActionResult Videos()
+        #region Videos : Kategorie : Seite : Anzahl
+        /// <summary>
+        /// Gibt eine Anzahl an Videos einer bestimmten Seite aus einer eventuellen Kategorie an die Sicht weiter.
+        /// </summary>
+        /// <param name="kategorieID"></param>
+        /// <param name="seite" default="1"></param>
+        /// <param name="anzahl" default=20></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Videos(int kategorieID = -1, int seite = 1, int anzahl = 20)
         {
-            return View();
+            List<VideoModell> modell = new List<VideoModell>();
+            ViewBag.AnzahlVideos = kategorieID == -1 ? Video.ZaehleAlleVideos() : Video.ZaehleAlleVideos(kategorieID);
+            ViewBag.KategorieID = kategorieID;
+            ViewBag.AnzahlProSeite = anzahl;
+            ViewBag.Seite = seite;
+            ViewBag.Suchbegriff = "";
+            Debug.WriteLine("-- START: Videos - GET --------------------------------------------------------------- ");
+            Debug.Indent();
+            List<BL_BricoMarche.Video> geladeneVideos = kategorieID == -1 ? Video.LadeAlleVideos(seite, anzahl) : Video.LadeAlleVideos(kategorieID, seite, anzahl);
+            if (geladeneVideos == null || geladeneVideos.Count == 0)
+            {
+                Debug.WriteLine("Fehler! 0 Videos in Controller geladen.");
+                TempData["Fehler"] = "Fehler beim laden der Videos aus der Datenbank.";
+                return RedirectToAction("Willkommen");
+            }
+            Debug.WriteLine("Erfolg! " + geladeneVideos.Count + " Videos in Controller geladen.");
+            foreach (var video in geladeneVideos)
+            {
+                modell.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung
+                });
+            }
+            Debug.WriteLine("\t -->" + modell.Count + " Videos in Modell geladen.");
+            Debug.Unindent();
+            Debug.WriteLine("-- Ende: Videos - GET --------------------------------------------------------------- ");
+            return View(modell);
         }
+        #endregion
+
 
         #endregion
 

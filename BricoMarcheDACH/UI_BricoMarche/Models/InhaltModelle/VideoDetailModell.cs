@@ -5,7 +5,12 @@ using System.Web;
 
 namespace UI_BricoMarche.Models.InhaltModelle
 {
-    public class VideoDetailModell
+    public class VideoDetailModell : VideoModell
     {
+        public string Langbeschreibung { get; set; }
+
+        public string Pfad { get; set; }
+
+        public List<ArtikelModell> verlinkteProdukte { get; set; }
     }
 }
