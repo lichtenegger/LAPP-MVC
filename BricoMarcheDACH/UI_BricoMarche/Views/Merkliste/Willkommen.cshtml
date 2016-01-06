@@ -1,0 +1,48 @@
+﻿@model UI_BricoMarche.Models.BenutzerModelle.MerklisteModell
+
+@{
+    ViewBag.Title = "Willkommen";
+    Layout = "~/Views/Shared/_BenutzerLayout.cshtml";
+}
+
+<h2>Merkliste</h2>
+
+<div class="container-fluid">
+    <h3>Videos</h3>
+    <hr />
+    @foreach (var video in Model.Videos)
+    { 
+<div class="floating">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => video.Bezeichnung)
+        </dt>
+        <dd>
+            <a href="@Url.Action("VideoDetails", "Inhalt", new { videoID = video.ID })">
+                <img src="@Url.Action("VideoBild", "Inhalt", new { videoID = video.ID })" alt="Video-Bild" class="thumbnail" />
+            </a>
+        </dd>
+    </dl>
+</div>
+    <p class="clearfix"></p>
+    }
+    <h3>Produkte</h3>
+    <hr />
+        @foreach (var produkt in Model.Produkte)
+        {
+    <div class="floating">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayFor(model => produkt.Bezeichnung)
+                </dt>
+                <dd>
+                    <a href="@Url.Action("ProduktDetails", "Inhalt", new { produktID = produkt.ID })">
+                        <img src="@Url.Action("ProduktBild", "Inhalt", new { produktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail" />
+                    </a>
+                </dd>
+        </dl>
+    </div>
+        }
+</div>
+<p>
+</p>

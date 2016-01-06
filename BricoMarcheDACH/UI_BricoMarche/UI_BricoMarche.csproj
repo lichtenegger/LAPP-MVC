@@ -122,20 +122,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BenutzerController.cs" />
     <Compile Include="Controllers\InhaltController.cs" />
+    <Compile Include="Controllers\MerklisteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BenutzerModelle\AnmeldungModell.cs" />
     <Compile Include="Models\BenutzerModelle\BenutzerModell.cs" />
-    <Compile Include="Models\BenutzerModelle\Merkzettel.cs" />
+    <Compile Include="Models\BenutzerModelle\MerklisteModell.cs" />
     <Compile Include="Models\BenutzerModelle\RegistrierungModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelModell.cs" />
     <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
     <Compile Include="Models\BenutzerModelle\HilfsModelle\OrtModell.cs" />
     <Compile Include="Models\BenutzerModelle\ProfilModell.cs" />
-    <Compile Include="Models\InhaltModelle\InhaltDarstellungModell.cs" />
-    <Compile Include="Models\InhaltModelle\InhaltModell.cs" />
     <Compile Include="Models\InhaltModelle\KategorieModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoModell.cs" />
@@ -190,6 +189,7 @@
     <Content Include="Views\Inhalt\ProduktDetails.cshtml" />
     <Content Include="Views\Inhalt\VideoDetails.cshtml" />
     <Content Include="Error.cshtml" />
+    <Content Include="Views\Merkliste\Willkommen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

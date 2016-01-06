@@ -15,6 +15,10 @@
 .body-content {
 }
 
+.floating {
+    float : left;
+}
+
 i.thumbplay {
     resize:both;
     image-resolution: snap;
