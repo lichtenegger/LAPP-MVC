@@ -18,7 +18,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         {
             Debug.WriteLine("-- START : LADE ALLE KATEGORIEN ------------------------");
             Debug.Indent();
-            List<Kategorie> alleKategorien = null;
+            List<BL_BricoMarche.Kategorie> alleKategorien = null;
             try
             {
                 using (var kontext = new BricoMarcheDBObjekte())
@@ -44,8 +44,6 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
     }
-
-
 
     public class Artikel
     {

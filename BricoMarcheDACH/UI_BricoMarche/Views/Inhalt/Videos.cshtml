@@ -1,33 +1,30 @@
-﻿
+﻿@model IEnumerable<UI_BricoMarche.Models.InhaltModelle.VideoModell>
+
 @{
     ViewBag.Title = "Videos";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
 
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
-<h2>Videos</h2>
-<br />
-<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Bezeichnung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kategorie)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bezeichnung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kategorie)
+        </td>
+    </tr>
+}
+
+</table>

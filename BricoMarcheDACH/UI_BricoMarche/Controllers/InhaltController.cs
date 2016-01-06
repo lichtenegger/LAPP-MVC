@@ -35,7 +35,7 @@ namespace UI_BricoMarche.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        [OutputCache(VaryByParam = "id", Duration = 300)]
+        [OutputCache(VaryByParam = "inhalt", Duration = 300)]
         public ActionResult Kategorien(string inhalt)
         {
             List<KategorieModell> modell = new List<KategorieModell>();
