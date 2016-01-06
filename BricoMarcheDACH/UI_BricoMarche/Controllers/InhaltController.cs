@@ -208,10 +208,6 @@ namespace UI_BricoMarche.Controllers
 
         #region -- Videos Action ---------------------------------------------------------
 
-        /// <summary>
-        /// Videos Action
-        /// </summary>
-        /// <returns>Alle Videoss</returns>
         #region Videos : Kategorie : Seite : Anzahl
         /// <summary>
         /// Gibt eine Anzahl an Videos einer bestimmten Seite aus einer eventuellen Kategorie an die Sicht weiter.
@@ -253,6 +249,68 @@ namespace UI_BricoMarche.Controllers
             Debug.Unindent();
             Debug.WriteLine("-- Ende: Videos - GET --------------------------------------------------------------- ");
             return View(modell);
+        }
+        #endregion
+
+        #region VideoDetails
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult VideoDetails(int videoID = -1)
+        {
+            if (videoID == -1)
+            {
+                return RedirectToAction("Willkommen", "Inhalt", null);
+            }
+            VideoDetailModell modell = null;
+            BL_BricoMarche.Video geladenesVideo = Video.LadeVideo(videoID);
+            if (geladenesVideo == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden von Video " + videoID + "aus der Datenbank.";
+                return RedirectToRoute("~/Error");
+            }
+            modell = new VideoDetailModell
+            {
+                ID = geladenesVideo.ID,
+                Bezeichnung = geladenesVideo.Bezeichnung,
+                Langbeschreibung = geladenesVideo.Beschreibung,
+                Kategorie = geladenesVideo.EineKategorie.Bezeichnung,
+                Pfad = geladenesVideo.Pfad,
+                verlinkteProdukte = new List<ArtikelModell>()
+            };
+            //foreach (var produkt in geladenesVideo.VerlinkteArtikel)
+            //{
+            //    modell.verlinkteProdukte.Add(new ArtikelModell
+            //    {
+            //        ID = produkt.ID,
+            //        Bezeichnung = produkt.Bezeichnung,
+            //        Kategorie = produkt.EineKategorie.Bezeichnung
+            //    });
+            //}
+            return View(modell);
+        }
+        #endregion
+
+
+        #region VideoBild
+        /// <summary>
+        /// Holt zu einem bestimmten Video das VideoBild aus der Datenbank.
+        /// </summary>
+        /// <param name="videoID"></param>
+        /// <returns>Bild</returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [OutputCache(VaryByParam = "id", Duration = 300)]
+        public ActionResult VideoBild(int videoID = -1)
+        {
+            ActionResult geladenesBild = null;
+            ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
+            if (videoID != -1)
+            {
+                MemoryStream stream = new MemoryStream(Video.LadeVideoBild(videoID));
+                geladenesBild = new FileStreamResult(stream, "image/png");
+
+            }
+            return geladenesBild != null ? geladenesBild : bild;
         }
         #endregion
 

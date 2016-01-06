@@ -568,7 +568,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladeneVideos = kontext.AlleVideos.Include("VerlinkteVideos").Include("EineKategorie").Where(x => x.Aktiv).Where(x => x.ID == ID).Single();
+                    geladeneVideos = kontext.AlleVideos.Include("VerlinkteArtikel").Include("EineKategorie").Where(x => x.Aktiv).Where(x => x.ID == ID).SingleOrDefault();
                 }
             }
             catch (Exception ex)

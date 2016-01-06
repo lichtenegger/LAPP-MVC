@@ -188,6 +188,8 @@
     <Content Include="Views\Benutzer\Editieren.cshtml" />
     <Content Include="Views\Inhalt\Kategorien.cshtml" />
     <Content Include="Views\Inhalt\ProduktDetails.cshtml" />
+    <Content Include="Views\Inhalt\VideoDetails.cshtml" />
+    <Content Include="Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

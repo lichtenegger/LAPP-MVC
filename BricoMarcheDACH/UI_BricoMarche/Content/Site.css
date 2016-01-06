@@ -15,6 +15,30 @@
 .body-content {
 }
 
+i.thumbplay {
+    resize:both;
+    image-resolution: snap;
+    align-content: center;
+    vertical-align: central;
+}
+
+i.thumbnail .glyphicon {
+    width: 50px;
+    height: 50px;
+    resize: unset;
+    max-height: unset;
+    min-width: unset;
+}
+
+.thumbnail {
+    top: 0px;
+    left: 0px;
+    position: center;
+    max-width: 150px;
+    max-height: 150px;
+    image-resolution: snap;
+}
+
 .inhalt {
     position: relative;
     padding: unset;

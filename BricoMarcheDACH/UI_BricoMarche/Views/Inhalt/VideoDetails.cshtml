@@ -1,0 +1,67 @@
+﻿@model UI_BricoMarche.Models.InhaltModelle.VideoDetailModell
+
+@{
+    ViewBag.Title = "Videos";
+    Layout = "~/Views/Shared/_InhaltLayout.cshtml";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <figure>
+            <video controls="controls" src="~/Content/videos/@Model.Pfad">
+                <source src="~/Content/videos/@Model.Pfad" type="video/mp4" />
+                <source src="~/Content/videos/@Model.Pfad" type="video/ogg" />
+                <div>
+                    Ihr Browser unterstütz leider keine Videos
+                    <img src="@Url.Action("Bild", "Video", new { id = Model.ID })" alt="@Model.Bezeichnung" />
+                </div>
+            </video>
+            <figcaption>@Model.Bezeichnung</figcaption>
+        </figure>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bezeichnung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bezeichnung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Langbeschreibung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langbeschreibung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategorie)
+        </dd>
+
+    </dl>
+
+    <hr />
+    <h4>Produkte</h4>
+    @*<dl class="dl-horizontal">
+        @foreach (var produkt in Model.verlinkteProdukte)
+        {
+            <dt>
+                @Html.DisplayFor(model => produkt.Bezeichnung)
+            </dt>
+            <dt>
+                @Html.DisplayNameFor(model => produkt.Kategorie)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => produkt.Kategorie)
+            </dd>
+        }
+    </dl>*@
+</div>
