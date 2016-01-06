@@ -12,5 +12,7 @@ namespace UI_BricoMarche.Models.InhaltModelle
         public string Pfad { get; set; }
 
         public List<ArtikelModell> verlinkteProdukte { get; set; }
+
+        public bool Gemerkt { get; set; }
     }
 }

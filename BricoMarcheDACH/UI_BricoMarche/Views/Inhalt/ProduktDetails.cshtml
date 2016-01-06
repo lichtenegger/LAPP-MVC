@@ -42,21 +42,39 @@
             @Html.DisplayFor(model => model.Langbeschreibung)
         </dd>
     </dl>
+    <hr />
+    <div id="artikelMerkliste">
+        <h3>Merkliste</h3>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (!Model.Gemerkt)
+                {
+                    <a href="@Url.Action("ProduktMerken", "Inhalt", new { produktID = Model.ID })">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        @Model.Bezeichnung merken!
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("ProduktVergessen", "Inhalt", new { produktID = Model.ID })">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                        @Model.Bezeichnung von der Liste entfernen!
+                    </a>
+                }
+                <br /><br />
+                @Html.ActionLink("Zur Merkliste", "Willkommen", "Merliste");
+            }
+            else
+            {
+                <text>Sie müsssen sich anmelden um die Merklist verwenden zu können!</text>
+            }
+        </div>
+    </div>
+
         <hr/>
     <h4>Videos</h4>
     <dl class="dl-horizontal">
-        @foreach (var video in Model.verlinkteVideos)
-        {
-            <dt>
-                @Html.DisplayFor(model => video.Bezeichnung)
-            </dt>
-            <dt>
-                @Html.DisplayNameFor(model => video.Kategorie)
-            </dt>
 
-            <dd>
-                @Html.DisplayFor(model => video.Kategorie)
-            </dd>
-        }
     </dl>
 </div>

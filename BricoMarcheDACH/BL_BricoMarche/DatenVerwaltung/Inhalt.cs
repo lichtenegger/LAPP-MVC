@@ -289,7 +289,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-        #region LadeArtikelBild: ID
+        #region LadeArtikelBild : ID
         /// <summary>
         /// Holt das Bild eines bestimmten Artikels aus der Datenbank.
         /// </summary>
@@ -318,6 +318,70 @@ namespace BL_BricoMarche.DatenVerwaltung
             return geladenesBild;
         }
         #endregion
+
+        #region WirdGemerkt : ID : BenutzerName
+        /// <summary>
+        /// Fragt ab ob ein bestimmter Artikel auf der Merkliste eines bestimmten Benutzer steht.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="benutzerName"></param>
+        /// <returns>true; false</returns>
+        public static bool WirdGemerkt(int id, string benutzerName)
+        {
+            bool gemerkt = false;
+            Debug.WriteLine("-- START : ARTIKEL WIRD GEMERKT? -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    gemerkt = kontext.AlleBenutzer.Include("GemerkteArtikel").Where(x => x.Benutzername == benutzerName)
+                                    .SingleOrDefault()
+                                    .GemerkteArtikel.Contains(kontext.AlleArtikel.Where(x => x.ID == id)
+                                    .SingleOrDefault());
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : ARTIKEL WIRD GEMERKT? -------------------------------------------------------------");
+
+
+            return gemerkt;
+        }
+        #endregion
+
+        #region LadeGemerkteArtikel : benutzerName
+        public static List<BL_BricoMarche.Artikel> LadeGemerkteArtikel(string benutzerName)
+        {
+            List<BL_BricoMarche.Artikel> gemerkteArtikel = null;
+            Debug.WriteLine("-- START : LADE GEMEKRTE ARTIKEL -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    gemerkteArtikel = kontext.AlleBenutzer.Include("GemerkteArtikel").Where(x => x.Benutzername == benutzerName).SingleOrDefault().GemerkteArtikel.ToList();
+
+                    if (gemerkteArtikel == null)
+                    {
+                        throw new Exception("Fehler! keine Artikel aus der Datenbank geladen");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE GEMEKRTE ARTIKEL -------------------------------------------------------------");
+            return gemerkteArtikel;
+
+        }
+        #endregion
+
 
         #region ZaehleAlleArtikel
         /// <summary>
@@ -597,10 +661,11 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
+                    // Hole alle Videos, die dem gesuchtem Schlagwort zugeordnet sind aus DB.
+                     geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                                                            .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
+                                                            .SelectMany(x => x.VieleVideos).ToList(); // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
 
-                    geladeneVideos = kontext.AlleVideos.Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv)
-                                                          .Where(x => x.Bezeichnung.ToLower().Contains(schlagwort.ToLower()) ||
-                                                                 x.Beschreibung.ToLower().Contains(schlagwort.ToLower())).ToList();
                     if (geladeneVideos == null)
                     {
                         throw new Exception("Fehler! keine Video aus der Datenbank geladen");
@@ -622,24 +687,24 @@ namespace BL_BricoMarche.DatenVerwaltung
         /// <summary>
         /// Holt eine Anzahl an Videos einer Seite, die einen bestimmten Schlagwort enthalten, aus der Datenbank.
         /// </summary>
-        /// <param name="Schlagwort"></param>
+        /// <param name="schlagwort"></param>
         /// <param name="seite"></param>
         /// <param name="anzahl"></param>
         /// <returns>Liste geladener Videos</returns>
-        public static List<BL_BricoMarche.Video> LadeAlleVideo(string Schlagwort, int seite, int anzahl)
+        public static List<BL_BricoMarche.Video> LadeAlleVideo(string schlagwort, int seite, int anzahl)
         {
-            List<BL_BricoMarche.Video> geladenerVideos = null;
+            List<BL_BricoMarche.Video> geladeneVideos = null;
             Debug.WriteLine("-- START : LADE VIDEO -------------------------------------------------------------");
             Debug.Indent();
             try
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladenerVideos = kontext.AlleVideos.Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv)
-                                                          .Where(x => x.Bezeichnung.ToLower().Contains(Schlagwort.ToLower()) ||
-                                                                 x.Beschreibung.ToLower().Contains(Schlagwort.ToLower()))
-                                                          .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList();
-                    if (geladenerVideos == null)
+                    geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                                                              .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
+                                                              .SelectMany(x => x.VieleVideos).ToList() // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
+                                                              .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList(); // Sortieren & auf Auswahl reduzieren.
+                    if (geladeneVideos == null)
                     {
                         throw new Exception("Fehler! kein Video aus der Datenbank geladen");
                     }
@@ -652,7 +717,36 @@ namespace BL_BricoMarche.DatenVerwaltung
             Debug.Unindent();
             Debug.WriteLine("-- ENDE : LADE VIDEO -------------------------------------------------------------");
 
-            return geladenerVideos;
+            return geladeneVideos;
+        }
+        #endregion
+
+        #region LadeGemerkteVideos : benutzerName
+        public static List<BL_BricoMarche.Video> LadeGemerkteVideos(string benutzerName)
+        {
+            List<BL_BricoMarche.Video> gemerkteVideos = null;
+            Debug.WriteLine("-- START : LADE GEMEKRTE VIDEOS -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    gemerkteVideos = kontext.AlleBenutzer.Include("GemerkteVideos").Where(x => x.Benutzername == benutzerName).SingleOrDefault().GemerkteVideos.ToList();
+
+                    if (gemerkteVideos == null)
+                    {
+                        throw new Exception("Fehler! keine Video aus der Datenbank geladen");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : LADE GEMEKRTE VIDEOS -------------------------------------------------------------");
+            return gemerkteVideos;
+
         }
         #endregion
 
@@ -774,6 +868,40 @@ namespace BL_BricoMarche.DatenVerwaltung
             Debug.Unindent();
             Debug.WriteLine("-- ENDE : ZAEHLE ALLE VIDEOS ----------------------------------------");
             return anzahl;
+        }
+        #endregion
+
+        #region WirdGemerkt : ID : BenutzerName
+        /// <summary>
+        /// Fragt ab ob ein bestimmtes Video auf der Merkliste eines bestimmten Benutzer steht.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="benutzerName"></param>
+        /// <returns>true; false</returns>
+        public static bool WirdGemerkt(int id, string benutzerName)
+        {
+            bool gemerkt = false;
+            Debug.WriteLine("-- START : VIDEO WIRD GEMERKT? -------------------------------------------------------------");
+            Debug.Indent();
+            try
+            {
+                using (var kontext = new BricoMarcheDBObjekte())
+                {
+                    gemerkt = kontext.AlleBenutzer.Include("GemerkteVideos").Where(x => x.Benutzername == benutzerName)
+                                    .SingleOrDefault()
+                                    .GemerkteVideos.Contains(kontext.AlleVideos.Where(x => x.ID == id)
+                                    .SingleOrDefault());
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler! \n" + ex.Message);
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE : VIDEO WIRD GEMERKT? -------------------------------------------------------------");
+
+
+            return gemerkt;
         }
         #endregion
     }

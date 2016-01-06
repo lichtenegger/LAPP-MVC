@@ -7,7 +7,6 @@
 
 <div>
     <hr />
-    <dl class="dl-horizontal">
 
         <figure>
             <video controls="controls" src="~/Content/videos/@Model.Pfad">
@@ -20,6 +19,8 @@
             </video>
             <figcaption>@Model.Bezeichnung</figcaption>
         </figure>
+
+    <dl class="dl-horizontal">
 
         <dt>
             @Html.DisplayNameFor(model => model.Bezeichnung)
@@ -45,23 +46,67 @@
             @Html.DisplayFor(model => model.Kategorie)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Schlagwoerter)
+        </dt>
+
+        <dd>
+            @if (Model.Schlagwoerter != null && Model.Schlagwoerter.Count() > 0)
+            {
+                foreach (var schlagwort in Model.Schlagwoerter)
+                {
+                    <p>schlagwort </p>
+                }
+            }
+        </dd>
+
     </dl>
+    <hr />
+    <div id="artikelMerkliste">
+        <h3>Merkliste</h3>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (!Model.Gemerkt)
+                {
+                    <a href="@Url.Action("VideoMerken", "Inhalt", new { videoID = Model.ID })">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        @Model.Bezeichnung merken!
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("VideoVergessen", "Inhalt", new { videoID = Model.ID })">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                        @Model.Bezeichnung von der Liste entfernen!
+                    </a>
+                }
+                <br /><br />
+                        @Html.ActionLink("Zur Merkliste", "Willkommen", "Merliste");
+            }
+            else
+            {
+                <text>Sie müsssen sich anmelden um die Merklist verwenden zu können!</text>
+            }
+        </div>
+    </div>
+
+
 
     <hr />
     <h4>Produkte</h4>
-    @*<dl class="dl-horizontal">
-        @foreach (var produkt in Model.verlinkteProdukte)
-        {
-            <dt>
-                @Html.DisplayFor(model => produkt.Bezeichnung)
-            </dt>
-            <dt>
-                @Html.DisplayNameFor(model => produkt.Kategorie)
-            </dt>
+    <div id="videoDetails">
+        <ul>
+            @foreach (var produkt in Model.verlinkteProdukte)
+            {
+                <li>
+                    <figure>
+                        <img src="@Url.Action("ProduktBild", "Inhalt", new { produktID = produkt.ID })"/>
+                        <figcaption>@produkt.Bezeichnung</figcaption>
+                    </figure>
+                </li>
+            }
+        </ul>
+    </div>
 
-            <dd>
-                @Html.DisplayFor(model => produkt.Kategorie)
-            </dd>
-        }
-    </dl>*@
 </div>

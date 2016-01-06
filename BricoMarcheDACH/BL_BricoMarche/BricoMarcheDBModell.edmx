@@ -113,46 +113,6 @@
           <Property Name="Video_ID" Type="int" Nullable="false" />
           <Property Name="Schlagwort_ID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'dbBricoMarche.dbo.view_Artikel_Video' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="view_Artikel_Video">
-          <Key>
-            <PropertyRef Name="Artikel_ID" />
-            <PropertyRef Name="Video_ID" />
-          </Key>
-          <Property Name="Artikel_ID" Type="int" Nullable="false" />
-          <Property Name="Video_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'dbBricoMarche.dbo.view_Benutzer_Artikel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="view_Benutzer_Artikel">
-          <Key>
-            <PropertyRef Name="Benutzer_ID" />
-            <PropertyRef Name="Artikel_ID" />
-          </Key>
-          <Property Name="Benutzer_ID" Type="int" Nullable="false" />
-          <Property Name="Artikel_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'dbBricoMarche.dbo.view_Benutzer_Video' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="view_Benutzer_Video">
-          <Key>
-            <PropertyRef Name="Benutzer_ID" />
-            <PropertyRef Name="Video_ID" />
-          </Key>
-          <Property Name="Benutzer_ID" Type="int" Nullable="false" />
-          <Property Name="Video_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'dbBricoMarche.dbo.view_Video_Schlagwort' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="view_Video_Schlagwort">
-          <Key>
-            <PropertyRef Name="Video_ID" />
-            <PropertyRef Name="Schlagwort_ID" />
-          </Key>
-          <Property Name="Video_ID" Type="int" Nullable="false" />
-          <Property Name="Schlagwort_ID" Type="int" Nullable="false" />
-        </EntityType>
         <Association Name="FK_Artikel_Kategorie">
           <End Role="Kategorie" Type="Self.Kategorie" Multiplicity="1" />
           <End Role="Artikel" Type="Self.Artikel" Multiplicity="*" />
@@ -322,30 +282,6 @@ warning 6002: The table/view 'dbBricoMarche.dbo.view_Video_Schlagwort' does not 
           <EntitySet Name="Schlagwort" EntityType="Self.Schlagwort" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Video_Schlagwort" EntityType="Self.Video_Schlagwort" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="view_Artikel_Video" EntityType="Self.view_Artikel_Video" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[view_Artikel_Video].[Artikel_ID] AS [Artikel_ID], 
-[view_Artikel_Video].[Video_ID] AS [Video_ID]
-FROM [dbo].[view_Artikel_Video] AS [view_Artikel_Video]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="view_Benutzer_Artikel" EntityType="Self.view_Benutzer_Artikel" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[view_Benutzer_Artikel].[Benutzer_ID] AS [Benutzer_ID], 
-[view_Benutzer_Artikel].[Artikel_ID] AS [Artikel_ID]
-FROM [dbo].[view_Benutzer_Artikel] AS [view_Benutzer_Artikel]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="view_Benutzer_Video" EntityType="Self.view_Benutzer_Video" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[view_Benutzer_Video].[Benutzer_ID] AS [Benutzer_ID], 
-[view_Benutzer_Video].[Video_ID] AS [Video_ID]
-FROM [dbo].[view_Benutzer_Video] AS [view_Benutzer_Video]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="view_Video_Schlagwort" EntityType="Self.view_Video_Schlagwort" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[view_Video_Schlagwort].[Video_ID] AS [Video_ID], 
-[view_Video_Schlagwort].[Schlagwort_ID] AS [Schlagwort_ID]
-FROM [dbo].[view_Video_Schlagwort] AS [view_Video_Schlagwort]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Artikel_Kategorie" Association="Self.FK_Artikel_Kategorie">
             <End Role="Kategorie" EntitySet="Kategorie" />
             <End Role="Artikel" EntitySet="Artikel" />
@@ -618,43 +554,7 @@ FROM [dbo].[view_Video_Schlagwort] AS [view_Video_Schlagwort]</DefiningQuery>
             <End Role="Schlagwort" EntitySet="AlleSchlagwoerter" />
             <End Role="Video" EntitySet="AlleVideos" />
           </AssociationSet>
-          <EntitySet Name="AlleArtikel_Videos" EntityType="BricoMarcheDBModell.view_Artikel_Video" />
-          <EntitySet Name="AlleBenutzer_Artikel" EntityType="BricoMarcheDBModell.view_Benutzer_Artikel" />
-          <EntitySet Name="AlleBenutzer_Videos" EntityType="BricoMarcheDBModell.view_Benutzer_Video" />
-          <EntitySet Name="AlleVideo_Schlagwoerter" EntityType="BricoMarcheDBModell.view_Video_Schlagwort" />
         </EntityContainer>
-        <EntityType Name="view_Artikel_Video">
-          <Key>
-            <PropertyRef Name="Artikel_ID" />
-            <PropertyRef Name="Video_ID" />
-          </Key>
-          <Property Name="Artikel_ID" Type="Int32" Nullable="false" />
-          <Property Name="Video_ID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="view_Benutzer_Artikel">
-          <Key>
-            <PropertyRef Name="Benutzer_ID" />
-            <PropertyRef Name="Artikel_ID" />
-          </Key>
-          <Property Name="Benutzer_ID" Type="Int32" Nullable="false" />
-          <Property Name="Artikel_ID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="view_Benutzer_Video">
-          <Key>
-            <PropertyRef Name="Benutzer_ID" />
-            <PropertyRef Name="Video_ID" />
-          </Key>
-          <Property Name="Benutzer_ID" Type="Int32" Nullable="false" />
-          <Property Name="Video_ID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="view_Video_Schlagwort">
-          <Key>
-            <PropertyRef Name="Video_ID" />
-            <PropertyRef Name="Schlagwort_ID" />
-          </Key>
-          <Property Name="Video_ID" Type="Int32" Nullable="false" />
-          <Property Name="Schlagwort_ID" Type="Int32" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -777,38 +677,6 @@ FROM [dbo].[view_Video_Schlagwort] AS [view_Video_Schlagwort]</DefiningQuery>
               <ScalarProperty Name="ID" ColumnName="Video_ID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="AlleArtikel_Videos">
-            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Artikel_Video">
-              <MappingFragment StoreEntitySet="view_Artikel_Video">
-                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
-                <ScalarProperty Name="Artikel_ID" ColumnName="Artikel_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlleBenutzer_Artikel">
-            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Benutzer_Artikel">
-              <MappingFragment StoreEntitySet="view_Benutzer_Artikel">
-                <ScalarProperty Name="Artikel_ID" ColumnName="Artikel_ID" />
-                <ScalarProperty Name="Benutzer_ID" ColumnName="Benutzer_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlleBenutzer_Videos">
-            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Benutzer_Video">
-              <MappingFragment StoreEntitySet="view_Benutzer_Video">
-                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
-                <ScalarProperty Name="Benutzer_ID" ColumnName="Benutzer_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlleVideo_Schlagwoerter">
-            <EntityTypeMapping TypeName="BricoMarcheDBModell.view_Video_Schlagwort">
-              <MappingFragment StoreEntitySet="view_Video_Schlagwort">
-                <ScalarProperty Name="Schlagwort_ID" ColumnName="Schlagwort_ID" />
-                <ScalarProperty Name="Video_ID" ColumnName="Video_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -826,6 +694,7 @@ FROM [dbo].[view_Video_Schlagwort] AS [view_Video_Schlagwort]</DefiningQuery>
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

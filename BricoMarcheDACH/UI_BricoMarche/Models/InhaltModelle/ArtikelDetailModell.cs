@@ -12,5 +12,7 @@ namespace UI_BricoMarche.Models.InhaltModelle
         public bool WirdGemerkt { get; set; }
 
         public List<VideoModell> verlinkteVideos { get; set; }
+
+        public bool Gemerkt { get; set; }
     }
 }

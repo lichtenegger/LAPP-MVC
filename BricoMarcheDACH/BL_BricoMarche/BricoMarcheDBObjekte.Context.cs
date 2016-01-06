@@ -33,9 +33,5 @@ namespace BL_BricoMarche
         public DbSet<Ort> AlleOrte { get; set; }
         public DbSet<Schlagwort> AlleSchlagwoerter { get; set; }
         public DbSet<Video> AlleVideos { get; set; }
-        public DbSet<view_Artikel_Video> AlleArtikel_Videos { get; set; }
-        public DbSet<view_Benutzer_Artikel> AlleBenutzer_Artikel { get; set; }
-        public DbSet<view_Benutzer_Video> AlleBenutzer_Videos { get; set; }
-        public DbSet<view_Video_Schlagwort> AlleVideo_Schlagwoerter { get; set; }
     }
 }

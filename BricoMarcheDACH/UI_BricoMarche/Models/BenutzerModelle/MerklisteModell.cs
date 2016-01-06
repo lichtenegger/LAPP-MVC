@@ -6,10 +6,10 @@ using UI_BricoMarche.Models.InhaltModelle;
 
 namespace UI_BricoMarche.Models.BenutzerModelle
 {
-    public class Merkzettel
+    public class MerklisteModell
     {
-        public List <InhaltModell> Artikel { get; set; }
+        public List <ArtikelModell> Produkte { get; set; }
 
-        public List <InhaltModell> Videos { get; set; }
+        public List <VideoModell> Videos { get; set; }
     }
 }

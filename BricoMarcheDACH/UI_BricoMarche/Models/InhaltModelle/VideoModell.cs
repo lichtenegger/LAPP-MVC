@@ -13,6 +13,6 @@ namespace UI_BricoMarche.Models.InhaltModelle
 
         public string Kategorie { get; set; }
 
-        public List<string> schlagwoerter { get; set; }
+        public List<string> Schlagwoerter { get; set; }
     }
 }

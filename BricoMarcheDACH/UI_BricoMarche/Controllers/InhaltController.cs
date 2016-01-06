@@ -165,17 +165,18 @@ namespace UI_BricoMarche.Controllers
                 Langbeschreibung = geladenerArtikel.Beschreibung,
                 Kategorie = geladenerArtikel.EineKategorie.Bezeichnung,
                 Preis = geladenerArtikel.Preis,
-                verlinkteVideos = new List<VideoModell>()
+                verlinkteVideos = new List<VideoModell>(),
+                Gemerkt = Artikel.WirdGemerkt(produktID, User.Identity.Name)
             };
-            foreach (var video in geladenerArtikel.VerlinkteVideos)
-            {
-                modell.verlinkteVideos.Add(new VideoModell
-                {
-                    ID = video.ID,
-                    Bezeichnung = video.Bezeichnung,
-                    Kategorie = video.EineKategorie.Bezeichnung
-                });
-            }
+            //foreach (var video in geladenerArtikel.VerlinkteVideos)
+            //{
+            //    modell.verlinkteVideos.Add(new VideoModell
+            //    {
+            //        ID = video.ID,
+            //        Bezeichnung = video.Bezeichnung,
+            //        Kategorie = video.EineKategorie.Bezeichnung
+            //    });
+            //}
             return View(modell);
         }
         #endregion
@@ -200,6 +201,41 @@ namespace UI_BricoMarche.Controllers
 
             }
             return geladenesBild != null ? geladenesBild : bild;
+        }
+        #endregion
+
+
+        #region Produkt merken
+        [HttpGet]
+        [Authorize]
+        public ActionResult ProduktMerken(int produktID = 0)
+        {
+            if (produktID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.MerkeArtikel(produktID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht gemerkt!";
+            }
+            return RedirectToAction("ProduktDetails", "Inhalt", new { produktID = produktID });
+        }
+        #endregion
+
+        #region Produkt vergessen
+        [HttpGet]
+        [Authorize]
+        public ActionResult ProduktVergessen(int produktID = 0)
+        {
+            if (produktID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.VergissArtikel(produktID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht vergessen!";
+            }
+            return RedirectToAction("ProduktDetails", "Inhalt", new { produktID = produktID });
         }
         #endregion
 
@@ -275,7 +311,8 @@ namespace UI_BricoMarche.Controllers
                 Langbeschreibung = geladenesVideo.Beschreibung,
                 Kategorie = geladenesVideo.EineKategorie.Bezeichnung,
                 Pfad = geladenesVideo.Pfad,
-                verlinkteProdukte = new List<ArtikelModell>()
+                verlinkteProdukte = new List<ArtikelModell>(),
+                Gemerkt = Video.WirdGemerkt(videoID, User.Identity.Name)
             };
             //foreach (var produkt in geladenesVideo.VerlinkteArtikel)
             //{
@@ -314,21 +351,61 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
-
-        #endregion
-
-        #region -- Detail -----------------------------------------------------------------
-
-        /// <summary>
-        /// Detail Action
-        /// </summary>
-        /// <param name="artID"></param>
-        /// <returns>Die Detail-Ansicht eines Produkte oder Videoss</returns>
-        public ActionResult Details(string artID)
+        #region Video merken
+        [HttpGet]
+        [Authorize]
+        public ActionResult VideoMerken(int videoID = 0)
         {
-            return View();
+            if (videoID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.MerkeVideo(videoID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht gemerkt!";
+            }
+            return RedirectToAction("VideoDetails", "Inhalt", new { videoID = videoID });
         }
+        #endregion
+
+        #region Video vergessen
+        [HttpGet]
+        [Authorize]
+        public ActionResult VideoVergessen(int videoID = 0)
+        {
+            if (videoID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.VergissVideo(videoID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht vergessen!";
+            }
+            return RedirectToAction("VideoDetails", "Inhalt", new { videoID = videoID });
+        }
+        #endregion
 
         #endregion
+
+    }
+    class Wandler
+    {
+        public static VideoDetailModell Wandle(BL_BricoMarche.Video video)
+        {
+            VideoDetailModell modell = null;
+            if (video != null)
+            {
+                modell = new VideoDetailModell()
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung,
+                    Langbeschreibung = video.Beschreibung,
+                    Pfad = video.Pfad
+                };
+            }
+
+            return modell;
+        }
     }
 }
