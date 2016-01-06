@@ -594,10 +594,11 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
+                    // Hole alle Videos, die dem gesuchtem Schlagwort zugeordnet sind aus DB.
+                    geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                                            .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
+                                            .SelectMany(x => x.VieleVideos).ToList(); // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
 
-                    geladeneVideos = kontext.AlleVideos.Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv)
-                                                          .Where(x => x.Bezeichnung.ToLower().Contains(schlagwort.ToLower()) ||
-                                                                 x.Beschreibung.ToLower().Contains(schlagwort.ToLower())).ToList();
                     if (geladeneVideos == null)
                     {
                         throw new Exception("Fehler! keine Video aus der Datenbank geladen");
@@ -619,24 +620,24 @@ namespace BL_BricoMarche.DatenVerwaltung
         /// <summary>
         /// Holt eine Anzahl an Videos einer Seite, die einen bestimmten Schlagwort enthalten, aus der Datenbank.
         /// </summary>
-        /// <param name="Schlagwort"></param>
+        /// <param name="schlagwort"></param>
         /// <param name="seite"></param>
         /// <param name="anzahl"></param>
         /// <returns>Liste geladener Videos</returns>
-        public static List<BL_BricoMarche.Video> LadeAlleVideo(string Schlagwort, int seite, int anzahl)
+        public static List<BL_BricoMarche.Video> LadeAlleVideo(string schlagwort, int seite, int anzahl)
         {
-            List<BL_BricoMarche.Video> geladenerVideos = null;
+            List<BL_BricoMarche.Video> geladeneVideos = null;
             Debug.WriteLine("-- START : LADE VIDEO -------------------------------------------------------------");
             Debug.Indent();
             try
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladenerVideos = kontext.AlleVideos.Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv)
-                                                          .Where(x => x.Bezeichnung.ToLower().Contains(Schlagwort.ToLower()) ||
-                                                                 x.Beschreibung.ToLower().Contains(Schlagwort.ToLower()))
-                                                          .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList();
-                    if (geladenerVideos == null)
+                    geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                                            .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
+                                            .SelectMany(x => x.VieleVideos).ToList() // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
+                                            .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList(); // Sortieren & auf Auswahl reduzieren.
+                    if (geladeneVideos == null)
                     {
                         throw new Exception("Fehler! kein Video aus der Datenbank geladen");
                     }
@@ -649,7 +650,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             Debug.Unindent();
             Debug.WriteLine("-- ENDE : LADE VIDEO -------------------------------------------------------------");
 
-            return geladenerVideos;
+            return geladeneVideos;
         }
         #endregion
 
