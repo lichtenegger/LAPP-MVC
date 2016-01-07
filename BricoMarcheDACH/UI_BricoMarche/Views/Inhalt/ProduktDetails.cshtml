@@ -7,7 +7,7 @@
 
 <h2>ProduktDetails</h2>
 
-<div>
+<div class="container-fluid">
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -71,10 +71,19 @@
             }
         </div>
     </div>
-
-        <hr/>
-    <h4>Videos</h4>
-    <dl class="dl-horizontal">
-
-    </dl>
+    <hr />
+    <h3>Passende Videos</h3>
+    <div id="videoDetails">
+        @foreach (var video in Model.verlinkteVideos)
+            {
+            <div class="floating" style="padding: 5px">
+                <a href="@Url.Action("VideoDetails", "Inhalt", new { videoID = video.ID })">
+                    <figure>
+                        <figcaption>@video.Bezeichnung</figcaption>
+                        <img src="@Url.Action("VideoBild", "Inhalt", new { videoID = video.ID })" class="thumbnail" />
+                    </figure>
+                </a>
+            </div>
+        }
+    </div>
 </div>

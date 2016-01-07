@@ -143,12 +143,21 @@ namespace UI_BricoMarche.Controllers
         #region Editieren GET
         [HttpGet]
         [Authorize]
-        public ActionResult Editieren()
+        public ActionResult Editieren( string benutzerName)
         {
             ProfilModell modell = null;
+            BL_BricoMarche.Benutzer benutzer = null;
             Debug.WriteLine("-- START : Benutzer - Editieren - GET -----------------------");
             Debug.Indent();
-            BL_BricoMarche.Benutzer benutzer = LadeBenutzerProfil(User.Identity.Name);
+            if (benutzerName != null)
+            {
+                benutzer = LadeBenutzerProfil(benutzerName);
+            }
+            else
+            {
+                benutzer = LadeBenutzerProfil(User.Identity.Name);
+
+            }
             if (benutzer != null)
             {
                 modell = new ProfilModell()

@@ -67,6 +67,8 @@ namespace UI_BricoMarche.Controllers
         /// <param name="seite"></param>
         /// <param name="anzahl"></param>
         /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult ProdukteSuche(string suchbegriff = "", int seite = 1, int anzahl = 20)
         {
             if (suchbegriff == "")
@@ -153,6 +155,7 @@ namespace UI_BricoMarche.Controllers
             }
             ArtikelDetailModell modell = null;
             BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
+            List <BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.ToList();
             if (geladenerArtikel == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
@@ -168,15 +171,14 @@ namespace UI_BricoMarche.Controllers
                 verlinkteVideos = new List<VideoModell>(),
                 Gemerkt = Artikel.WirdGemerkt(produktID, User.Identity.Name)
             };
-            //foreach (var video in geladenerArtikel.VerlinkteVideos)
-            //{
-            //    modell.verlinkteVideos.Add(new VideoModell
-            //    {
-            //        ID = video.ID,
-            //        Bezeichnung = video.Bezeichnung,
-            //        Kategorie = video.EineKategorie.Bezeichnung
-            //    });
-            //}
+            foreach (var video in verlinkteVideos)
+            {
+                modell.verlinkteVideos.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung
+                });
+            }
             return View(modell);
         }
         #endregion
@@ -314,15 +316,14 @@ namespace UI_BricoMarche.Controllers
                 verlinkteProdukte = new List<ArtikelModell>(),
                 Gemerkt = Video.WirdGemerkt(videoID, User.Identity.Name)
             };
-            //foreach (var produkt in geladenesVideo.VerlinkteArtikel)
-            //{
-            //    modell.verlinkteProdukte.Add(new ArtikelModell
-            //    {
-            //        ID = produkt.ID,
-            //        Bezeichnung = produkt.Bezeichnung,
-            //        Kategorie = produkt.EineKategorie.Bezeichnung
-            //    });
-            //}
+            foreach (var produkt in geladenesVideo.VerlinkteArtikel)
+            {
+                modell.verlinkteProdukte.Add(new ArtikelModell
+                {
+                    ID = produkt.ID,
+                    Bezeichnung = produkt.Bezeichnung
+                });
+            }
             return View(modell);
         }
         #endregion

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
 
-<div>
+<div class="container-fluid">
     <hr />
 
         <figure>
@@ -90,23 +90,19 @@
             }
         </div>
     </div>
-
-
-
     <hr />
-    <h4>Produkte</h4>
+    <h3>Passende Produkte</h3>
     <div id="videoDetails">
-        <ul>
             @foreach (var produkt in Model.verlinkteProdukte)
             {
-                <li>
-                    <figure>
-                        <img src="@Url.Action("ProduktBild", "Inhalt", new { produktID = produkt.ID })"/>
-                        <figcaption>@produkt.Bezeichnung</figcaption>
-                    </figure>
-                </li>
+                <div class="floating" style="padding: 5px">
+                    <a href="@Url.Action("ProduktDetails", "Inhalt", new { produktID = produkt.ID })">
+                        <figure>
+                            <figcaption>@produkt.Bezeichnung</figcaption>
+                            <img src="@Url.Action("ProduktBild", "Inhalt", new { produktID = produkt.ID })" class="thumbnail"/>
+                        </figure>
+                    </a>
+                </div>
             }
-        </ul>
     </div>
-
 </div>

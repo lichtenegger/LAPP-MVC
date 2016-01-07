@@ -69,6 +69,13 @@ namespace UI_BricoMarche.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public ActionResult BenutzerBearbeiten(string benutzerName)
+        {
+            return RedirectToAction("Editieren", "Benutzer", new { benutzerName = benutzerName });
+        }
+
+        [Authorize]
         public ActionResult PasswortReset(string benutzerName)
         {
             if (!BL_BricoMarche.DatenVerwaltung.Benutzer.PasswortReset(benutzerName))
