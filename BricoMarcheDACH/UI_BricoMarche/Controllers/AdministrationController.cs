@@ -60,7 +60,8 @@ namespace UI_BricoMarche.Controllers
                     {
                         Email = benutzer.Benutzername,
                         Vorname = benutzer.Vorname,
-                        Nachname = benutzer.Nachname
+                        Nachname = benutzer.Nachname,
+                        Aktiv = benutzer.Aktiv
                     });
                 }
             }

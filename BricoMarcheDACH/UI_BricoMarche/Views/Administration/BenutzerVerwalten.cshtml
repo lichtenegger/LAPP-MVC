@@ -19,6 +19,7 @@
             @Html.DisplayNameFor(model => model.Nachname)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -31,6 +32,16 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Nachname)
+        </td>
+        <td>
+            @if (item.Aktiv)
+            {
+                <text>Aktiv</text>
+            }
+            else
+            {
+                <text>Inaktiv</text>
+}
         </td>
         <td>
             @Html.ActionLink("Passwort zurück setzen", "PasswortReset", new { benutzerName = item.Email})

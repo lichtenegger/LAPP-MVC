@@ -24,9 +24,9 @@ namespace UI_BricoMarche.Controllers
 
             #region gemerkte Videos
             List<BL_BricoMarche.Video> gemerkteVideos = Video.LadeGemerkteVideos(User.Identity.Name);
+            modell.Videos = new List<VideoModell>();
             if (gemerkteVideos != null && gemerkteVideos.Count() > 0)
             {
-                modell.Videos = new List<VideoModell>();
                 foreach (var video in gemerkteVideos)
                 {
                     modell.Videos.Add(new VideoModell()
@@ -40,9 +40,9 @@ namespace UI_BricoMarche.Controllers
 
             #region gemerkte Artikel
             List<BL_BricoMarche.Artikel> gemerkteArtikel = Artikel.LadeGemerkteArtikel(User.Identity.Name);
+            modell.Produkte = new List<ArtikelModell>();
             if (gemerkteArtikel != null && gemerkteArtikel.Count() > 0)
             {
-                modell.Produkte = new List<ArtikelModell>();
                 foreach (var artikel in gemerkteArtikel)
                 {
                     modell.Produkte.Add(new ArtikelModell()

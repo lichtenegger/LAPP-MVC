@@ -21,7 +21,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 try
                 {
-                    geladeneBenutzer = kontext.AlleBenutzer.Where(x => x.Aktiv).ToList();
+                    geladeneBenutzer = kontext.AlleBenutzer.ToList();
 
                     Debug.WriteLine("Erfolg! " + geladeneBenutzer.Count() + " Benutzer geladen!");
                 }
@@ -94,7 +94,8 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Nachname = nachname,
                 Adresse = adresse,
                 Ort_ID = ortId,
-                Gruppe_ID = 1
+                Gruppe_ID = 1,
+                Aktiv = true,
             };
             return Sicherheit.Registrierung(neuerBenutzer, passwort);
         }
@@ -111,7 +112,9 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Adresse = adresse,
                 Ort_ID = ortId
             };
+ 
             return Sicherheit.Editieren(editierterBenutzer, altesPasswort, neuesPasswort);
+
         }
         #endregion
 

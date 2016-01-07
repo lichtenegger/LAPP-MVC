@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UI_BricoMarche.Models.BenutzerModelle;
-using UI_BricoMarche.Models.BenutzerModelle.HilfsModelle;
 using static BL_BricoMarche.DatenVerwaltung.Benutzer;
 
 namespace UI_BricoMarche.Controllers
@@ -36,6 +35,10 @@ namespace UI_BricoMarche.Controllers
                     Session["Admin"] = "Ja";
                     return Redirect("~/Administration");
                 }
+                else
+                {
+                    Session["Admin"] = "Nein";
+                }
                 return Redirect(returnUrl);
             }
             return Redirect("~/Error");
@@ -61,7 +64,7 @@ namespace UI_BricoMarche.Controllers
         [AllowAnonymous]
         public ActionResult Registrieren()
         {
-            RegistrierungModell modell = new RegistrierungModell();
+            RegistrierenModell modell = new RegistrierenModell();
             Debug.WriteLine("-- START : Benutzer - Registrieren - GET -----------------------------");
             Debug.Indent();
             List<BL_BricoMarche.Ort> orte = Orte.LadeAlleOrte();
@@ -95,7 +98,7 @@ namespace UI_BricoMarche.Controllers
         #region Registrieren POST
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Registrieren(RegistrierungModell modell)
+        public ActionResult Registrieren(RegistrierenModell modell)
         {
             Debug.WriteLine("-- START : Benutzer - Registrieren - POST ------------------");
             Debug.Indent();
@@ -145,7 +148,7 @@ namespace UI_BricoMarche.Controllers
         [Authorize]
         public ActionResult Editieren( string benutzerName)
         {
-            ProfilModell modell = null;
+            EditierenlModell modell = null;
             BL_BricoMarche.Benutzer benutzer = null;
             Debug.WriteLine("-- START : Benutzer - Editieren - GET -----------------------");
             Debug.Indent();
@@ -160,7 +163,7 @@ namespace UI_BricoMarche.Controllers
             }
             if (benutzer != null)
             {
-                modell = new ProfilModell()
+                modell = new EditierenlModell()
                 {
                     Email = benutzer.Benutzername,
                     Vorname = benutzer.Vorname,
@@ -198,14 +201,14 @@ namespace UI_BricoMarche.Controllers
         #region Editieren POST
         [HttpPost]
         [Authorize]
-        public ActionResult Editieren(ProfilModell modell)
+        public ActionResult Editieren(EditierenlModell modell)
         {
             Debug.WriteLine("-- START: Benutzer - Editieren - POST -----------------------");
             Debug.Indent();
             if (ModelState.IsValid)
             {
                 if (!EditiereBenutzer(
-                        User.Identity.Name,
+                        modell.Email,
                         modell.AltesPasswort,
                         modell.Passwort,
                         modell.Geburtsdatum,
@@ -236,9 +239,13 @@ namespace UI_BricoMarche.Controllers
                 });
             }
 
+            // PASSWÖRTER ZURÜCKSETZEN!
+            modell.AltesPasswort = "";
+            modell.PasswortWiederholung = "";
+            modell.Passwort = "";
+
             Debug.Unindent();
             Debug.WriteLine("-- ENDE: Benutzer - Editieren - POST -----------------------");
-
 
             return View(modell);
         }
