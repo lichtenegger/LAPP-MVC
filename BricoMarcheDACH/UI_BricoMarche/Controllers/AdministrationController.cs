@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BL_BricoMarche;
 using UI_BricoMarche.Models.InhaltModelle;
+using UI_BricoMarche.Models.BenutzerModelle;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -47,7 +48,38 @@ namespace UI_BricoMarche.Controllers
         [Authorize]
         public ActionResult BenutzerVerwalten()
         {
-            return View();
+            List <BenutzerModell> modell = null;
+            List <BL_BricoMarche.Benutzer> geladeneBenutzer = BL_BricoMarche.DatenVerwaltung.Benutzer.LadeAlleBenutzer();
+
+            if (geladeneBenutzer != null && geladeneBenutzer.Count() > 0)
+            {
+                modell = new List<BenutzerModell>();
+                foreach (var benutzer in geladeneBenutzer)
+                {
+                    modell.Add(new BenutzerModell()
+                    {
+                        Email = benutzer.Benutzername,
+                        Vorname = benutzer.Vorname,
+                        Nachname = benutzer.Nachname
+                    });
+                }
+            }
+
+            return View(modell);
+        }
+
+        [Authorize]
+        public ActionResult PasswortReset(string benutzerName)
+        {
+            if (!BL_BricoMarche.DatenVerwaltung.Benutzer.PasswortReset(benutzerName))
+            {
+                TempData["Fehler"] = "Passwort wurde nicht zurückgesetzt";
+            }
+            else
+            {
+                TempData["Erfolg"] = "Passwort wurde zurückgesetzt";
+            }
+            return RedirectToAction("BenutzerVerwalten");
         }
     }
 }

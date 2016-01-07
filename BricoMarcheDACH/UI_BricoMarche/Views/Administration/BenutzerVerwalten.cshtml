@@ -1,0 +1,43 @@
+﻿@model IEnumerable<UI_BricoMarche.Models.BenutzerModelle.BenutzerModell>
+
+@{
+    ViewBag.Title = "BenutzerVerwalten";
+    Layout = "~/Views/Shared/_BenutzerLayout.cshtml";
+}
+
+<h2>BenutzerVerwalten</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vorname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nachname)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vorname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nachname)
+        </td>
+        <td>
+            @Html.ActionLink("Passwort zurück setzen", "PasswortReset", new { benutzerName = item.Email})
+        </td>
+    </tr>
+}
+
+</table>

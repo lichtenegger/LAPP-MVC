@@ -10,6 +10,32 @@ namespace BL_BricoMarche.DatenVerwaltung
 {
     public static class Benutzer
     {
+        #region LadeAlleBenutzer
+        public static List<BL_BricoMarche.Benutzer> LadeAlleBenutzer()
+        {
+            List<BL_BricoMarche.Benutzer> geladeneBenutzer = null;
+            Debug.WriteLine("-- START: LADE ALLE BENUTZER ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    geladeneBenutzer = kontext.AlleBenutzer.Where(x => x.Aktiv).ToList();
+
+                    Debug.WriteLine("Erfolg! " + geladeneBenutzer.Count() + " Benutzer geladen!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: LADE ALLE BENUTZER  -----------------------------------------------------");
+            return geladeneBenutzer;
+        }
+        #endregion
 
         #region SindAnmeldeDatenRichtig
         public static bool SindAnmeldeDatenRichtig(string benutzerName, string passwort)
@@ -435,14 +461,45 @@ namespace BL_BricoMarche.DatenVerwaltung
             /// </summary>
             /// <param name="text"></param>
             /// <returns>HashWert</returns>
-            private static byte[] ErmittleHashWert(string text)
+            public static byte[] ErmittleHashWert(string text)
             {
                 SHA256 algorithm = SHA256.Create();
                 return algorithm.ComputeHash(UnicodeEncoding.UTF8.GetBytes(text));
             }
             #endregion ErmittleHashWert
         }
-        #endregion Sicherheit
+        #endregion
+
+        #region PasswortReset
+        public static bool PasswortReset(string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: PASSWORT RESET ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer geladenerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    geladenerBenutzer.Passwort = Sicherheit.ErmittleHashWert("123Passwort!");
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Video gemerkt!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: PASSWORT RESET  -----------------------------------------------------");
+            return erfolgt;
+        }
+        #endregion
 
         #region Orte
         public static class Orte

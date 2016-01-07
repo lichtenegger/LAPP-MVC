@@ -193,6 +193,7 @@
     <Content Include="Views\Merkliste\Willkommen.cshtml" />
     <Content Include="Views\Administration\Willkommen.cshtml" />
     <Content Include="Views\Administration\ProduktVerwalten.cshtml" />
+    <Content Include="Views\Administration\BenutzerVerwalten.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
