@@ -23,9 +23,13 @@ namespace UI_BricoMarche
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+          "~/Scripts/toastr.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                     "~/Content/toastr.min.css"));
         }
     }
 }

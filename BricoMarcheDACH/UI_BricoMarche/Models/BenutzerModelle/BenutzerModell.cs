@@ -10,8 +10,6 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     {
         public virtual string Email { get; set; }
 
-        public virtual string Passwort { get; set; }
-
         public virtual string Vorname { get; set; }
 
         public virtual string Nachname { get; set; }
@@ -23,6 +21,8 @@ namespace UI_BricoMarche.Models.BenutzerModelle
         public virtual int OrtID { get; set; }
 
         public List<OrtModell> Orte { get; set; }
+
+        public string Passwort { get; set; }
 
         public bool Aktiv { get; set; }
     }

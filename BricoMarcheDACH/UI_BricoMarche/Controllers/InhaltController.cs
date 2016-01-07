@@ -23,7 +23,7 @@ namespace UI_BricoMarche.Controllers
         /// <returns>Willkommen View (Die Startseite der Webanwendung)</returns>
         public ActionResult Willkommen()
         {
-            return View();
+            return RedirectToAction("Produkte");
         }
         #endregion
 
@@ -155,7 +155,7 @@ namespace UI_BricoMarche.Controllers
             }
             ArtikelDetailModell modell = null;
             BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
-            List <BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.ToList();
+            List <BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.Take(3).ToList();
             if (geladenerArtikel == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
@@ -389,6 +389,8 @@ namespace UI_BricoMarche.Controllers
         #endregion
 
     }
+
+    #region Wandler
     class Wandler
     {
         public static VideoDetailModell Wandle(BL_BricoMarche.Video video)
@@ -409,4 +411,5 @@ namespace UI_BricoMarche.Controllers
             return modell;
         }
     }
+    #endregion
 }

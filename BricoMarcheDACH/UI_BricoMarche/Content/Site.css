@@ -34,13 +34,12 @@ i.thumbnail .glyphicon {
     min-width: unset;
 }
 
-.thumbnail {
-    top: 0px;
-    left: 0px;
+img.thumbnail {
     position: center;
-    max-width: 150px;
-    max-height: 150px;
-    image-resolution: snap;
+    resize: both;
+    max-width: 200px;
+    min-width: 100px;
+    image-resolution: inherit;
 }
 
 .inhalt {

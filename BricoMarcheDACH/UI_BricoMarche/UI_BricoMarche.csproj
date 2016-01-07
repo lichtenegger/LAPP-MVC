@@ -132,6 +132,7 @@
     <Compile Include="Models\BenutzerModelle\BenutzerModell.cs" />
     <Compile Include="Models\BenutzerModelle\HilfsModelle\MerklisteModell.cs" />
     <Compile Include="Models\BenutzerModelle\RegistrierenModell.cs" />
+    <Compile Include="Models\InhaltModelle\ArtikelBearbeitenModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelModell.cs" />
     <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
@@ -148,12 +149,16 @@
     <Content Include="Content\images\site-bg-tools-resized.jpg" />
     <Content Include="Content\images\site-logo.png" />
     <Content Include="Content\images\site-bg-tools.jpg" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -165,6 +170,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

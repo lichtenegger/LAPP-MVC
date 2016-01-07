@@ -485,7 +485,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         #endregion
 
         #region SpeichereArtikel : ID
-        public static bool SpeichereArtikel(int id, string bezeichnung, string beschreibung, decimal preis)
+        public static bool SpeichereArtikel(int id, string bezeichnung, string beschreibung, int kategorieID, decimal preis)
         {
             bool erfolgt = false;
             Debug.WriteLine("-- START: SPEICHERE ARTIKEL  ----------------------------------------------------");
@@ -499,6 +499,7 @@ namespace BL_BricoMarche.DatenVerwaltung
 
                     geladenerArtikel.Bezeichnung = bezeichnung;
                     geladenerArtikel.Beschreibung = beschreibung;
+                    geladenerArtikel.Kategorie_ID = kategorieID;
                     geladenerArtikel.Preis = preis;
 
                     int anzahlBetroffeneZeilen = kontext.SaveChanges();

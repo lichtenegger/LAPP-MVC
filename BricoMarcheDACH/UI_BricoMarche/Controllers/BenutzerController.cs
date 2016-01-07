@@ -33,15 +33,18 @@ namespace UI_BricoMarche.Controllers
                 if (IstBenutzerAdministrator(daten.Benuztername))
                 {
                     Session["Admin"] = "Ja";
-                    return Redirect("~/Administration");
                 }
                 else
                 {
                     Session["Admin"] = "Nein";
                 }
-                return Redirect(returnUrl);
+                TempData["Erfolg"] = "Anmeldung erfolgt!";
             }
-            return Redirect("~/Error");
+            else
+            {
+             TempData["Fehler"] = "Fehler beim Anmelden!";
+            }
+            return Redirect(returnUrl);
         }
         #endregion
 

@@ -16,12 +16,6 @@ namespace UI_BricoMarche.Models.BenutzerModelle
         [Compare("Passwort", ErrorMessage = "Passwörter stimmen nicht überein")]
         public string AltesPasswort { get; set; }
 
-        [Required(ErrorMessage = "Pflichtfeld")]
-        [DataType(DataType.Password)]
-        [Display(Name = "neues Passwort")]
-        private string neuesPasswort;
-        public string NeuesPasswort { get { return neuesPasswort; } set { neuesPasswort = value; base.Passwort = value; } }
-
         [DataType(DataType.Password)]
         [Display(Name = "Passwort wiederholen")]
         [Compare("NeuesPasswort", ErrorMessage = "Passwörter stimmen nicht überein")]

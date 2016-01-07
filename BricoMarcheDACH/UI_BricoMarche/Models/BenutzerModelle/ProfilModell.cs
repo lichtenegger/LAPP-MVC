@@ -34,6 +34,6 @@ namespace UI_BricoMarche.Models.BenutzerModelle
 
         [DataType(DataType.Password)]
         [RegularExpression(@"[\w+\S+\d+]{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
-        public override string Passwort { get; set; }
+        public virtual string NeuesPasswort { get; set; }
     }
 }

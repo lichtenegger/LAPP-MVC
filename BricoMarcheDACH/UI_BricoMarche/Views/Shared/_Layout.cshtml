@@ -53,12 +53,47 @@
     <div class="body-content">
         @RenderBody()
         <hr />
-        <footer>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/toastr")
     @RenderSection("scripts", required: false)
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$().UItoTop({ easingType: 'easeOutQuart' });
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-left",
+                "preventDuplicates": false,
+                "showDuration": "100",
+                "hideDuration": "500",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "hideEasing": "linear",
+                "hideMethod": "fadeOut"
+            }
+
+            jQuery.validator.addMethod("mustbetrue", function (value, element, param) {
+                return element.checked;
+            });
+            jQuery.validator.unobtrusive.adapters.addBool("mustbetrue");
+        });
+        @if (TempData["Erfolg"]!=null)
+        {
+            <text >toastr["success"]('</text>@TempData["Erfolg"]<text>');</text>
+        }
+        else if (TempData["Fehler"]!= null)
+        {
+
+            <text>toastr["error"]('</text>@TempData["Fehler"]<text>');</text>
+        }
+    </script>
+
+
 </body>
 </html>

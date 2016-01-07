@@ -6,45 +6,76 @@ using System.Web.Mvc;
 using BL_BricoMarche;
 using UI_BricoMarche.Models.InhaltModelle;
 using UI_BricoMarche.Models.BenutzerModelle;
+using System.IO;
 
 namespace UI_BricoMarche.Controllers
 {
     public class AdministrationController : Controller
     {
-        // GET: Administration
-        [Authorize]
-        public ActionResult Willkommen()
-        {
-            return View();
-        }
+        #region PRODUKTVERWALTUNG
 
+        #region HttpGet
         [HttpGet]
         [Authorize]
         public ActionResult ProduktVerwalten(int produktID)
         {
-            ArtikelDetailModell modell = null;
-            BL_BricoMarche.Artikel artikel = BL_BricoMarche.DatenVerwaltung.Artikel.LadeArtikel(produktID);
+            ArtikelBearbeitenModell modell = null;
+            Artikel artikel = BL_BricoMarche.DatenVerwaltung.Artikel.LadeArtikel(produktID);
+            List<Kategorie> kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
 
-            modell = new ArtikelDetailModell()
+            if (artikel != null && kategorien != null)
             {
-                ID = artikel.ID,
-                Bezeichnung = artikel.Bezeichnung,
-                Langbeschreibung = artikel.Beschreibung,
-                Preis = artikel.Preis,
-                Kategorie = artikel.EineKategorie.Bezeichnung
-            };
+                modell = new ArtikelBearbeitenModell()
+                {
+                    ID = artikel.ID,
+                    Bezeichnung = artikel.Bezeichnung,
+                    Langbeschreibung = artikel.Beschreibung,
+                    Preis = artikel.Preis,
+                    KategorieID = artikel.Kategorie_ID,
+                    Kategorien = new List<KategorieModell>(),
+                    Bild = artikel.Bild
+                };
+                foreach (var kategorie in kategorien)
+                {
+                    modell.Kategorien.Add(new KategorieModell()
+                    {
+                        ID = kategorie.ID,
+                        Bezeichnung = kategorie.Bezeichnung
+                    });
+                }
 
+            }
             return View(modell);
         }
+        #endregion
 
+        #region HttpPost
         [HttpPost]
         [Authorize]
-        public ActionResult ProduktVerwalten(ArtikelDetailModell modell)
+        public ActionResult ProduktVerwalten(ArtikelBearbeitenModell modell)
         {
-           BL_BricoMarche.DatenVerwaltung.Artikel.SpeichereArtikel(modell.ID, modell.Bezeichnung, modell.Langbeschreibung, modell.Preis);
+           BL_BricoMarche.DatenVerwaltung.Artikel.SpeichereArtikel(modell.ID, modell.Bezeichnung, modell.Langbeschreibung, modell.KategorieID, modell.Preis);
+
+            List<Kategorie> kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
+            modell.Kategorien = new List<KategorieModell>();
+            foreach (var kategorie in kategorien)
+            {
+                modell.Kategorien.Add(new KategorieModell()
+                {
+                    ID = kategorie.ID,
+                    Bezeichnung = kategorie.Bezeichnung
+                });
+            }
+
             return View(modell);
         }
+        #endregion
 
+        #endregion
+
+        #region BENUTZERVERWALTUNG
+
+        #region Vewalten
         [Authorize]
         public ActionResult BenutzerVerwalten()
         {
@@ -68,14 +99,18 @@ namespace UI_BricoMarche.Controllers
 
             return View(modell);
         }
+        #endregion
 
+        #region Bearbeiten
         [Authorize]
         [HttpGet]
         public ActionResult BenutzerBearbeiten(string benutzerName)
         {
             return RedirectToAction("Editieren", "Benutzer", new { benutzerName = benutzerName });
         }
+        #endregion
 
+        #region Passwort
         [Authorize]
         public ActionResult PasswortReset(string benutzerName)
         {
@@ -89,5 +124,7 @@ namespace UI_BricoMarche.Controllers
             }
             return RedirectToAction("BenutzerVerwalten");
         }
+        #endregion
+        #endregion
     }
 }

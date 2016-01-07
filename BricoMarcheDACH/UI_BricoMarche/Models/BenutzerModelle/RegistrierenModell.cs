@@ -11,7 +11,7 @@ namespace UI_BricoMarche.Models.BenutzerModelle
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
-        public string NeuesPasswort { get { return NeuesPasswort; } set { NeuesPasswort = value; base.Passwort = value; } }
+        public override string NeuesPasswort { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
