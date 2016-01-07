@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - BricoMarche DACH</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -34,9 +34,18 @@
             </div>
             <div class="navbar-collapse collapse navbar-default navbar-right" id="layout-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="logo-navi">@Html.ActionLink("Produkte", "Produkte", "Inhalt", new { kategorieID = -1, seite = 1, anzahl = 20 }, null)</li>
-                    <li class="logo-navi">@Html.ActionLink("Videos", "Videos", "Inhalt")</li>
-                    <li class="logo-navi">@Html.ActionLink("Kontakt", "Willkommen", "Inhalt")</li>
+                    @if (Session["Admin"] != null && Session["Admin"].Equals("Ja"))
+                    {
+                        <li class="logo-navi">@Html.ActionLink("Produkte Verwalten", "Produkte", "Inhalt", new { kategorieID = -1, seite = 1, anzahl = 20 }, null)</li>
+                        @*<li class="logo-navi">@Html.ActionLink("Videos Verwalten", "Videos", "Inhalt")</li>*@
+                        <li class="logo-navi">@Html.ActionLink("Benutzer Verwalten", "BenutzerVerwalten", "Administration")</li>
+                    }
+                    else
+                    {
+                        <li class="logo-navi">@Html.ActionLink("Produkte", "Produkte", "Inhalt", new { kategorieID = -1, seite = 1, anzahl = 20 }, null)</li>
+                        <li class="logo-navi">@Html.ActionLink("Videos", "Videos", "Inhalt")</li>
+                        <li class="logo-navi">@Html.ActionLink("Kontakt", "Willkommen", "Inhalt")</li>
+                    }
                 </ul>
             </div>
         </div>

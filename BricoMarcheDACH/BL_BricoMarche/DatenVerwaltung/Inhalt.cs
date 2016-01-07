@@ -382,7 +382,6 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion
 
-
         #region ZaehleAlleArtikel
         /// <summary>
         /// Gibt die Anzahl aller aktiven Artikel in der Datenbank zurück.
@@ -473,6 +472,52 @@ namespace BL_BricoMarche.DatenVerwaltung
             return anzahl;
         }
         #endregion
+
+        #region SpeichereArtikel
+        public static int SpeichereArtikel()
+        {
+            int id = -1;
+
+
+            return id;
+        }
+
+        #endregion
+
+        #region SpeichereArtikel : ID
+        public static bool SpeichereArtikel(int id, string bezeichnung, string beschreibung, decimal preis)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: SPEICHERE ARTIKEL  ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Artikel geladenerArtikel = kontext.AlleArtikel.Where(x => x.ID == id).SingleOrDefault();
+
+                    geladenerArtikel.Bezeichnung = bezeichnung;
+                    geladenerArtikel.Beschreibung = beschreibung;
+                    geladenerArtikel.Preis = preis;
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Artikel gespeichert!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: SPEICHERE ARTIKEL  -----------------------------------------------------");
+            return erfolgt;
+        }
+
+        #endregion
+
     }
 
     public class Video {

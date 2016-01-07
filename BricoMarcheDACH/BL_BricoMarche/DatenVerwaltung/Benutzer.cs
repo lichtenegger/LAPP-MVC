@@ -10,12 +10,41 @@ namespace BL_BricoMarche.DatenVerwaltung
 {
     public static class Benutzer
     {
+
         #region SindAnmeldeDatenRichtig
         public static bool SindAnmeldeDatenRichtig(string benutzerName, string passwort)
         {
             return Sicherheit.IstPasswortRichtig(benutzerName, passwort);
         }
         #endregion SindAnmeldeDatenRichtig
+
+        #region IstBenutzerAdministrator
+        public static bool IstBenutzerAdministrator(string benutzerName)
+        {
+            bool istAdmin = false;
+            Debug.WriteLine("-- START: IST BENUTZER ADMIN ---------------------------------------------------");
+            Debug.Indent();
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    istAdmin = kontext.AlleBenutzer.Include("EineGruppe").Where(x => x.Benutzername == benutzerName).SingleOrDefault().EineGruppe.Bezeichnung == "Administrator";
+                    Debug.WriteLine("ERFOLG!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: IST BENUTZER ADMIN  ----------------------------------------------------");
+
+
+            return istAdmin;
+        }
+
+        #endregion
 
         #region RegistriereBenutzer
         /// <summary>
@@ -130,7 +159,6 @@ namespace BL_BricoMarche.DatenVerwaltung
 
         }
         #endregion
-
 
         #region MerkeVideo
         public static bool MerkeVideo(int id, string benutzerName)

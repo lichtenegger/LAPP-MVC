@@ -31,9 +31,14 @@ namespace UI_BricoMarche.Controllers
             {
                 FormsAuthentication.SetAuthCookie(daten.Benuztername, true);
                 Debug.WriteLine("AnmeldeDaten sind richtig; AuthCookie gesetzt.");
+                if (IstBenutzerAdministrator(daten.Benuztername))
+                {
+                    Session["Admin"] = "Ja";
+                    return Redirect("~/Administration");
+                }
                 return Redirect(returnUrl);
             }
-            return RedirectToRoute("/Error");
+            return Redirect("~/Error");
         }
         #endregion
 
@@ -45,11 +50,12 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("Benutzer - Abmelden - POST");
 
             FormsAuthentication.SignOut();
+            Session.Remove("Admin");
 
             return RedirectToAction("Willkommen", "Inhalt");
         }
         #endregion
-        
+
         #region Registrieren GET
         [HttpGet]
         [AllowAnonymous]

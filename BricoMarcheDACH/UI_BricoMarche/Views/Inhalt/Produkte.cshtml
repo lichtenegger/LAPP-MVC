@@ -14,11 +14,18 @@
     <dl class="dl-horizontal floating">
         <dt>
             @Html.DisplayFor(model => produkt.Bezeichnung)
+                <br />
+            @if (Session["Admin"] != null && Session["Admin"].Equals("Ja"))
+            {
+                <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("ProduktVerwalten", "Administration", new { produktID = produkt.ID })">
+                    <i class="glyphicon glyphicon-edit"></i> Produkt bearbeiten
+                </a>
+            }
+ 
         </dt>
 
         <dd>
-
-            <a href="@Url.Action("ProduktDetails", "Inhalt", new { ProduktID = produkt.ID })"><img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail" /></a>
+            <a href="@Url.Action("ProduktDetails", "Inhalt", new { ProduktID = produkt.ID })"><img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail" /></a> 
         </dd>
 
         <dt>
@@ -37,6 +44,7 @@
             @Html.DisplayFor(model => produkt.Kategorie)
         </dd>
     </dl>
+
 }
     <div class="pagination">
         @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")

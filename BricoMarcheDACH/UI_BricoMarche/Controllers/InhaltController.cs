@@ -33,7 +33,7 @@ namespace UI_BricoMarche.Controllers
         /// </summary>
         /// <param name="inhalt"></param>
         /// <returns></returns>
-        [HttpGet]
+        //[HttpGet]
         [AllowAnonymous]
         [OutputCache(VaryByParam = "inhalt", Duration = 300)]
         public ActionResult Kategorien(string inhalt)
