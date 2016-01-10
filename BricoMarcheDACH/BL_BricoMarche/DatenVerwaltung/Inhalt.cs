@@ -485,9 +485,9 @@ namespace BL_BricoMarche.DatenVerwaltung
         #endregion
 
         #region SpeichereArtikel : ID
-        public static bool SpeichereArtikel(int id, string bezeichnung, string beschreibung, int kategorieID, decimal preis)
+        public static int SpeichereArtikel(int id, string bezeichnung, string beschreibung, int kategorieID, decimal preis, byte[] bild, bool aktiv)
         {
-            bool erfolgt = false;
+            int artikelID = 0;
             Debug.WriteLine("-- START: SPEICHERE ARTIKEL  ----------------------------------------------------");
             Debug.Indent();
 
@@ -495,15 +495,21 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 try
                 {
-                    BL_BricoMarche.Artikel geladenerArtikel = kontext.AlleArtikel.Where(x => x.ID == id).SingleOrDefault();
+                    BL_BricoMarche.Artikel speichereArtikel = id != 0 ? kontext.AlleArtikel.Where(x => x.ID == id).SingleOrDefault() : new BL_BricoMarche.Artikel();
 
-                    geladenerArtikel.Bezeichnung = bezeichnung;
-                    geladenerArtikel.Beschreibung = beschreibung;
-                    geladenerArtikel.Kategorie_ID = kategorieID;
-                    geladenerArtikel.Preis = preis;
+                    speichereArtikel.Bezeichnung = bezeichnung;
+                    speichereArtikel.Beschreibung = beschreibung;
+                    speichereArtikel.Kategorie_ID = kategorieID;
+                    speichereArtikel.Preis = preis;
+                    speichereArtikel.Bild = bild;
+                    speichereArtikel.Aktiv = aktiv;
 
+                    if (id == 0)
+                    {
+                        kontext.AlleArtikel.Add(speichereArtikel);
+                    }
                     int anzahlBetroffeneZeilen = kontext.SaveChanges();
-                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    artikelID = anzahlBetroffeneZeilen == artikelID ? artikelID : speichereArtikel.ID;
                     Debug.WriteLine(anzahlBetroffeneZeilen + " Artikel gespeichert!");
                 }
                 catch (Exception ex)
@@ -514,7 +520,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             }
             Debug.Unindent();
             Debug.WriteLine("-- ENDE: SPEICHERE ARTIKEL  -----------------------------------------------------");
-            return erfolgt;
+            return artikelID;
         }
 
         #endregion

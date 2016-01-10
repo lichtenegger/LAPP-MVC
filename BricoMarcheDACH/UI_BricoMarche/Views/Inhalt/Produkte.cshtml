@@ -5,6 +5,12 @@
     ViewBag.Title = "Produkte";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
+@if (ViewBag.Admin != null && ViewBag.Admin == "Ja")
+{
+    <a type="button" class="btn btn-primary btn-lg" href="@Url.Action("ProduktVerwalten", "Administration", new { produktID = 0 })">
+        <i class="glyphicon glyphicon-plus"></i>Neues Produkt anlegen
+    </a>
+}
 
 <h2>Produkte</h2>
 <div class="container-fluid">

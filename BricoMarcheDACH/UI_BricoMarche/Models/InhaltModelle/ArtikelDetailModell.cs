@@ -8,6 +8,7 @@ namespace UI_BricoMarche.Models.InhaltModelle
 {
     public class ArtikelDetailModell : ArtikelModell
     {
+        [Required]
         [DataType(DataType.MultilineText)]
         public string Langbeschreibung { get; set; }
 

@@ -7,6 +7,7 @@ using BL_BricoMarche;
 using UI_BricoMarche.Models.InhaltModelle;
 using UI_BricoMarche.Models.BenutzerModelle;
 using System.IO;
+using System.Diagnostics;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -17,24 +18,35 @@ namespace UI_BricoMarche.Controllers
         #region HttpGet
         [HttpGet]
         [Authorize]
-        public ActionResult ProduktVerwalten(int produktID)
+        public ActionResult ProduktVerwalten(int produktID = 0)
         {
-            ArtikelBearbeitenModell modell = null;
-            Artikel artikel = BL_BricoMarche.DatenVerwaltung.Artikel.LadeArtikel(produktID);
-            List<Kategorie> kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
-
-            if (artikel != null && kategorien != null)
+            Artikel artikel = null;
+            List<Kategorie> kategorien = null;
+            ArtikelBearbeitenModell modell = new ArtikelBearbeitenModell();
+            modell.KategorieID = 1;
+            modell.Aktiv = true;
+            modell.Preis = .0m;
+            modell.Kategorien = new List<KategorieModell>();
+            if (produktID != 0)
             {
-                modell = new ArtikelBearbeitenModell()
-                {
-                    ID = artikel.ID,
-                    Bezeichnung = artikel.Bezeichnung,
-                    Langbeschreibung = artikel.Beschreibung,
-                    Preis = artikel.Preis,
-                    KategorieID = artikel.Kategorie_ID,
-                    Kategorien = new List<KategorieModell>(),
-                    Bild = artikel.Bild
-                };
+                artikel = BL_BricoMarche.DatenVerwaltung.Artikel.LadeArtikel(produktID);
+            }
+            if (artikel != null)
+            {
+                modell.ID = artikel.ID;
+                modell.Bezeichnung = artikel.Bezeichnung;
+                modell.Langbeschreibung = artikel.Beschreibung;
+                modell.Preis = artikel.Preis;
+                modell.KategorieID = artikel.Kategorie_ID;
+                modell.Aktiv = artikel.Aktiv;
+            }
+            else
+            {
+                modell.ID = 0;
+            }
+            kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
+            if (kategorien != null)
+            {
                 foreach (var kategorie in kategorien)
                 {
                     modell.Kategorien.Add(new KategorieModell()
@@ -43,7 +55,10 @@ namespace UI_BricoMarche.Controllers
                         Bezeichnung = kategorie.Bezeichnung
                     });
                 }
-
+            }
+            else
+            {
+                modell.Kategorien.Add(new KategorieModell()); 
             }
             return View(modell);
         }
@@ -52,21 +67,55 @@ namespace UI_BricoMarche.Controllers
         #region HttpPost
         [HttpPost]
         [Authorize]
-        public ActionResult ProduktVerwalten(ArtikelBearbeitenModell modell)
+        public ActionResult ProduktVerwalten(ArtikelBearbeitenModell modell, HttpPostedFileBase neuesBild = null)
         {
-           BL_BricoMarche.DatenVerwaltung.Artikel.SpeichereArtikel(modell.ID, modell.Bezeichnung, modell.Langbeschreibung, modell.KategorieID, modell.Preis);
-
-            List<Kategorie> kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
-            modell.Kategorien = new List<KategorieModell>();
-            foreach (var kategorie in kategorien)
+            int gespeichertesProduktID = 0;
+            if (ModelState.IsValid)
             {
-                modell.Kategorien.Add(new KategorieModell()
+                byte[] bildDaten = null;
+                if (neuesBild != null)
                 {
-                    ID = kategorie.ID,
-                    Bezeichnung = kategorie.Bezeichnung
-                });
+                    // Convert Image to byte[]
+                    using (var binaryReader = new BinaryReader(neuesBild.InputStream))
+                    {
+                        bildDaten = binaryReader.ReadBytes(neuesBild.ContentLength);
+                    }
+                }
+                if ((bildDaten == null && neuesBild != null) || (modell.ID == 0 && neuesBild == null))
+                {
+                    TempData["Fehler"] = "Neues Bild konnte nicht hochgeladen werden.";                     
+                }
+                else
+                {
+                    gespeichertesProduktID = BL_BricoMarche.DatenVerwaltung.Artikel.SpeichereArtikel(modell.ID, modell.Bezeichnung, modell.Langbeschreibung, modell.KategorieID, modell.Preis, bildDaten, modell.Aktiv);
+                }
             }
-
+            else
+            {
+                TempData["Fehler"] = "Es wurden nicht alle benötgten Felder ausgefüllt.";
+            }
+            if (gespeichertesProduktID != 0)
+            {
+                TempData["Erfolg"] = "Produkt erfolgreich gespeichert!";
+                return RedirectToAction("ProduktVerwalten", new { produktID = gespeichertesProduktID });
+            }
+            modell.Kategorien = new List<KategorieModell>();
+            List<Kategorie> kategorien = BL_BricoMarche.DatenVerwaltung.Kategorie.LadeAlleKategorien();
+            if (kategorien != null)
+            {
+                foreach (var kategorie in kategorien)
+                {
+                    modell.Kategorien.Add(new KategorieModell()
+                    {
+                        ID = kategorie.ID,
+                        Bezeichnung = kategorie.Bezeichnung
+                    });
+                }
+            }
+            else
+            {
+                modell.Kategorien.Add(new KategorieModell());
+            }
             return View(modell);
         }
         #endregion

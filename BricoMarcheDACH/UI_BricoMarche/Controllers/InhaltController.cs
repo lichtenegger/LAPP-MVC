@@ -191,15 +191,15 @@ namespace UI_BricoMarche.Controllers
         /// <returns>Bild</returns>
         [HttpGet]
         [AllowAnonymous]
-        [OutputCache(VaryByParam = "id", Duration = 300)]
+        //[OutputCache(VaryByParam = "id", Duration = 300)]
         public ActionResult ProduktBild(int ProduktID = -1)
         {
             ActionResult geladenesBild = null;
-            ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
+            ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/*");
             if (ProduktID != -1)
             {
                 MemoryStream stream = new MemoryStream(Artikel.LadeArtikelBild(ProduktID));
-                geladenesBild = new FileStreamResult(stream, "image/png");
+                geladenesBild = new FileStreamResult(stream, "image/*");
 
             }
             return geladenesBild != null ? geladenesBild : bild;

@@ -10,9 +10,10 @@ namespace UI_BricoMarche.Models.InhaltModelle
     public class ArtikelModell
     {
         public int ID { get; set; }
-
+        [Required]
         public string Bezeichnung { get; set; }
 
+        [Required]
         [DataType(DataType.Currency)]
         public decimal Preis { get; set; }
 
