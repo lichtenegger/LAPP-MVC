@@ -1,48 +1,20 @@
 ﻿@model  IEnumerable<UI_BricoMarche.Models.InhaltModelle.ArtikelModell>
 
 @{
+    ViewBag.Admin = Session["Admin"];
     ViewBag.Title = "Produkte";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
 
 <h2>Produkte</h2>
-
 <div class="container-fluid">
-    <hr />
-@foreach (var produkt in Model)
-{
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayFor(model => produkt.Bezeichnung)
-        </dt>
-
-        <dd>
-
-            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail"/>
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => produkt.Preis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => produkt.Preis)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => produkt.Kategorie)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => produkt.Kategorie)
-        </dd>
-    </dl>
-}
-    <div class="pagination">
+    <i class="text-info">@ViewBag.AnzahlProdukte Produkte gefunden!</i>
+<hr />
+    <div class="pagination clearfix">
         @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")
-        {
-            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
             {
+                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+                {
                 @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                 <text>&nbsp;</text>
             }
@@ -51,10 +23,73 @@
         {
             for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
             {
-            @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
-            <text>&nbsp;</text>
+                @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                <text>&nbsp;</text>
             }
-
         }
     </div>
+    <hr />
+    <div>
+        @foreach (var produkt in Model)
+        {
+            <div class="floating caption">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayFor(model => produkt.Bezeichnung)
+
+                    </dt>
+                    @if (ViewBag.Admin != null && ViewBag.Admin == "Ja")
+                    {
+                        <dd>
+                            <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("ProduktVerwalten", "Administration", new { produktID = produkt.ID })">
+                                <i class="glyphicon glyphicon-edit"></i> Produkt bearbeiten
+                            </a>
+                        </dd>
+                    }
+                    else
+                    {
+                        <dd>
+                            <a href="@Url.Action("ProduktDetails", "Inhalt", new { ProduktID = produkt.ID })"><img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = produkt.ID })" alt="Produkt-Bild" class="thumbnail" /></a>
+                        </dd>
+                    }
+
+                    <dt>
+                        @Html.LabelFor(model => produkt.Preis)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => produkt.Preis)
+                    </dd>
+
+                    <dt>
+                        @Html.LabelFor(model => produkt.Kategorie)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => produkt.Kategorie)
+                    </dd>
+                </dl>
+            </div>
+        }
+    </div>
+        <p class="clearfix"></p>
+        <hr />
+        <div class="pagination">
+            @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")
+            {
+                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+                {
+                    @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                    <text>&nbsp;</text>
+                }
+            }
+            else
+            {
+                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+                {
+                    @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                    <text>&nbsp;</text>
+                }
+            }
+        </div>
 </div>

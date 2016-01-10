@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UI_BricoMarche.Models.InhaltModelle;
-using static BL_BricoMarche.DatenVerwaltung.Inhalt;
+using BL_BricoMarche.DatenVerwaltung;
 
 namespace UI_BricoMarche.Controllers
 {
@@ -23,7 +23,7 @@ namespace UI_BricoMarche.Controllers
         /// <returns>Willkommen View (Die Startseite der Webanwendung)</returns>
         public ActionResult Willkommen()
         {
-            return View();
+            return RedirectToAction("Produkte");
         }
         #endregion
 
@@ -33,12 +33,13 @@ namespace UI_BricoMarche.Controllers
         /// </summary>
         /// <param name="inhalt"></param>
         /// <returns></returns>
-        [HttpGet]
+        //[HttpGet]
         [AllowAnonymous]
+        [OutputCache(VaryByParam = "inhalt", Duration = 300)]
         public ActionResult Kategorien(string inhalt)
         {
             List<KategorieModell> modell = new List<KategorieModell>();
-            List<BL_BricoMarche.Kategorie> alleKategorien = LadeAlleKategorien();
+            List<BL_BricoMarche.Kategorie> alleKategorien = Kategorie.LadeAlleKategorien();
             if (alleKategorien != null)
             {
                 foreach (var kategorie in alleKategorien)
@@ -55,27 +56,32 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
+
+        #region -- Produkte Action -------------------------------------------------------
+
+        #region Produkte : Suchbegriff : Seite : Anzahl
+        /// <summary>
+        /// Gibt eine Anzahl an Artikel einer Seite die einem Suchbegriff entpsrechen an die Sicht weiter.
+        /// </summary>
+        /// <param name="suchbegriff"></param>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Suche(string inhalt)
-        {
-            ViewBag.Inhalt = inhalt;
-            return View();
-        }
-
         public ActionResult ProdukteSuche(string suchbegriff = "", int seite = 1, int anzahl = 20)
         {
             if (suchbegriff == "")
             {
                 return RedirectToAction("Produkte");
             }
-            List<BL_BricoMarche.Artikel> geladeneProdukte = LadeAlleArtikel(suchbegriff, seite, anzahl);
+            List<BL_BricoMarche.Artikel> geladeneProdukte = Artikel.LadeAlleArtikel(suchbegriff, seite, anzahl);
             if (geladeneProdukte == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden gesucher Produkte aus der Datenbank.";
             }
             View("Produkte").ViewBag.Suchbegriff = suchbegriff;
-            View("Produkte").ViewBag.AnzahlProdukte = ZaehleAlleArtikel(suchbegriff);
+            View("Produkte").ViewBag.AnzahlProdukte = Artikel.ZaehleAlleArtikel(suchbegriff);
             View("Produkte").ViewBag.Seite = 1;
             View("Produkte").ViewBag.AnzahlProSeite = 20;
             List<ArtikelModell> modell = new List<ArtikelModell>();
@@ -91,8 +97,7 @@ namespace UI_BricoMarche.Controllers
             }
             return View("Produkte", modell);
         }
-
-        #region -- Produkte Action -------------------------------------------------------
+        #endregion
 
         #region Produkte : Kategorie : Seite : Anzahl
         /// <summary>
@@ -107,14 +112,14 @@ namespace UI_BricoMarche.Controllers
         public ActionResult Produkte(int kategorieID = -1, int seite = 1, int anzahl = 20) 
         {
             List<ArtikelModell> modell = new List<ArtikelModell>();
-            ViewBag.AnzahlProdukte = kategorieID == -1 ? ZaehleAlleArtikel() : ZaehleAlleArtikel(kategorieID);
+            ViewBag.AnzahlProdukte = kategorieID == -1 ? Artikel.ZaehleAlleArtikel() : Artikel.ZaehleAlleArtikel(kategorieID);
             ViewBag.KategorieID = kategorieID;
             ViewBag.AnzahlProSeite = anzahl;
             ViewBag.Seite = seite;
             ViewBag.Suchbegriff = "";
             Debug.WriteLine("-- START: Produkte - GET --------------------------------------------------------------- ");
             Debug.Indent();
-            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? LadeAlleArtikel(seite, anzahl) : LadeAlleArtikel(kategorieID, seite, anzahl);
+            List<BL_BricoMarche.Artikel> geladeneProdukte = kategorieID == -1 ? Artikel.LadeAlleArtikel(seite, anzahl) : Artikel.LadeAlleArtikel(kategorieID, seite, anzahl);
             if (geladeneProdukte == null || geladeneProdukte.Count == 0)
             {
                 Debug.WriteLine("Fehler! 0 Produkte in Controller geladen.");
@@ -139,6 +144,45 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
+        #region ProduktDetails
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ProduktDetails(int produktID = -1)
+        {
+            if (produktID == -1)
+            {
+                return RedirectToAction("Willkommen", "Inhalt", null);
+            }
+            ArtikelDetailModell modell = null;
+            BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
+            List <BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.Take(3).ToList();
+            if (geladenerArtikel == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
+                return RedirectToRoute("~/Error");
+            }
+            modell = new ArtikelDetailModell
+            {
+                ID = geladenerArtikel.ID,
+                Bezeichnung = geladenerArtikel.Bezeichnung,
+                Langbeschreibung = geladenerArtikel.Beschreibung,
+                Kategorie = geladenerArtikel.EineKategorie.Bezeichnung,
+                Preis = geladenerArtikel.Preis,
+                verlinkteVideos = new List<VideoModell>(),
+                Gemerkt = Artikel.WirdGemerkt(produktID, User.Identity.Name)
+            };
+            foreach (var video in verlinkteVideos)
+            {
+                modell.verlinkteVideos.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung
+                });
+            }
+            return View(modell);
+        }
+        #endregion
+
         #region ProduktBild
         /// <summary>
         /// Holt zu einem bestimmten Produkt das ProduktBild aus der Datenbank.
@@ -154,11 +198,46 @@ namespace UI_BricoMarche.Controllers
             ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
             if (ProduktID != -1)
             {
-                MemoryStream stream = new MemoryStream(LadeArtikelBild(ProduktID));
+                MemoryStream stream = new MemoryStream(Artikel.LadeArtikelBild(ProduktID));
                 geladenesBild = new FileStreamResult(stream, "image/png");
 
             }
             return geladenesBild != null ? geladenesBild : bild;
+        }
+        #endregion
+
+
+        #region Produkt merken
+        [HttpGet]
+        [Authorize]
+        public ActionResult ProduktMerken(int produktID = 0)
+        {
+            if (produktID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.MerkeArtikel(produktID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht gemerkt!";
+            }
+            return RedirectToAction("ProduktDetails", "Inhalt", new { produktID = produktID });
+        }
+        #endregion
+
+        #region Produkt vergessen
+        [HttpGet]
+        [Authorize]
+        public ActionResult ProduktVergessen(int produktID = 0)
+        {
+            if (produktID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.VergissArtikel(produktID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht vergessen!";
+            }
+            return RedirectToAction("ProduktDetails", "Inhalt", new { produktID = produktID });
         }
         #endregion
 
@@ -167,29 +246,170 @@ namespace UI_BricoMarche.Controllers
 
         #region -- Videos Action ---------------------------------------------------------
 
+        #region Videos : Kategorie : Seite : Anzahl
         /// <summary>
-        /// Videos Action
+        /// Gibt eine Anzahl an Videos einer bestimmten Seite aus einer eventuellen Kategorie an die Sicht weiter.
         /// </summary>
-        /// <returns>Alle Videoss</returns>
-        public ActionResult Videos()
+        /// <param name="kategorieID"></param>
+        /// <param name="seite" default="1"></param>
+        /// <param name="anzahl" default=20></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Videos(int kategorieID = -1, int seite = 1, int anzahl = 20)
         {
-            return View();
+            List<VideoModell> modell = new List<VideoModell>();
+            ViewBag.AnzahlVideos = kategorieID == -1 ? Video.ZaehleAlleVideos() : Video.ZaehleAlleVideos(kategorieID);
+            ViewBag.KategorieID = kategorieID;
+            ViewBag.AnzahlProSeite = anzahl;
+            ViewBag.Seite = seite;
+            ViewBag.Suchbegriff = "";
+            Debug.WriteLine("-- START: Videos - GET --------------------------------------------------------------- ");
+            Debug.Indent();
+            List<BL_BricoMarche.Video> geladeneVideos = kategorieID == -1 ? Video.LadeAlleVideos(seite, anzahl) : Video.LadeAlleVideos(kategorieID, seite, anzahl);
+            if (geladeneVideos == null || geladeneVideos.Count == 0)
+            {
+                Debug.WriteLine("Fehler! 0 Videos in Controller geladen.");
+                TempData["Fehler"] = "Fehler beim laden der Videos aus der Datenbank.";
+                return RedirectToAction("Willkommen");
+            }
+            Debug.WriteLine("Erfolg! " + geladeneVideos.Count + " Videos in Controller geladen.");
+            foreach (var video in geladeneVideos)
+            {
+                modell.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung
+                });
+            }
+            Debug.WriteLine("\t -->" + modell.Count + " Videos in Modell geladen.");
+            Debug.Unindent();
+            Debug.WriteLine("-- Ende: Videos - GET --------------------------------------------------------------- ");
+            return View(modell);
         }
+        #endregion
+
+        #region VideoDetails
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult VideoDetails(int videoID = -1)
+        {
+            if (videoID == -1)
+            {
+                return RedirectToAction("Willkommen", "Inhalt", null);
+            }
+            VideoDetailModell modell = null;
+            BL_BricoMarche.Video geladenesVideo = Video.LadeVideo(videoID);
+            if (geladenesVideo == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden von Video " + videoID + "aus der Datenbank.";
+                return RedirectToRoute("~/Error");
+            }
+            modell = new VideoDetailModell
+            {
+                ID = geladenesVideo.ID,
+                Bezeichnung = geladenesVideo.Bezeichnung,
+                Langbeschreibung = geladenesVideo.Beschreibung,
+                Kategorie = geladenesVideo.EineKategorie.Bezeichnung,
+                Pfad = geladenesVideo.Pfad,
+                verlinkteProdukte = new List<ArtikelModell>(),
+                Gemerkt = Video.WirdGemerkt(videoID, User.Identity.Name)
+            };
+            foreach (var produkt in geladenesVideo.VerlinkteArtikel)
+            {
+                modell.verlinkteProdukte.Add(new ArtikelModell
+                {
+                    ID = produkt.ID,
+                    Bezeichnung = produkt.Bezeichnung
+                });
+            }
+            return View(modell);
+        }
+        #endregion
+
+
+        #region VideoBild
+        /// <summary>
+        /// Holt zu einem bestimmten Video das VideoBild aus der Datenbank.
+        /// </summary>
+        /// <param name="videoID"></param>
+        /// <returns>Bild</returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [OutputCache(VaryByParam = "id", Duration = 300)]
+        public ActionResult VideoBild(int videoID = -1)
+        {
+            ActionResult geladenesBild = null;
+            ActionResult bild = new FilePathResult(Url.Content("~/Content/images/default-produkt.png"), "image/png");
+            if (videoID != -1)
+            {
+                MemoryStream stream = new MemoryStream(Video.LadeVideoBild(videoID));
+                geladenesBild = new FileStreamResult(stream, "image/png");
+
+            }
+            return geladenesBild != null ? geladenesBild : bild;
+        }
+        #endregion
+
+        #region Video merken
+        [HttpGet]
+        [Authorize]
+        public ActionResult VideoMerken(int videoID = 0)
+        {
+            if (videoID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.MerkeVideo(videoID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht gemerkt!";
+            }
+            return RedirectToAction("VideoDetails", "Inhalt", new { videoID = videoID });
+        }
+        #endregion
+
+        #region Video vergessen
+        [HttpGet]
+        [Authorize]
+        public ActionResult VideoVergessen(int videoID = 0)
+        {
+            if (videoID < 1)
+            {
+                return RedirectToRoute("~/Error");
+            }
+            if (!Benutzer.VergissVideo(videoID, User.Identity.Name))
+            {
+                TempData["Fehler"] = "Video wurde nicht vergessen!";
+            }
+            return RedirectToAction("VideoDetails", "Inhalt", new { videoID = videoID });
+        }
+        #endregion
 
         #endregion
 
-        #region -- Detail -----------------------------------------------------------------
-
-        /// <summary>
-        /// Detail Action
-        /// </summary>
-        /// <param name="artID"></param>
-        /// <returns>Die Detail-Ansicht eines Produkte oder Videoss</returns>
-        public ActionResult Details(string artID)
-        {
-            return View();
-        }
-
-        #endregion
     }
+
+    #region Wandler
+    class Wandler
+    {
+        public static VideoDetailModell Wandle(BL_BricoMarche.Video video)
+        {
+            VideoDetailModell modell = null;
+            if (video != null)
+            {
+                modell = new VideoDetailModell()
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung,
+                    Langbeschreibung = video.Beschreibung,
+                    Pfad = video.Pfad
+                };
+            }
+
+            return modell;
+        }
+    }
+    #endregion
 }

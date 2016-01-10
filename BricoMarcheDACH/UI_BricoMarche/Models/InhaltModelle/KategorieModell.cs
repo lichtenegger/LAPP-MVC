@@ -12,5 +12,10 @@ namespace UI_BricoMarche.Models.InhaltModelle
         public int ID { get; set; }
         [Required]
         public string Bezeichnung { get; set; }
+
+        public override string ToString()
+        {
+            return Bezeichnung;
+        }
     }
 }

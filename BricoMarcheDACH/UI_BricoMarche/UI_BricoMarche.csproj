@@ -120,22 +120,24 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BenutzerController.cs" />
     <Compile Include="Controllers\InhaltController.cs" />
+    <Compile Include="Controllers\MerklisteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BenutzerModelle\AnmeldungModell.cs" />
+    <Compile Include="Models\BenutzerModelle\ProfilModell.cs" />
     <Compile Include="Models\BenutzerModelle\BenutzerModell.cs" />
-    <Compile Include="Models\BenutzerModelle\Merkzettel.cs" />
-    <Compile Include="Models\BenutzerModelle\RegistrierungModell.cs" />
+    <Compile Include="Models\BenutzerModelle\HilfsModelle\MerklisteModell.cs" />
+    <Compile Include="Models\BenutzerModelle\RegistrierenModell.cs" />
+    <Compile Include="Models\InhaltModelle\ArtikelBearbeitenModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\ArtikelModell.cs" />
     <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
     <Compile Include="Models\BenutzerModelle\HilfsModelle\OrtModell.cs" />
-    <Compile Include="Models\BenutzerModelle\ProfilModell.cs" />
-    <Compile Include="Models\InhaltModelle\InhaltDarstellungModell.cs" />
-    <Compile Include="Models\InhaltModelle\InhaltModell.cs" />
+    <Compile Include="Models\BenutzerModelle\EditierenModell.cs" />
     <Compile Include="Models\InhaltModelle\KategorieModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoModell.cs" />
@@ -144,14 +146,19 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\default-produkt.png" />
+    <Content Include="Content\images\site-bg-tools-resized.jpg" />
     <Content Include="Content\images\site-logo.png" />
     <Content Include="Content\images\site-bg-tools.jpg" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -163,6 +170,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -186,7 +195,13 @@
     <Content Include="Views\Inhalt\Videos.cshtml" />
     <Content Include="Views\Benutzer\Editieren.cshtml" />
     <Content Include="Views\Inhalt\Kategorien.cshtml" />
-    <Content Include="Views\Inhalt\Suche.cshtml" />
+    <Content Include="Views\Inhalt\ProduktDetails.cshtml" />
+    <Content Include="Views\Inhalt\VideoDetails.cshtml" />
+    <Content Include="Error.cshtml" />
+    <Content Include="Views\Merkliste\Willkommen.cshtml" />
+    <Content Include="Views\Administration\Willkommen.cshtml" />
+    <Content Include="Views\Administration\ProduktVerwalten.cshtml" />
+    <Content Include="Views\Administration\BenutzerVerwalten.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

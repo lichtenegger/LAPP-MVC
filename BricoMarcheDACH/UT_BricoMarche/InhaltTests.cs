@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static BL_BricoMarche.DatenVerwaltung.Inhalt;
+using BL_BricoMarche.DatenVerwaltung;
 
 namespace UT_BricoMarche
 {
@@ -10,7 +10,7 @@ namespace UT_BricoMarche
         [TestMethod]
         public void KategorienWerdenGeladen()
         {
-            Assert.IsNotNull(LadeAlleKategorien());
+            Assert.IsNotNull(Kategorie.LadeAlleKategorien());
         }
     }
 }

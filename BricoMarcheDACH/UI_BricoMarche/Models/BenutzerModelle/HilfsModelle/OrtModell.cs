@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UI_BricoMarche.Models.BenutzerModelle.HilfsModelle
+namespace UI_BricoMarche.Models.BenutzerModelle
 {
     public class OrtModell
     {

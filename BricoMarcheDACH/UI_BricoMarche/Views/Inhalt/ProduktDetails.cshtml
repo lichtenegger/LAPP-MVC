@@ -1,0 +1,89 @@
+﻿@model UI_BricoMarche.Models.InhaltModelle.ArtikelDetailModell
+
+@{
+    ViewBag.Title = "Produkte";
+    Layout = "~/Views/Shared/_InhaltLayout.cshtml";
+}
+
+<h2>ProduktDetails</h2>
+
+<div class="container-fluid">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => model.Bezeichnung)
+        </dt>
+
+        <dd>
+            <img src="@Url.Action("ProduktBild", "Inhalt", new { ProduktID = Model.ID })" alt="Produkt-Bild" class="thumbnail" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Preis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Preis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategorie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Langbeschreibung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langbeschreibung)
+        </dd>
+    </dl>
+    <hr />
+    <div id="artikelMerkliste">
+        <h3>Merkliste</h3>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (!Model.Gemerkt)
+                {
+                    <a href="@Url.Action("ProduktMerken", "Inhalt", new { produktID = Model.ID })">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        @Model.Bezeichnung merken!
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("ProduktVergessen", "Inhalt", new { produktID = Model.ID })">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                        @Model.Bezeichnung von der Liste entfernen!
+                    </a>
+                }
+                <br /><br />
+                @Html.ActionLink("Zur Merkliste", "Willkommen", "Merliste");
+            }
+            else
+            {
+                <text>Sie müsssen sich anmelden um die Merklist verwenden zu können!</text>
+            }
+        </div>
+    </div>
+    <hr />
+    <h3>Passende Videos</h3>
+    <div id="videoDetails">
+        @foreach (var video in Model.verlinkteVideos)
+            {
+            <div class="floating" style="padding: 5px">
+                <a href="@Url.Action("VideoDetails", "Inhalt", new { videoID = video.ID })">
+                    <figure>
+                        <figcaption>@video.Bezeichnung</figcaption>
+                        <img src="@Url.Action("VideoBild", "Inhalt", new { videoID = video.ID })" class="thumbnail" />
+                    </figure>
+                </a>
+            </div>
+        }
+    </div>
+</div>

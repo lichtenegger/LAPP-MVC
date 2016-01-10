@@ -3,17 +3,37 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Threading.Tasks;
-using System.Text;
-
 
 namespace UI_BricoMarche.Models.BenutzerModelle
 {
-    public class ProfilModell : RegistrierungModell
+    public class ProfilModell : BenutzerModell
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Pflichtfeld")]
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Email-Adresse")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
+        public override string Email { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        public override string Vorname { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        public override string Nachname { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public override DateTime Geburtsdatum { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.MultilineText)]
+        public override string Adresse { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Ort")]
+        public override int OrtID { get; set; }
+
         [DataType(DataType.Password)]
-        [Display(Name = "altes Passwort")]
-        public string AltesPasswort { get; set; }
+        [RegularExpression(@"[\w+\S+\d+]{5,12}", ErrorMessage = "Passwort muss 5-12 Zeichen lang sein und aus Buchstaben, Ziffern & Sonderzeichen bestehen.")]
+        public virtual string NeuesPasswort { get; set; }
     }
 }

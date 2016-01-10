@@ -10,12 +10,67 @@ namespace BL_BricoMarche.DatenVerwaltung
 {
     public static class Benutzer
     {
+        #region LadeAlleBenutzer
+        public static List<BL_BricoMarche.Benutzer> LadeAlleBenutzer()
+        {
+            List<BL_BricoMarche.Benutzer> geladeneBenutzer = null;
+            Debug.WriteLine("-- START: LADE ALLE BENUTZER ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    geladeneBenutzer = kontext.AlleBenutzer.ToList();
+
+                    Debug.WriteLine("Erfolg! " + geladeneBenutzer.Count() + " Benutzer geladen!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: LADE ALLE BENUTZER  -----------------------------------------------------");
+            return geladeneBenutzer;
+        }
+        #endregion
+
         #region SindAnmeldeDatenRichtig
         public static bool SindAnmeldeDatenRichtig(string benutzerName, string passwort)
         {
             return Sicherheit.IstPasswortRichtig(benutzerName, passwort);
         }
         #endregion SindAnmeldeDatenRichtig
+
+        #region IstBenutzerAdministrator
+        public static bool IstBenutzerAdministrator(string benutzerName)
+        {
+            bool istAdmin = false;
+            Debug.WriteLine("-- START: IST BENUTZER ADMIN ---------------------------------------------------");
+            Debug.Indent();
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    istAdmin = kontext.AlleBenutzer.Include("EineGruppe").Where(x => x.Benutzername == benutzerName).SingleOrDefault().EineGruppe.Bezeichnung == "Administrator";
+                    Debug.WriteLine("ERFOLG!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: IST BENUTZER ADMIN  ----------------------------------------------------");
+
+
+            return istAdmin;
+        }
+
+        #endregion
 
         #region RegistriereBenutzer
         /// <summary>
@@ -39,12 +94,14 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Nachname = nachname,
                 Adresse = adresse,
                 Ort_ID = ortId,
-                Gruppe_ID = 1
+                Gruppe_ID = 1,
+                Aktiv = true,
             };
             return Sicherheit.Registrierung(neuerBenutzer, passwort);
         }
         #endregion RegistriereBenutzer
 
+        #region EditiereBenutzer
         public static bool EditiereBenutzer(string benutzerName, string altesPasswort, string neuesPasswort, DateTime geburtsDatum, string vorname, string nachname, string adresse, int ortId)
         {
             BL_BricoMarche.Benutzer editierterBenutzer = new BL_BricoMarche.Benutzer() {
@@ -55,13 +112,146 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Adresse = adresse,
                 Ort_ID = ortId
             };
+ 
             return Sicherheit.Editieren(editierterBenutzer, altesPasswort, neuesPasswort);
-        }
 
+        }
+        #endregion
+
+        #region LadeBenutzerProfil
         public static BL_BricoMarche.Benutzer LadeBenutzerProfil(string benutzerName)
         {
             return Sicherheit.HoleBenutzerDaten(benutzerName);
         }
+        #endregion
+
+        #region MerkeArtikel
+        public static bool MerkeArtikel(int id, string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: MEKRE ARTIKEL ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer aktuellerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    aktuellerBenutzer.GemerkteArtikel.Add(kontext.AlleArtikel.Where(x => x.ID == id).SingleOrDefault());
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Artikel gemerkt!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: MEKRE ARTIKEL -----------------------------------------------------");
+            return erfolgt;
+
+        }
+        #endregion
+
+        #region VergissArtikel
+        public static bool VergissArtikel(int id, string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: VERGISS ARTIKEL ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer aktuellerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    aktuellerBenutzer.GemerkteArtikel.Remove(kontext.AlleArtikel.Where(x => x.ID == id).SingleOrDefault());
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Artikel vergessen!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: VERGISS ARTIKEL  -----------------------------------------------------");
+            return erfolgt;
+
+        }
+        #endregion
+
+        #region MerkeVideo
+        public static bool MerkeVideo(int id, string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: MEKRE VIDEO ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer aktuellerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    aktuellerBenutzer.GemerkteVideos.Add(kontext.AlleVideos.Where(x => x.ID == id).SingleOrDefault());
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Video gemerkt!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: MEKRE VIDEO  -----------------------------------------------------");
+            return erfolgt;
+
+        }
+        #endregion
+
+        #region VergissVideo
+        public static bool VergissVideo(int id, string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: VERGISS VIDEO ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer aktuellerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    aktuellerBenutzer.GemerkteVideos.Remove(kontext.AlleVideos.Where(x => x.ID == id).SingleOrDefault());
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Video vergessen!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: VERGISS VIDEO  -----------------------------------------------------");
+            return erfolgt;
+
+        }
+        #endregion
 
         #region Sicherheit
         #region summary
@@ -118,7 +308,6 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Debug.Unindent();
                 Debug.WriteLine("-- ENDE: EDITIEREN -----------------------------------------------------");
                 return erfolgt;
-                ;
             }
             #endregion Editieren
 
@@ -275,15 +464,47 @@ namespace BL_BricoMarche.DatenVerwaltung
             /// </summary>
             /// <param name="text"></param>
             /// <returns>HashWert</returns>
-            private static byte[] ErmittleHashWert(string text)
+            public static byte[] ErmittleHashWert(string text)
             {
                 SHA256 algorithm = SHA256.Create();
                 return algorithm.ComputeHash(UnicodeEncoding.UTF8.GetBytes(text));
             }
             #endregion ErmittleHashWert
         }
-        #endregion Sicherheit
+        #endregion
 
+        #region PasswortReset
+        public static bool PasswortReset(string benutzerName)
+        {
+            bool erfolgt = false;
+            Debug.WriteLine("-- START: PASSWORT RESET ----------------------------------------------------");
+            Debug.Indent();
+
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    BL_BricoMarche.Benutzer geladenerBenutzer = kontext.AlleBenutzer.Where(x => x.Benutzername == benutzerName).SingleOrDefault();
+
+                    geladenerBenutzer.Passwort = Sicherheit.ErmittleHashWert("123Passwort!");
+
+                    int anzahlBetroffeneZeilen = kontext.SaveChanges();
+                    erfolgt = anzahlBetroffeneZeilen == 1;
+                    Debug.WriteLine(anzahlBetroffeneZeilen + " Video gemerkt!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: PASSWORT RESET  -----------------------------------------------------");
+            return erfolgt;
+        }
+        #endregion
+
+        #region Orte
         public static class Orte
         {
             public static List<Ort> LadeAlleOrte()
@@ -310,5 +531,6 @@ namespace BL_BricoMarche.DatenVerwaltung
                 return orte;
             }
         }
+        #endregion
     }
 }

@@ -1,0 +1,108 @@
+﻿@model UI_BricoMarche.Models.InhaltModelle.VideoDetailModell
+
+@{
+    ViewBag.Title = "Videos";
+    Layout = "~/Views/Shared/_InhaltLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <hr />
+
+        <figure>
+            <video controls="controls" src="~/Content/videos/@Model.Pfad">
+                <source src="~/Content/videos/@Model.Pfad" type="video/mp4" />
+                <source src="~/Content/videos/@Model.Pfad" type="video/ogg" />
+                <div>
+                    Ihr Browser unterstütz leider keine Videos
+                    <img src="@Url.Action("Bild", "Video", new { id = Model.ID })" alt="@Model.Bezeichnung" />
+                </div>
+            </video>
+            <figcaption>@Model.Bezeichnung</figcaption>
+        </figure>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bezeichnung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bezeichnung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Langbeschreibung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Langbeschreibung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategorie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Schlagwoerter)
+        </dt>
+
+        <dd>
+            @if (Model.Schlagwoerter != null && Model.Schlagwoerter.Count() > 0)
+            {
+                foreach (var schlagwort in Model.Schlagwoerter)
+                {
+                    <p>schlagwort </p>
+                }
+            }
+        </dd>
+
+    </dl>
+    <hr />
+    <div id="artikelMerkliste">
+        <h3>Merkliste</h3>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (!Model.Gemerkt)
+                {
+                    <a href="@Url.Action("VideoMerken", "Inhalt", new { videoID = Model.ID })">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        @Model.Bezeichnung merken!
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("VideoVergessen", "Inhalt", new { videoID = Model.ID })">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                        @Model.Bezeichnung von der Liste entfernen!
+                    </a>
+                }
+                <br /><br />
+                        @Html.ActionLink("Zur Merkliste", "Willkommen", "Merliste");
+            }
+            else
+            {
+                <text>Sie müsssen sich anmelden um die Merklist verwenden zu können!</text>
+            }
+        </div>
+    </div>
+    <hr />
+    <h3>Passende Produkte</h3>
+    <div id="videoDetails">
+            @foreach (var produkt in Model.verlinkteProdukte)
+            {
+                <div class="floating" style="padding: 5px">
+                    <a href="@Url.Action("ProduktDetails", "Inhalt", new { produktID = produkt.ID })">
+                        <figure>
+                            <figcaption>@produkt.Bezeichnung</figcaption>
+                            <img src="@Url.Action("ProduktBild", "Inhalt", new { produktID = produkt.ID })" class="thumbnail"/>
+                        </figure>
+                    </a>
+                </div>
+            }
+    </div>
+</div>

@@ -14,7 +14,7 @@
           <Property Name="Preis" Type="decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="Aktiv" Type="bit" Nullable="false" />
           <Property Name="Beschreibung" Type="varchar" MaxLength="255" />
-          <Property Name="Bild" Type="varbinary" MaxLength="1" Nullable="false" />
+          <Property Name="Bild" Type="varbinary(max)" Nullable="false" />
           <Property Name="Kategorie_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Artikel_Video">
@@ -82,7 +82,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bezeichnung" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Bezeichnung" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PLZ" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Land_ID" Type="int" Nullable="false" />
         </EntityType>
@@ -101,7 +101,7 @@
           <Property Name="Bezeichnung" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Aktiv" Type="bit" Nullable="false" />
           <Property Name="Beschreibung" Type="varchar" MaxLength="255" />
-          <Property Name="Bild" Type="varbinary" MaxLength="1" Nullable="false" />
+          <Property Name="Bild" Type="varbinary(max)" Nullable="false" />
           <Property Name="Pfad" Type="varchar" MaxLength="8000" Nullable="false" />
           <Property Name="Kategorie_ID" Type="int" Nullable="false" />
         </EntityType>
@@ -348,7 +348,7 @@
           <Property Name="Preis" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="Aktiv" Type="Boolean" Nullable="false" />
           <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Bild" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
+          <Property Name="Bild" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="Kategorie_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EineKategorie" Relationship="Self.FK_Artikel_Kategorie" FromRole="Artikel" ToRole="Kategorie" />
           <NavigationProperty Name="VerlinkteVideos" Relationship="Self.Artikel_Video" FromRole="Artikel" ToRole="Video" />
@@ -403,7 +403,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PLZ" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Land_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VieleBenutzer" Relationship="Self.FK_Benutzer_Ort" FromRole="Ort" ToRole="Benutzer" />
@@ -425,7 +425,7 @@
           <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Aktiv" Type="Boolean" Nullable="false" />
           <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Bild" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
+          <Property Name="Bild" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="Pfad" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Kategorie_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EineKategorie" Relationship="Self.FK_Video_Kategorie" FromRole="Video" ToRole="Kategorie" />
@@ -694,6 +694,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
