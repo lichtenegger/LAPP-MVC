@@ -26,25 +26,32 @@ namespace UI_BricoMarche.Controllers
         [AllowAnonymous]
         public ActionResult Anmelden(AnmeldenModell daten, string returnUrl)
         {
-            if (ModelState.IsValid && SindAnmeldeDatenRichtig(daten.Benuztername, daten.Passwort))
+            if (ModelState.IsValid && SindAnmeldeDatenRichtig(daten.Benutzername, daten.Passwort))
             {
-                FormsAuthentication.SetAuthCookie(daten.Benuztername, true);
-                Debug.WriteLine("AnmeldeDaten sind richtig; AuthCookie gesetzt.");
-                if (IstBenutzerAdministrator(daten.Benuztername))
-                {
-                    Session["Admin"] = "Ja";
-                }
-                else
-                {
-                    Session["Admin"] = "Nein";
-                }
+                Debug.WriteLine("AnmeldeDaten sind richtig; AuthCookie wird gesetzt.");
+
+                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                  1,
+                  daten.Benutzername,
+                  DateTime.Now,
+                  DateTime.Now.AddMinutes(20),
+                  false,
+                  IstBenutzerAdministrator(daten.Benutzername) == true ? "Administrator" : "Benutzer",
+                  "/");
+                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
+                                                   FormsAuthentication.Encrypt(authTicket));
+                Response.Cookies.Add(cookie);
                 TempData["Erfolg"] = "Anmeldung erfolgt!";
             }
             else
             {
-             TempData["Fehler"] = "Fehler beim Anmelden!";
+                TempData["Fehler"] = "Fehler beim Anmelden!";
+                if (!string.IsNullOrEmpty(Request.Params["returnUrl"]))
+                {
+                    return Redirect(Request.Params["returnUrl"]);
+                }
             }
-            return Redirect(returnUrl);
+            return RedirectToAction("Willkommen", "Inhalt");
         }
         #endregion
 
@@ -56,7 +63,6 @@ namespace UI_BricoMarche.Controllers
             Debug.WriteLine("Benutzer - Abmelden - POST");
 
             FormsAuthentication.SignOut();
-            Session.Remove("Admin");
 
             return RedirectToAction("Willkommen", "Inhalt");
         }
@@ -109,7 +115,7 @@ namespace UI_BricoMarche.Controllers
             {
                 if (RegistriereBenutzer(
                     modell.Email,
-                    modell.Passwort,
+                    modell.NeuesPasswort,
                     modell.Geburtsdatum,
                     modell.Vorname,
                     modell.Nachname,
@@ -173,7 +179,8 @@ namespace UI_BricoMarche.Controllers
                     Nachname = benutzer.Nachname,
                     Adresse = benutzer.Adresse,
                     OrtID = benutzer.Ort_ID,
-                    Geburtsdatum = benutzer.Geburtsdatum
+                    Geburtsdatum = benutzer.Geburtsdatum,
+                    Aktiv = benutzer.Aktiv
                 };
 
                 modell.Orte = new List<OrtModell>();
@@ -218,7 +225,8 @@ namespace UI_BricoMarche.Controllers
                         modell.Vorname,
                         modell.Nachname,
                         modell.Adresse,
-                        modell.OrtID))
+                        modell.OrtID,
+                        modell.Aktiv))
                 {
                     TempData["Fehler"] = "Fehler beim Speichern des Profils";
                 }

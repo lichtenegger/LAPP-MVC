@@ -12,12 +12,11 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     public class EditierenlModell : ProfilModell
     {
         [DataType(DataType.Password)]
-        [Display(Name = "Passwort")]
-        [Compare("Passwort", ErrorMessage = "Passwörter stimmen nicht überein")]
+        [Display(Name = "Altes Passwort")]
         public string AltesPasswort { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Passwort wiederholen")]
+        [Display(Name = "Passwort Wiederholung")]
         [Compare("NeuesPasswort", ErrorMessage = "Passwörter stimmen nicht überein")]
         public string PasswortWiederholung { get; set; }
     }

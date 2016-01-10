@@ -11,13 +11,13 @@ using System.Diagnostics;
 
 namespace UI_BricoMarche.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
         #region PRODUKTVERWALTUNG
 
         #region HttpGet
         [HttpGet]
-        [Authorize]
         public ActionResult ProduktVerwalten(int produktID = 0)
         {
             Artikel artikel = null;
@@ -66,7 +66,6 @@ namespace UI_BricoMarche.Controllers
 
         #region HttpPost
         [HttpPost]
-        [Authorize]
         public ActionResult ProduktVerwalten(ArtikelBearbeitenModell modell, HttpPostedFileBase neuesBild = null)
         {
             int gespeichertesProduktID = 0;
@@ -125,7 +124,6 @@ namespace UI_BricoMarche.Controllers
         #region BENUTZERVERWALTUNG
 
         #region Vewalten
-        [Authorize]
         public ActionResult BenutzerVerwalten()
         {
             List <BenutzerModell> modell = null;
@@ -150,8 +148,7 @@ namespace UI_BricoMarche.Controllers
         }
         #endregion
 
-        #region Bearbeiten
-        [Authorize]
+       #region Bearbeiten
         [HttpGet]
         public ActionResult BenutzerBearbeiten(string benutzerName)
         {
@@ -160,7 +157,6 @@ namespace UI_BricoMarche.Controllers
         #endregion
 
         #region Passwort
-        [Authorize]
         public ActionResult PasswortReset(string benutzerName)
         {
             if (!BL_BricoMarche.DatenVerwaltung.Benutzer.PasswortReset(benutzerName))

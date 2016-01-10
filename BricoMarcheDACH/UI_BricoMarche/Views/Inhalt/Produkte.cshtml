@@ -1,11 +1,10 @@
 ﻿@model  IEnumerable<UI_BricoMarche.Models.InhaltModelle.ArtikelModell>
 
 @{
-    ViewBag.Admin = Session["Admin"];
     ViewBag.Title = "Produkte";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
-@if (ViewBag.Admin != null && ViewBag.Admin == "Ja")
+@if (User.IsInRole("Administrator"))
 {
     <a type="button" class="btn btn-primary btn-lg" href="@Url.Action("ProduktVerwalten", "Administration", new { produktID = 0 })">
         <i class="glyphicon glyphicon-plus"></i>Neues Produkt anlegen
@@ -44,7 +43,7 @@
                         @Html.DisplayFor(model => produkt.Bezeichnung)
 
                     </dt>
-                    @if (ViewBag.Admin != null && ViewBag.Admin == "Ja")
+                    @if (User.IsInRole("Administrator"))
                     {
                         <dd>
                             <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("ProduktVerwalten", "Administration", new { produktID = produkt.ID })">

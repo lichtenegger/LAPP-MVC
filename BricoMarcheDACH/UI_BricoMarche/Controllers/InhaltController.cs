@@ -51,7 +51,7 @@ namespace UI_BricoMarche.Controllers
                     });
                 }
             }
-            ViewData["Inhalt"] = inhalt; 
+            ViewData["Inhalt"] = inhalt;
             return PartialView(modell);
         }
         #endregion
@@ -109,7 +109,7 @@ namespace UI_BricoMarche.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Produkte(int kategorieID = -1, int seite = 1, int anzahl = 20) 
+        public ActionResult Produkte(int kategorieID = -1, int seite = 1, int anzahl = 20)
         {
             List<ArtikelModell> modell = new List<ArtikelModell>();
             ViewBag.AnzahlProdukte = kategorieID == -1 ? Artikel.ZaehleAlleArtikel() : Artikel.ZaehleAlleArtikel(kategorieID);
@@ -147,39 +147,43 @@ namespace UI_BricoMarche.Controllers
         #region ProduktDetails
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ProduktDetails(int produktID = -1)
+        public ActionResult ProduktDetails(int produktID = 0)
         {
-            if (produktID == -1)
+            if (produktID != 0)
             {
-                return RedirectToAction("Willkommen", "Inhalt", null);
-            }
-            ArtikelDetailModell modell = null;
-            BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
-            List <BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.Take(3).ToList();
-            if (geladenerArtikel == null)
-            {
-                TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + "aus der Datenbank.";
-                return RedirectToRoute("~/Error");
-            }
-            modell = new ArtikelDetailModell
-            {
-                ID = geladenerArtikel.ID,
-                Bezeichnung = geladenerArtikel.Bezeichnung,
-                Langbeschreibung = geladenerArtikel.Beschreibung,
-                Kategorie = geladenerArtikel.EineKategorie.Bezeichnung,
-                Preis = geladenerArtikel.Preis,
-                verlinkteVideos = new List<VideoModell>(),
-                Gemerkt = Artikel.WirdGemerkt(produktID, User.Identity.Name)
-            };
-            foreach (var video in verlinkteVideos)
-            {
-                modell.verlinkteVideos.Add(new VideoModell
+                ArtikelDetailModell modell = null;
+                BL_BricoMarche.Artikel geladenerArtikel = Artikel.LadeArtikel(produktID);
+                if (geladenerArtikel != null)
                 {
-                    ID = video.ID,
-                    Bezeichnung = video.Bezeichnung
-                });
+                    List<BL_BricoMarche.Video> verlinkteVideos = geladenerArtikel.VerlinkteVideos.Take(3).ToList();
+                    modell = new ArtikelDetailModell
+                    {
+                        ID = geladenerArtikel.ID,
+                        Bezeichnung = geladenerArtikel.Bezeichnung,
+                        Langbeschreibung = geladenerArtikel.Beschreibung,
+                        Kategorie = geladenerArtikel.EineKategorie.Bezeichnung,
+                        Preis = geladenerArtikel.Preis,
+                        verlinkteVideos = new List<VideoModell>(),
+                        Gemerkt = Artikel.WirdGemerkt(produktID, User.Identity.Name)
+                    };
+                    foreach (var video in verlinkteVideos)
+                    {
+                        modell.verlinkteVideos.Add(new VideoModell
+                        {
+                            ID = video.ID,
+                            Bezeichnung = video.Bezeichnung
+                        });
+                    }
+                    return View(modell);
+                }
+                TempData["Fehler"] = "Fehler beim Laden von Artikel " + produktID + " aus der Datenbank.";
+                if (Request.UrlReferrer != null)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
             }
-            return View(modell);
+            return RedirectToAction("Willkommen", "Inhalt", null);
+
         }
         #endregion
 

@@ -501,8 +501,12 @@ namespace BL_BricoMarche.DatenVerwaltung
                     speichereArtikel.Beschreibung = beschreibung;
                     speichereArtikel.Kategorie_ID = kategorieID;
                     speichereArtikel.Preis = preis;
-                    speichereArtikel.Bild = bild;
                     speichereArtikel.Aktiv = aktiv;
+
+                    if (bild != null)
+                    {
+                        speichereArtikel.Bild = bild;
+                    }
 
                     if (id == 0)
                     {

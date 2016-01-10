@@ -34,7 +34,7 @@
             </div>
             <div class="navbar-collapse collapse navbar-default navbar-right" id="layout-collapse">
                 <ul class="nav navbar-nav">
-                    @if (Session["Admin"] != null && Session["Admin"].Equals("Ja"))
+                    @if (User.IsInRole("Administrator"))
                     {
                         <li class="logo-navi">@Html.ActionLink("Produkte Verwalten", "Produkte", "Inhalt", new { kategorieID = -1, seite = 1, anzahl = 20 }, null)</li>
                         @*<li class="logo-navi">@Html.ActionLink("Videos Verwalten", "Videos", "Inhalt")</li>*@
@@ -86,11 +86,13 @@
         @if (TempData["Erfolg"]!=null)
         {
             <text >toastr["success"]('</text>@TempData["Erfolg"]<text>');</text>
+            TempData["Erfolg"] = null;
         }
         else if (TempData["Fehler"]!= null)
         {
 
             <text>toastr["error"]('</text>@TempData["Fehler"]<text>');</text>
+            TempData["Fehler"] = null;
         }
     </script>
 

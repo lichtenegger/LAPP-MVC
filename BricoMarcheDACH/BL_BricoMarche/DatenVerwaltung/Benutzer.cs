@@ -102,7 +102,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         #endregion RegistriereBenutzer
 
         #region EditiereBenutzer
-        public static bool EditiereBenutzer(string benutzerName, string altesPasswort, string neuesPasswort, DateTime geburtsDatum, string vorname, string nachname, string adresse, int ortId)
+        public static bool EditiereBenutzer(string benutzerName, string altesPasswort, string neuesPasswort, DateTime geburtsDatum, string vorname, string nachname, string adresse, int ortId, bool aktiv)
         {
             BL_BricoMarche.Benutzer editierterBenutzer = new BL_BricoMarche.Benutzer() {
                 Benutzername = benutzerName,
@@ -110,7 +110,8 @@ namespace BL_BricoMarche.DatenVerwaltung
                 Nachname = nachname,
                 Geburtsdatum = geburtsDatum,
                 Adresse = adresse,
-                Ort_ID = ortId
+                Ort_ID = ortId,
+                Aktiv = aktiv
             };
  
             return Sicherheit.Editieren(editierterBenutzer, altesPasswort, neuesPasswort);
@@ -294,6 +295,7 @@ namespace BL_BricoMarche.DatenVerwaltung
                         aktuellerBenutzer.Adresse = editierterBenutzer.Adresse;
                         aktuellerBenutzer.Geburtsdatum = editierterBenutzer.Geburtsdatum;
                         aktuellerBenutzer.Ort_ID = editierterBenutzer.Ort_ID;
+                        aktuellerBenutzer.Aktiv = editierterBenutzer.Aktiv;
 
                         int anzahlBetroffeneZeilen = kontext.SaveChanges();
                         erfolgt = anzahlBetroffeneZeilen == 1;

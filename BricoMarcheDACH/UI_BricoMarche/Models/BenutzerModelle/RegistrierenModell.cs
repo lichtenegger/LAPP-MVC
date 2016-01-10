@@ -9,6 +9,10 @@ namespace UI_BricoMarche.Models.BenutzerModelle
     public class RegistrierenModell : ProfilModell
     {
         [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
+        public override string Email { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
         public override string NeuesPasswort { get; set; }
