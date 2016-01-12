@@ -8,7 +8,7 @@ namespace UI_BricoMarche.Models.InhaltModelle
 {
     public class ArtikelDetailModell : ArtikelModell
     {
-        [Required]
+        [Required(ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.MultilineText)]
         public string Langbeschreibung { get; set; }
 

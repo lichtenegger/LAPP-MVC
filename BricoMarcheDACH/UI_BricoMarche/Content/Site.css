@@ -67,6 +67,27 @@ textarea {
     max-width: 300px;
 }
 
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+    margin-left: 2px;
+    /* All browsers except webkit*/
+    transform: scale(1.2);
+    /* Webkit browsers*/
+    -webkit-transform: scale(1.2);
+}
+
+.file {
+    border: unset;
+    padding: unset;
+    box-shadow: unset;
+}
+
+textarea {
+    resize: none;
+    min-height: 100px;
+    overflow: auto;
+}
+
 .logo {
     height: 50px;
     width:auto;

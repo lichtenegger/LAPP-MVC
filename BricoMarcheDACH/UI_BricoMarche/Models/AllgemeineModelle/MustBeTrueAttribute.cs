@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace UI_BricoMarche.Models
@@ -22,7 +20,7 @@ namespace UI_BricoMarche.Models
 
         public override string FormatErrorMessage(string name)
         {
-            return "The " + name + "-field must be checked to continue";
+            return "Bitte stimmen Sie zu";
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

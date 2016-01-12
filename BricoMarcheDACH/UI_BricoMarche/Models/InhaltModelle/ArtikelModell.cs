@@ -10,11 +10,13 @@ namespace UI_BricoMarche.Models.InhaltModelle
     public class ArtikelModell
     {
         public int ID { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Pflichtfeld")]
         public string Bezeichnung { get; set; }
 
-        [Required]
-        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [DataType(DataType.Currency, ErrorMessage = "Bitte geben Sie einen gültigen Preis ein.")]
+        [RegularExpression(@"^\d+\,\d+$", ErrorMessage = "Bitte geben Sie einen gültigen Preis ein")]
         public decimal Preis { get; set; }
 
         public string Kategorie { get; set; }

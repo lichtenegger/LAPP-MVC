@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace UI_BricoMarche.Models.BenutzerModelle
 {
@@ -19,7 +16,8 @@ namespace UI_BricoMarche.Models.BenutzerModelle
         public override string Nachname { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessage = "Bitte das Datum im Format JJJ-MM-DD eingeben. Z.B.: 1980-12-27")]
+        //[RegularExpression(@"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])", ErrorMessage = "Bitte das Datum im Format JJJJ-MM-DD eingeben. Z.B.: 1980-12-27")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public override DateTime Geburtsdatum { get; set; }
 

@@ -14,25 +14,6 @@
 <h2>Produkte</h2>
 <div class="container-fluid">
     <i class="text-info">@ViewBag.AnzahlProdukte Produkte gefunden!</i>
-<hr />
-    <div class="pagination clearfix">
-        @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")
-            {
-                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
-                {
-                @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
-                <text>&nbsp;</text>
-            }
-        }
-        else
-        {
-            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
-            {
-                @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
-                <text>&nbsp;</text>
-            }
-        }
-    </div>
     <hr />
     <div>
         @foreach (var produkt in Model)
@@ -82,7 +63,7 @@
         <div class="pagination">
             @if (ViewBag.Suchbegriff != null && ViewBag.Suchbegriff != "")
             {
-                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+                for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
                 {
                     @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                     <text>&nbsp;</text>
@@ -90,7 +71,7 @@
             }
             else
             {
-                for (int aktSeite = 0; aktSeite < ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
+                for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
                 {
                     @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                     <text>&nbsp;</text>

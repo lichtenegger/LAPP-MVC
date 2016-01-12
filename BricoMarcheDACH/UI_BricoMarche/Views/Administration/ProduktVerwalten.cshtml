@@ -33,7 +33,7 @@ else
         <div class="form-group">
             <label class="control-label col-md-2">Neues Bild:</label>
             <div class="col-md-10" style="margin-top:5px">
-                <input type="file" accept="image/*" name="neuesBild"/>
+                <input type="file" accept="image/*" name="neuesBild" class="form-control file"/>
             </div>
         </div>
 
@@ -48,7 +48,14 @@ else
         <div class="form-group">
             @Html.LabelFor(model => model.Preis, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Preis, new { htmlAttributes = new { @class = "form-control" } })
+                @if (Model.Preis <= 0)
+                {
+                    @Html.EditorFor(model => model.Preis, new { htmlAttributes = new { @class = "form-control", @Value = "" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.Preis, new { htmlAttributes = new { @class = "form-control" } })
+                }
                 @Html.ValidationMessageFor(model => model.Preis, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +65,7 @@ else
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.KategorieID,
                                        new SelectList(Model.Kategorien, "ID", ""),
-                                       new { htmlAttributes = new { @class = "form-control" } })
+                                       new { @class = "form-control" })
 
 
                 @Html.ValidationMessageFor(model => model.KategorieID, "", new { @class = "text-danger" })
