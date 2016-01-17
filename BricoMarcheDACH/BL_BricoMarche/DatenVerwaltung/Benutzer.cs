@@ -44,6 +44,35 @@ namespace BL_BricoMarche.DatenVerwaltung
         }
         #endregion SindAnmeldeDatenRichtig
 
+        #region IstBenutzernameFrei
+        public static bool IstBenutzernameFrei(string benutzerName)
+        {
+            bool istFrei = false;
+            Debug.WriteLine("-- START: IST BENUTZERNAME FREI ---------------------------------------------------");
+            Debug.Indent();
+            using (var kontext = new BricoMarcheDBObjekte())
+            {
+                try
+                {
+                    istFrei = !kontext.AlleBenutzer.Select(x => x.Benutzername).ToList().Contains(benutzerName);
+                    Debug.WriteLine("ERFOLG! Benutzername ist " + (istFrei ? "frei" : "vergeben"));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FEHLER! \n" + ex.Message);
+                    Debugger.Break();
+                }
+            }
+            Debug.Unindent();
+            Debug.WriteLine("-- ENDE: IST BENUTZERNAME FREI  ----------------------------------------------------");
+
+
+            return istFrei;
+        }
+
+        #endregion
+
+
         #region IstBenutzerAdministrator
         public static bool IstBenutzerAdministrator(string benutzerName)
         {

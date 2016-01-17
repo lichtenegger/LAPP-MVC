@@ -6,50 +6,55 @@
 }
 
 <h2>Videos</h2>
-
 <div class="container-fluid">
+    <i class="text-info">@ViewBag.AnzahlVideos Produkte gefunden!</i>
     <hr />
-    @foreach (var video in Model)
-    {
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayFor(model => video.Bezeichnung)
-            </dt>
+    <div>
+        @foreach (var video in Model)
+        {
+            <div class="floating caption">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayFor(model => video.Bezeichnung)
+                    </dt>
 
-            <dd>
+                    <dd>
 
-                <a href="@Url.Action("VideoDetails", "Inhalt", new { videoID = video.ID })">
-                    <img src="@Url.Action("VideoBild", "Inhalt", new { videoID = video.ID })" alt="Video-Bild" class="thumbnail"/>
- 
-                </a>
-            </dd>
+                        <a href="@Url.Action("VideoDetails", "Inhalt", new { videoID = video.ID })">
+                            <img src="@Url.Action("VideoBild", "Inhalt", new { videoID = video.ID })" alt="Video-Bild" class="thumbnail" />
 
-            <dt>
-                @Html.LabelFor(model => video.Kategorie)
-            </dt>
+                        </a>
+                    </dd>
 
-            <dd>
-                @Html.DisplayFor(model => video.Kategorie)
-            </dd>
-        </dl>
-    }
+                    <dt>
+                        @Html.LabelFor(model => video.Kategorie)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => video.Kategorie)
+                    </dd>
+                </dl>
+            </div>
+        }
+    </div>
+    <p class="clearfix"></p>
+    <hr />
     <div class="pagination">
         @if (ViewBag.Schlagwort != null && ViewBag.Schlagwort != "")
-        {
-            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlVideos / ViewBag.AnzahlProSeite; aktSeite++)
             {
-                @Html.ActionLink((aktSeite + 1).ToString(), "VideosSuche", "Inhalt", new { schlagwort = ViewBag.schlagwort, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlVideos / ViewBag.AnzahlProSeite; aktSeite++)
+                {
+                @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                 <text>&nbsp;</text>
             }
         }
         else
         {
-            for (int aktSeite = 0; aktSeite < ViewBag.AnzahlVideos / ViewBag.AnzahlProSeite; aktSeite++)
+            for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
             {
-                @Html.ActionLink((aktSeite + 1).ToString(), "Videos", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                 <text>&nbsp;</text>
             }
-
         }
     </div>
 </div>

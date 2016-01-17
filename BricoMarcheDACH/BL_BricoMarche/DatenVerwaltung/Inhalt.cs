@@ -747,7 +747,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         /// <param name="seite"></param>
         /// <param name="anzahl"></param>
         /// <returns>Liste geladener Videos</returns>
-        public static List<BL_BricoMarche.Video> LadeAlleVideo(string schlagwort, int seite, int anzahl)
+        public static List<BL_BricoMarche.Video> LadeAlleVideos(string schlagwort, int seite, int anzahl)
         {
             List<BL_BricoMarche.Video> geladeneVideos = null;
             Debug.WriteLine("-- START : LADE VIDEO -------------------------------------------------------------");
@@ -901,7 +901,7 @@ namespace BL_BricoMarche.DatenVerwaltung
         /// </summary>
         /// <param name="schlagwort"></param>
         /// <returns>Anzahl</returns>
-        public static int ZaehleAlleVideo(string schlagwort)
+        public static int ZaehleAlleVideos(string schlagwort)
         {
             int anzahl = -1;
             Debug.WriteLine("-- START : ZAEHLE ALLE VIDEOS ----------------------------------------");
@@ -910,7 +910,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    anzahl = kontext.AlleVideos.Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv)
+                    anzahl = kontext.AlleVideos.Include("VieleSchlagwoerter").Where(x => x.Aktiv)
                                                           .Where(x => x.Bezeichnung.ToLower().Contains(schlagwort.ToLower()) ||
                                                                  x.Beschreibung.ToLower().Contains(schlagwort.ToLower())).Count();
                     Debug.WriteLine("ERFOLG! VideoAnzahl ist" + anzahl);

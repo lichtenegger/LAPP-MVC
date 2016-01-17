@@ -58,6 +58,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/toastr")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
     
     <script type="text/javascript">
@@ -68,7 +69,7 @@
                 "debug": false,
                 "newestOnTop": false,
                 "progressBar": false,
-                "positionClass": "toast-top-left",
+                "positionClass": "toast-top-center",
                 "preventDuplicates": false,
                 "showDuration": "100",
                 "hideDuration": "500",
@@ -77,18 +78,18 @@
                 "hideEasing": "linear",
                 "hideMethod": "fadeOut"
             }
-        });
-        @if (TempData["Erfolg"]!=null)
-        {
-            <text >toastr["success"]('</text>@TempData["Erfolg"]<text>');</text>
-            TempData["Erfolg"] = null;
-        }
-        else if (TempData["Fehler"]!= null)
-        {
+            @if (TempData["Erfolg"]!=null)
+            {
+                <text >toastr["success"]('</text>@TempData["Erfolg"]<text>');</text>
+                TempData["Erfolg"] = null;
+            }
+            else if (TempData["Fehler"]!= null)
+            {
 
-            <text>toastr["error"]('</text>@TempData["Fehler"]<text>');</text>
-            TempData["Fehler"] = null;
-        }
+                <text>toastr["error"]('</text>@TempData["Fehler"]<text>');</text>
+                TempData["Fehler"] = null;
+            }
+        });
 
         jQuery.validator.addMethod("mustbetrue", function (value, element, param) {
             return element.checked;

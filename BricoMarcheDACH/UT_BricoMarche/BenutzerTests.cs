@@ -32,15 +32,15 @@ namespace UT_BricoMarche
         public void BenutzerKannSichEditieren()
         {
             Debug.WriteLine("TEST-EINGABE : neues Geburtsdatum, neue Adresse \n");
-            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "", "", new DateTime(1971, 7, 1), "Testoro", "Testilli", "Beim Testplatz 1", 1));
+            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "", "", new DateTime(1971, 7, 1), "Testoro", "Testilli", "Beim Testplatz 1", 1, true));
             Debug.WriteLine("\nTEST-ERGEBNIS: Editieren ist true. \n\n");
 
             Debug.WriteLine("TEST-EINGABE : neues Passwort \n");
-            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "test", "123test", new DateTime(1971, 7, 1), "Testoro", "Testilli", "Beim Testplatz 1", 1));
+            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "test", "123test", new DateTime(1971, 7, 1), "Testoro", "Testilli", "Beim Testplatz 1", 1, true));
             Debug.WriteLine("\nTEST-ERGEBNIS: Editieren ist true. \n\n");
 
             Debug.WriteLine("TEST-EINGABE : Daten wieder zurücksetzen \n");
-            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "123test", "test", new DateTime(1917, 7, 1), "Testoro", "Testilli", "Am Testplatz 1", 1));
+            Assert.IsTrue(EditiereBenutzer("tester@regis.ter", "123test", "test", new DateTime(1917, 7, 1), "Testoro", "Testilli", "Am Testplatz 1", 1, true));
             Debug.WriteLine("\nTEST-ERGEBNIS: Editieren ist true. \n\n");
         }
 

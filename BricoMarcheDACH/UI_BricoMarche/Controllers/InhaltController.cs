@@ -267,15 +267,15 @@ namespace UI_BricoMarche.Controllers
             ViewBag.KategorieID = kategorieID;
             ViewBag.AnzahlProSeite = anzahl;
             ViewBag.Seite = seite;
-            ViewBag.Suchbegriff = "";
+            ViewBag.Schlagwort = "";
             Debug.WriteLine("-- START: Videos - GET --------------------------------------------------------------- ");
             Debug.Indent();
             List<BL_BricoMarche.Video> geladeneVideos = kategorieID == -1 ? Video.LadeAlleVideos(seite, anzahl) : Video.LadeAlleVideos(kategorieID, seite, anzahl);
-            if (geladeneVideos == null || geladeneVideos.Count == 0)
+            if (geladeneVideos == null)
             {
-                Debug.WriteLine("Fehler! 0 Videos in Controller geladen.");
-                TempData["Fehler"] = "Fehler beim laden der Videos aus der Datenbank.";
-                return RedirectToAction("Willkommen");
+                Debug.WriteLine("Fehler!");
+                TempData["Fehler"] = "Fehler beim Laden der Videos aus der Datenbank.";
+                return RedirectToAction("Videos");
             }
             Debug.WriteLine("Erfolg! " + geladeneVideos.Count + " Videos in Controller geladen.");
             foreach (var video in geladeneVideos)
@@ -291,6 +291,45 @@ namespace UI_BricoMarche.Controllers
             Debug.Unindent();
             Debug.WriteLine("-- Ende: Videos - GET --------------------------------------------------------------- ");
             return View(modell);
+        }
+        #endregion
+
+        #region Videos : Suchbegriff : Seite : Anzahl
+        /// <summary>
+        /// Gibt eine Anzahl an Videos einer Seite die einem Suchbegriff entpsrechen an die Sicht weiter.
+        /// </summary>
+        /// <param name="schlagwort"></param>
+        /// <param name="seite"></param>
+        /// <param name="anzahl"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult VideosSuche(string schlagwort = "", int seite = 1, int anzahl = 20)
+        {
+            if (schlagwort == "")
+            {
+                return RedirectToAction("Videos");
+            }
+            List<BL_BricoMarche.Video> geladeneVideos = Video.LadeAlleVideos(schlagwort, seite, anzahl);
+            if (geladeneVideos == null)
+            {
+                TempData["Fehler"] = "Fehler beim Laden gesucher Videos aus der Datenbank.";
+            }
+            View("Videos").ViewBag.Suchbegriff = schlagwort;
+            View("Videos").ViewBag.AnzahlVideos = Video.ZaehleAlleVideos(schlagwort);
+            View("Videos").ViewBag.Seite = 1;
+            View("Videos").ViewBag.AnzahlProSeite = 20;
+            List<VideoModell> modell = new List<VideoModell>();
+            foreach (var video in geladeneVideos)
+            {
+                modell.Add(new VideoModell
+                {
+                    ID = video.ID,
+                    Bezeichnung = video.Bezeichnung,
+                    Kategorie = video.EineKategorie.Bezeichnung
+                });
+            }
+            return View("Videos", modell);
         }
         #endregion
 
@@ -331,7 +370,6 @@ namespace UI_BricoMarche.Controllers
             return View(modell);
         }
         #endregion
-
 
         #region VideoBild
         /// <summary>

@@ -8,12 +8,12 @@ namespace UI_BricoMarche.Models.BenutzerModelle
 {
     public class AnmeldenModell
     {
-        [Required(ErrorMessage = "Pflichtfeld")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Ungültige Email-Adresse")]
+        [Required]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email-Adresse")]
         public string Benutzername { get; set; }
 
-        [Required(ErrorMessage = "Pflichtfeld")]
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
         public string Passwort { get; set; }

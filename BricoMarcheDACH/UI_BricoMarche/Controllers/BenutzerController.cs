@@ -111,7 +111,11 @@ namespace UI_BricoMarche.Controllers
         {
             Debug.WriteLine("-- START : Benutzer - Registrieren - POST ------------------");
             Debug.Indent();
-            if (ModelState.IsValid)
+            if (!IstBenutzernameFrei(modell.Email))
+            {
+                TempData["Fehler"] = "Diese Email-Adresse ist bereits registriert!";
+            }
+            else if (ModelState.IsValid)
             {
                 if (RegistriereBenutzer(
                     modell.Email,
@@ -163,7 +167,15 @@ namespace UI_BricoMarche.Controllers
             Debug.Indent();
             if (benutzerName != null)
             {
-                benutzer = LadeBenutzerProfil(benutzerName);
+                if (IstBenutzerAdministrator(User.Identity.Name))
+                {
+                    benutzer = LadeBenutzerProfil(benutzerName);
+                }
+                else
+                {
+                    TempData["Fehler"] = "Fehler! Fehlende Berechtigung!";
+                    return RedirectToAction("Editieren"); 
+                }
             }
             else
             {
@@ -172,6 +184,7 @@ namespace UI_BricoMarche.Controllers
             }
             if (benutzer != null)
             {
+                ViewData.Add("Email", benutzer.Benutzername);
                 modell = new EditierenlModell()
                 {
                     Email = benutzer.Benutzername,
@@ -217,6 +230,11 @@ namespace UI_BricoMarche.Controllers
             Debug.Indent();
             if (ModelState.IsValid)
             {
+                if (modell.Email != User.Identity.Name && !IstBenutzerAdministrator(User.Identity.Name))
+                {
+                    TempData["Fehler"] = "Fehler! Fehlende Berechtigung!";
+                    return RedirectToAction("Editieren");
+                }
                 if (!EditiereBenutzer(
                         modell.Email,
                         modell.AltesPasswort,
@@ -233,6 +251,7 @@ namespace UI_BricoMarche.Controllers
                 else
                 {
                     TempData["Erfolg"] = "Profil erfolgreich aktualisiert!";
+                    return RedirectToAction("Editieren", modell.Email);
                 }
             }
 

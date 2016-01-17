@@ -144,6 +144,7 @@
     <Compile Include="Models\AllgemeineModelle\MustBeTrueAttribute.cs" />
     <Compile Include="Models\BenutzerModelle\HilfsModelle\OrtModell.cs" />
     <Compile Include="Models\BenutzerModelle\EditierenModell.cs" />
+    <Compile Include="Models\InhaltModelle\SchlagwortModell.cs" />
     <Compile Include="Models\InhaltModelle\KategorieModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoDetailModell.cs" />
     <Compile Include="Models\InhaltModelle\VideoModell.cs" />
