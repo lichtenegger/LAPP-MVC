@@ -688,7 +688,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladeneVideos = kontext.AlleVideos.Include("VerlinkteArtikel").Include("EineKategorie").Where(x => x.Aktiv).Where(x => x.ID == ID).SingleOrDefault();
+                    geladeneVideos = kontext.AlleVideos.Include("VerlinkteArtikel").Include("EineKategorie").Include("VieleSchlagwoerter").Where(x => x.Aktiv).Where(x => x.ID == ID).SingleOrDefault();
                 }
             }
             catch (Exception ex)
@@ -718,7 +718,7 @@ namespace BL_BricoMarche.DatenVerwaltung
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
                     // Hole alle Videos, die dem gesuchtem Schlagwort zugeordnet sind aus DB.
-                     geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                     geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos").Include("VieleVideos.EineKategorie")  // Alle Schlagwörter verknüpft mit Videos aus DB holen.
                                                             .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
                                                             .SelectMany(x => x.VieleVideos).ToList(); // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
 
@@ -756,7 +756,7 @@ namespace BL_BricoMarche.DatenVerwaltung
             {
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
-                    geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos") // Alle Schlagwörter verknüpft mit Videos aus DB holen.
+                    geladeneVideos = kontext.AlleSchlagwoerter.Include("VieleVideos").Include("VieleVideos.EineKategorie") // Alle Schlagwörter verknüpft mit Videos & deren Kategorie aus DB holen.
                                                               .Where(x => x.Bezeichnung.ToLower().Equals(schlagwort.ToLower())) // auf übergebenes Schlagwort reduzieren.
                                                               .SelectMany(x => x.VieleVideos).ToList() // Videos schnappen, die mit gefundenem Schlagwort verknüpft sind.
                                                               .OrderByDescending(x => x.ID).Skip((seite - 1) * anzahl).Take(anzahl).ToList(); // Sortieren & auf Auswahl reduzieren.
@@ -851,7 +851,7 @@ namespace BL_BricoMarche.DatenVerwaltung
                 using (var kontext = new BricoMarcheDBObjekte())
                 {
                     anzahl = kontext.AlleVideos.Where(x => x.Aktiv).Count();
-                    Debug.WriteLine("ERFOLG! VideoAnzahl ist" + anzahl);
+                    Debug.WriteLine("ERFOLG! VideoAnzahl ist " + anzahl);
                 }
             }
             catch (Exception ex)

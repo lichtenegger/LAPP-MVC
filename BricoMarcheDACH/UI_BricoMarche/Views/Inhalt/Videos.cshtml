@@ -44,7 +44,7 @@
             {
                 for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlVideos / ViewBag.AnzahlProSeite; aktSeite++)
                 {
-                @Html.ActionLink((aktSeite + 1).ToString(), "ProdukteSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                @Html.ActionLink((aktSeite + 1).ToString(), "VideoSuche", "Inhalt", new { suchbegriff = ViewBag.suchbegriff, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                 <text>&nbsp;</text>
             }
         }
@@ -52,7 +52,7 @@
         {
             for (int aktSeite = 0; aktSeite <= ViewBag.AnzahlProdukte / ViewBag.AnzahlProSeite; aktSeite++)
             {
-                @Html.ActionLink((aktSeite + 1).ToString(), "Produkte", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
+                @Html.ActionLink((aktSeite + 1).ToString(), "Video", "Inhalt", new { kategorieID = ViewBag.KategorieID, seite = aktSeite + 1, anzahl = ViewBag.AnzahlProSeite }, null);
                 <text>&nbsp;</text>
             }
         }

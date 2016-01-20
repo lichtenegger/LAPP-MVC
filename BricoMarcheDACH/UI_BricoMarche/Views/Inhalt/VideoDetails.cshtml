@@ -4,7 +4,7 @@
     ViewBag.Title = "Videos";
     Layout = "~/Views/Shared/_InhaltLayout.cshtml";
 }
-
+<h2>@Model.Bezeichnung</h2>
 <div class="container-fluid">
     <hr />
 
@@ -17,7 +17,6 @@
                     <img src="@Url.Action("Bild", "Video", new { id = Model.ID })" alt="@Model.Bezeichnung" />
                 </div>
             </video>
-            <figcaption>@Model.Bezeichnung</figcaption>
         </figure>
 
     <dl class="dl-horizontal">
@@ -55,9 +54,9 @@
             {
                 foreach (var schlagwort in Model.Schlagwoerter)
                 {
-                    <p>schlagwort </p>
-                }
-            }
+                    <text>@schlagwort </text>
+    }
+}
         </dd>
 
     </dl>

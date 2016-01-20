@@ -298,25 +298,29 @@ namespace UI_BricoMarche.Controllers
         /// <summary>
         /// Gibt eine Anzahl an Videos einer Seite die einem Suchbegriff entpsrechen an die Sicht weiter.
         /// </summary>
-        /// <param name="schlagwort"></param>
+        /// <param name="suchbegriff"></param>
         /// <param name="seite"></param>
         /// <param name="anzahl"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult VideosSuche(string schlagwort = "", int seite = 1, int anzahl = 20)
+        public ActionResult VideosSuche(string suchbegriff = "", int seite = 1, int anzahl = 20)
         {
-            if (schlagwort == "")
+            if (suchbegriff == "")
             {
                 return RedirectToAction("Videos");
             }
-            List<BL_BricoMarche.Video> geladeneVideos = Video.LadeAlleVideos(schlagwort, seite, anzahl);
+            Debug.WriteLine("-- START: Videos - GET --------------------------------------------------------------- ");
+            Debug.Indent();
+            List<BL_BricoMarche.Video> geladeneVideos = Video.LadeAlleVideos(suchbegriff, seite, anzahl);
             if (geladeneVideos == null)
             {
                 TempData["Fehler"] = "Fehler beim Laden gesucher Videos aus der Datenbank.";
+                return RedirectToAction("Videos");
             }
-            View("Videos").ViewBag.Suchbegriff = schlagwort;
-            View("Videos").ViewBag.AnzahlVideos = Video.ZaehleAlleVideos(schlagwort);
+            Debug.WriteLine("Erfolg! " + geladeneVideos.Count + " Videos in Controller geladen.");
+            View("Videos").ViewBag.Suchbegriff = suchbegriff;
+            View("Videos").ViewBag.AnzahlVideos = Video.ZaehleAlleVideos(suchbegriff);
             View("Videos").ViewBag.Seite = 1;
             View("Videos").ViewBag.AnzahlProSeite = 20;
             List<VideoModell> modell = new List<VideoModell>();
@@ -329,6 +333,9 @@ namespace UI_BricoMarche.Controllers
                     Kategorie = video.EineKategorie.Bezeichnung
                 });
             }
+            Debug.WriteLine("\t -->" + modell.Count + " Videos in Modell geladen.");
+            Debug.Unindent();
+            Debug.WriteLine("-- Ende: Videos - GET --------------------------------------------------------------- ");
             return View("Videos", modell);
         }
         #endregion
@@ -356,9 +363,14 @@ namespace UI_BricoMarche.Controllers
                 Langbeschreibung = geladenesVideo.Beschreibung,
                 Kategorie = geladenesVideo.EineKategorie.Bezeichnung,
                 Pfad = geladenesVideo.Pfad,
+                Schlagwoerter = new List<string>(),
                 verlinkteProdukte = new List<ArtikelModell>(),
                 Gemerkt = Video.WirdGemerkt(videoID, User.Identity.Name)
             };
+            foreach (var schlagwort in geladenesVideo.VieleSchlagwoerter)
+            {
+                modell.Schlagwoerter.Add(schlagwort.Bezeichnung);
+            }
             foreach (var produkt in geladenesVideo.VerlinkteArtikel)
             {
                 modell.verlinkteProdukte.Add(new ArtikelModell
